@@ -15,7 +15,9 @@ namespace ph.Models
         [Required]
         public User Master { get; set; }
 
-        public string Breed { get; set; } // todo: make table with breeds?
+        public PetType PetType { get; set; }
+        
+        public string Breed { get; set; } // todo: make table with breeds depending on type
 
         public List<string> PhotoPaths { get; set; } // todo: list of images
     }
