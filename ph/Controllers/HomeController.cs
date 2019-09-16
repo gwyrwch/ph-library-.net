@@ -18,8 +18,6 @@ namespace ph.Controllers
         
         public IActionResult Feed(uint? type = null, uint? petId = null)
         {
-//            string response = "";
-
             ICollection<Post> posts = TmpRAMDB.Posts();
             
             var filteredPosts = posts
@@ -72,10 +70,18 @@ namespace ph.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateUser([Bind("UserName, Name, Surname, Birth")]User user)
+        public async Task<IActionResult> CreateUser([Bind("UserName, Name, Surname, Birth, Email")]User user)
         {
-            // todo:
-            return RedirectToAction(nameof(Index));
+            //todo: add animals when creating
+            user.Id = (uint) (user.UserName.GetHashCode() + user.Birth.GetHashCode() + user.Surname.GetHashCode());
+            
+            if (user.UserName != String.Empty && user.Name != string.Empty && user.Surname != string.Empty)
+            {
+                TmpRAMDB.Users().Add(user);
+                return RedirectToAction(nameof(Index));
+            }
+            
+            return View(user);
         }
         
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

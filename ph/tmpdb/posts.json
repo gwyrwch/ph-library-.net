@@ -34,32 +34,5 @@
 		"Type": 0,
 		"PublicationTime": "2019-09-15T12:29:21.248225+03:00",
 		"IncludedPetId": 2
-	},
-	{
-		"Id": 5,
-		"ImagePath": "/idk.png",
-		"Description": "...",
-		"AuthorId": 1,
-		"Type": 0,
-		"PublicationTime": "2019-09-16T13:06:38.486147+03:00",
-		"IncludedPetId": null
-	},
-	{
-		"Id": 5,
-		"ImagePath": "/idk.png",
-		"Description": "...12345",
-		"AuthorId": 2,
-		"Type": 0,
-		"PublicationTime": "2019-09-16T13:07:47.443811+03:00",
-		"IncludedPetId": null
-	},
-	{
-		"Id": 1715611849,
-		"ImagePath": "/idk.png",
-		"Description": "Eeee boy",
-		"AuthorId": 1,
-		"Type": 0,
-		"PublicationTime": "2019-09-16T15:29:19.890747+03:00",
-		"IncludedPetId": null
 	}
 ]

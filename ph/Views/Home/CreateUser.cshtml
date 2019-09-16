@@ -32,6 +32,13 @@
             </div>
         </div>
         <div class="form-group">
+            <label class="control-label col-md-2" for="Email">Email: </label>
+            <div class="col-md-10">
+                <input class="form-control" type="text" id="Email" name="Email" value="shlyapik@gmail.com" />
+                <span class="text-danger field-validation-valid" data-valmsg-for="Email" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+        <div class="form-group">
             <label asp-for="Birth" class="control-label"></label>
             <input asp-for="Birth" class="form-control" />
             <span asp-validation-for="Birth" class="text-danger"></span>
@@ -42,5 +49,4 @@
             </div>
         </div>
     </div>
-    @* <input name="__RequestVerificationToken" type="hidden" value="CfDJ8Inyxgp63fRFqUePGvuI5jGZsloJu1L7X9le1gy7NCIlSduCRx9jDQClrV9pOTTmqUyXnJBXhmrjcUVDJyDUMm7-MF_9rK8aAZdRdlOri7FmKVkRe_2v5LIHGKFcTjPrWPYnc9AdSbomkiOSaTEg7RU" /> *@
 </form>
