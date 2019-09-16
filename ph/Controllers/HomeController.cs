@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ph.Models;
@@ -38,7 +36,7 @@ namespace ph.Controllers
             return View(filteredPosts);
         }
 
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> CreatePost()
         {
             // todo create view
             // придумать айдишник
@@ -51,7 +49,7 @@ namespace ph.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("Description, PostType, AuthorId")]Post post)
+        public async Task<IActionResult> CreatePost([Bind("Description, PostType, AuthorId")]Post post)
         {
             post.ImagePath = "/idk.png";
             post.PublicationTime = DateTime.Now;
@@ -66,6 +64,18 @@ namespace ph.Controllers
             }
 
             return View(post);
+        }
+        
+        public async Task<IActionResult> CreateUser()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateUser([Bind("UserName, Name, Surname, Birth")]User user)
+        {
+            // todo:
+            return RedirectToAction(nameof(Index));
         }
         
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
