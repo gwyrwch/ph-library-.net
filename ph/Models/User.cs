@@ -7,6 +7,9 @@ namespace ph.Models
 {
     public class User
     {
+        [Required]
+        public uint Id { get; set; }
+        
         [RegularExpression(@"^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$", 
             ErrorMessage = "Invalid name.")]
         [Required]
@@ -18,12 +21,14 @@ namespace ph.Models
         public string Surname { get; set; }
 
         private DateTime _birth;
+        
+        [DataType(DataType.Date)]
         public DateTime Birth {
             get => _birth;
             set {
                 DateTime today = DateTime.Today;
-                DateTime fiveYearsAgo = today.AddYears(-10);
-                if (value > fiveYearsAgo)
+                DateTime tenYearsAgo = today.AddYears(-10);
+                if (value > tenYearsAgo)
                     throw new Exception("You are too young to use this app");
                 _birth = value;
             }
@@ -39,9 +44,6 @@ namespace ph.Models
         
         public string ProfileImagePath { get; set; }
 
-        [Required]
-        public List<Pet> Pets { get; set; }
-
         public int GetUserAge()
         {
             var years = DateTime.Now.Year - this.Birth.Year;
@@ -49,6 +51,5 @@ namespace ph.Models
 
             return birthdayThisYearPassed ? years : years - 1;
         }
-
     }
 }

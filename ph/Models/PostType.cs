@@ -1,6 +1,6 @@
 namespace ph.Models
 {
-    public enum PostSections
+    public enum PostType
     { 
         Cooking,
         Advice,

@@ -6,19 +6,17 @@ namespace ph.Models
 {
     public class Pet
     {
-        public int Id { get; set; }
+        public uint Id { get; set; }
         
         [Required]
         [StringLength(30, ErrorMessage = "{0} length must be between {2} and {1}.", MinimumLength = 2)]
         public string Name { get; set; }
         
         [Required]
-        public User Master { get; set; }
+        public uint OwnerId { get; set; }
 
         public PetType PetType { get; set; }
         
-        public string Breed { get; set; } // todo: make table with breeds depending on type
-
-        public List<string> PhotoPaths { get; set; } // todo: list of images
+        public string Breed { get; set; }
     }
 }

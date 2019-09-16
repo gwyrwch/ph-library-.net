@@ -1,9 +1,14 @@
+using System;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Antiforgery.Internal;
 
 namespace ph.Models
 {
     public class Post
     {
+        [Required] 
+        public uint Id { get; set; }
+        
         [Required]
         public string ImagePath { get; set; }
         
@@ -12,10 +17,15 @@ namespace ph.Models
         public string Description { get; set; }
         
         [Required]
-        public User Author { get; set; }
+        public uint AuthorId { get; set; }
         
         [Required]
-        public PostSections Section { get; set; }
+        public PostType Type { get; set; }
+        
+        public DateTime PublicationTime { get; set; }
+        
+        // todo: make class Pet2Post
+        public uint? IncludedPetId { get; set; }
     }
     
 }

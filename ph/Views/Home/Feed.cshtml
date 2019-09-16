@@ -1,0 +1,15 @@
+@model IEnumerable<Post>
+
+@{
+    
+}
+
+<a asp-action="Create">Create</a>
+
+@foreach (var post in Model)
+{
+    <p>
+        @Html.DisplayFor(modelItem => post.Description)
+        @ViewData["PetName"]
+    </p>
+}
