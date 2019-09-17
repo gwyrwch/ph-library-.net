@@ -1406,8 +1406,8 @@ fieldset[disabled] .btn-warning.active {
 }
 
 .btn-danger {
-  background-color: #f5593d;
-  border-color: #f5593d;
+  background-color: rgb(177, 196, 70);
+  border-color: rgb(177, 196, 70);
   color: #FFFFFF;
   opacity: 1;
   filter: alpha(opacity=100);
@@ -1425,9 +1425,9 @@ fieldset[disabled] .btn-warning.active {
 .btn-danger:not(:disabled):not(.disabled).active,
 .btn-danger:not(:disabled):not(.disabled).active:focus,
 .show>.btn-danger.dropdown-toggle {
-  background-color: #f33816;
+  background-color: rgb(177, 196, 70);
   color: #FFFFFF;
-  border-color: #f33816;
+  border-color: rgb(177, 196, 70);
   box-shadow: none;
 }
 
@@ -1464,7 +1464,7 @@ fieldset[disabled] .btn-danger.active {
 }
 
 .btn-danger.btn-link {
-  color: #f5593d;
+  color: rgb(255, 249, 168);
 }
 
 .btn-danger.btn-link:hover,
@@ -2014,12 +2014,12 @@ fieldset[disabled] .btn-outline-neutral.active {
 }
 
 .btn-neutral {
-  background-color: #FFFFFF;
-  border-color: #FFFFFF;
+  background-color: rgba(255, 249, 168, 0.6);
+  border-color: #758533;
+  border-width: 1px;
   color: #FFFFFF;
   opacity: 1;
   filter: alpha(opacity=100);
-  color: #66615B;
 }
 
 .btn-neutral:hover,
@@ -2034,7 +2034,7 @@ fieldset[disabled] .btn-outline-neutral.active {
 .btn-neutral:not(:disabled):not(.disabled).active,
 .btn-neutral:not(:disabled):not(.disabled).active:focus,
 .show>.btn-neutral.dropdown-toggle {
-  background-color: #FFFFFF;
+  background-color: rgba(255, 255, 255, 0.75);
   color: #FFFFFF;
   border-color: #FFFFFF;
   box-shadow: none;
@@ -2246,15 +2246,15 @@ fieldset[disabled] .btn-neutral.active {
 }
 
 ::-moz-placeholder {
-  color: #9A9A9A;
+  color: #FFFFFF;
 }
 
 :-ms-input-placeholder {
-  color: #9A9A9A;
+  color: #FFFFFF;
 }
 
 ::-webkit-input-placeholder {
-  color: #9A9A9A;
+  color: #FFFFFF;
 }
 
 .form-control:focus+.input-group-text {
@@ -2262,7 +2262,7 @@ fieldset[disabled] .btn-neutral.active {
 }
 
 .form-control {
-  background-color: rgba(32,71,70, 0.3);
+  background-color: rgba(173, 190, 113, 0.35);
   border: 1px solid #DDDDDD;
   border-radius: 4px;
   color: #FFFFFF;
@@ -2276,7 +2276,7 @@ fieldset[disabled] .btn-neutral.active {
 }
 
 .form-control:focus {
-  background-color: rgba(32,71,70, 0.9);
+  background-color: rgba(173, 190, 113, 0.8);
   border: 1px solid #ccc;
   -webkit-box-shadow: none;
   box-shadow: none;
@@ -2433,6 +2433,7 @@ textarea.form-control {
 
 .register-form .input-group .form-control {
   margin-left: -1px;
+  color: #218838; !important;
 }
 
 .register-form .input-group-prepend,
@@ -4186,7 +4187,7 @@ License - nucleoapp.com/license/
 
 .btn-facebook-bg {
   background-color: #3b5998 !important;
-  border-color: #3b5998 !important;
+  border-color: #FFFFFF !important;
 }
 
 .btn-facebook-bg:hover {
@@ -8159,10 +8160,37 @@ License - nucleoapp.com/license/
 
 /*# sourceMappingURL=kit-free.css.map */
 
+/*ph styles begin*/
+
 #background-registration-image {
   background-image:url(../images/sam/login-image-1.jpg)
 }
 
 #input-registration {
-  color
+  color: #FFFFFF;
+  font-weight: normal;
+}
+
+input::-webkit-input-placeholder {
+  color: rgba(238, 238, 238, 0.87) !important;
+  font-weight: lighter; !important;
+}
+
+input:-moz-placeholder { /* Firefox 18- */
+  color: rgba(238, 238, 238, 0.87) !important;
+  font-weight: lighter; !important;
+}
+
+input::-moz-placeholder {  /* Firefox 19+ */
+  color: rgba(238, 238, 238, 0.87) !important;
+  font-weight: lighter; !important;
+}
+
+input:-ms-input-placeholder {
+  color: rgba(238, 238, 238, 0.87) !important;
+  font-weight: lighter; !important;
+}
+
+.btn-registration {
+  font-weight: bolder;
 }
