@@ -13,7 +13,7 @@ namespace ph.Controllers
     {
         public IActionResult Index()
         {
-            return Redirect("Home/Feed");
+            return Redirect("Home/Profile");
         }
         
         public IActionResult Feed(uint? type = null, uint? petId = null)
@@ -86,6 +86,12 @@ namespace ph.Controllers
             return View(user);
         }
         
+        public async Task<IActionResult> Profile()
+        {
+            return View();
+        }
+        
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
