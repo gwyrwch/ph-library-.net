@@ -88,7 +88,13 @@ namespace ph.Controllers
         
         public async Task<IActionResult> Profile()
         {
-            return View();
+            var uid = 1;
+            var posts = TmpRAMDB.Posts().Where(post => post.AuthorId == uid);
+            var pets = TmpRAMDB.Pets().Where(pet => pet.OwnerId == uid);
+            var currentUser = TmpRAMDB.Users().First(user => user.Id == uid);
+            var profile = new ProfileViewModel {Posts = posts, Pets = pets, User = currentUser};
+            
+            return View(profile);
         }
         
 

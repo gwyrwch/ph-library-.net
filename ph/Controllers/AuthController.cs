@@ -25,7 +25,6 @@ namespace ph.Controllers
         // todo: add checking password
         public async Task<IActionResult> Registration([Bind("UserName, Email")]User user)
         {
-            Console.WriteLine("kek");
             var alreadyExists = TmpRAMDB.Users().Count(u => u.Email == user.Email || u.UserName == user.UserName);
             if (alreadyExists != 0)
             {

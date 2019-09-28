@@ -19,5 +19,7 @@ namespace ph.Models
         
         public string Breed { get; set; }
         
+        public string ProfileImagePath { get; set; }
+        
     }
 }

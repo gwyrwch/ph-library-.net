@@ -5684,7 +5684,7 @@ License - nucleoapp.com/license/
 }
 
 .carousel-control {
-  background-color: #f5593d;
+  background-color: rgba(117, 133, 51, 0.45);
   border-radius: 50%;
   opacity: 1;
   text-shadow: none;
@@ -5693,7 +5693,7 @@ License - nucleoapp.com/license/
 .carousel-control:hover,
 .carousel-control:focus {
   opacity: 1;
-  background-color: #f33816;
+  background-color: rgba(117, 133, 51, 0.45);
 }
 
 .carousel-control.left {
@@ -5739,7 +5739,7 @@ License - nucleoapp.com/license/
 .carousel-inner>.carousel-item>img,
 .carousel-inner>.carousel-item>a>img {
   border-radius: 12px;
-  box-shadow: 0 2px 2px rgba(204, 197, 185, 0.5);
+  box-shadow: 0 2px 2px rgba(238, 238, 238, 0.5);
 }
 
 .carousel-inner .carousel-item img {
@@ -5747,12 +5747,12 @@ License - nucleoapp.com/license/
 }
 
 .carousel-indicators>li {
-  background-color: rgba(204, 204, 204, 0.49);
+  background-color: rgba(168, 168, 168, 0.49);
   border: 0 none;
 }
 
 .carousel-indicators .active {
-  background-color: #f5593d;
+  background-color: rgba(117, 133, 51, 0.45);
 }
 
 .page-carousel:hover .carousel-control.right,
@@ -5767,7 +5767,7 @@ License - nucleoapp.com/license/
 
 .card .carousel a {
   position: absolute;
-  color: #FFFFFF !important;
+  color: rgba(117, 133, 51, 0.45); !important;
 }
 
 .card .carousel a:hover {
@@ -5780,6 +5780,10 @@ License - nucleoapp.com/license/
 
 .card .carousel a .fa-angle-right:before {
   padding-left: 3px;
+}
+
+.colored-carousel {
+  background-color: rgba(255, 252, 245, 0.7); !important; 
 }
 
 .footer {
@@ -5930,7 +5934,7 @@ License - nucleoapp.com/license/
 
 .card {
   border-radius: 12px;
-  box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.15);
+  /*box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.15);*/
   background-color: #FFFFFF;
   color: #333333;
   margin-bottom: 20px;
@@ -5945,7 +5949,7 @@ License - nucleoapp.com/license/
 }
 
 .card:not(.card-plain):hover {
-  box-shadow: 0px 12px 19px -7px rgba(0, 0, 0, 0.3);
+  /*box-shadow: 0px 12px 19px -7px rgba(0, 0, 0, 0.3);*/
   transform: translateY(-10px);
   -webkit-transform: translateY(-10px);
   -ms-transform: translateY(-10px);
@@ -5956,7 +5960,8 @@ License - nucleoapp.com/license/
 .card.page-carousel:hover,
 .card.card-refine:hover,
 .card.card-register:hover {
-  box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1px 2px 2px rgba(117, 133, 51, 0.15);
+  
   transform: none;
   -webkit-transform: none;
   -ms-transform: none;
@@ -8230,7 +8235,7 @@ h6,
 
 
 
-/*for thhe profile cards*/
+/*for the profile cards*/
 /*begin*/
 .img-raised-profile {
   box-shadow: 0px 10px 25px 0px rgba(0, 0, 0, 0.3);
@@ -8276,6 +8281,31 @@ h6,
 
 
 .container .img-kek {
+  /*margin does not work ?*/
+  /*margin-right: 30px;*/
+  padding: 10px 15px 0px;
   height: 300px;
   width: 300px;
+}
+
+
+.img-circle-pet {
+  background-color: #FFFFFF;
+  margin-bottom: 0;
+  padding: 0;
+  border-radius: 50% !important;
+  max-width: 100%;
+  height: 100px;
+  width: 100px;
+ 
+}
+
+.cust-grid{
+  display: flex;
+  justify-content: center;
+  flex-flow:row wrap;
+}
+
+.cust-grid-col{
+  float:none;
 }
