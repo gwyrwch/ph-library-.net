@@ -1,4 +1,5 @@
-@model IEnumerable<Post>
+@using Microsoft.AspNetCore.Rewrite.Internal
+@model IEnumerable<PostToFeed>
 
 @{
     Layout = null;
@@ -24,6 +25,7 @@
   <!-- CSS Files -->
   <link href="~/css/bootstrap.min.css" rel="stylesheet" />
   <link href="~/css/paper-kit.css?v=2.2.0" rel="stylesheet" />
+  <link href="~/css/site.css?v=2.2.0" rel="stylesheet" />
 </head>
 
 <body class="profile-page sidebar-collapse">
@@ -45,7 +47,7 @@
           </li>
           <li class="nav-item">
             @* todo: make icons*@
-            <a href="#kek" class="nav-link"><i class=""></i>Profile</a>
+            <a asp-action="Profile" class="nav-link"><i class=""></i>Profile</a>
           </li>
           <li class="nav-item">
             @* todo: make icons*@
@@ -57,24 +59,58 @@
     
   </nav>
   <!-- End Navbar -->
-  @* <div class="page-header profile-header"> </div> *@
-    @* <div class="filter"></div> *@
   <div class="section profile-content">
     <div class="container">
+      <div class="container-fluid post-type-container">
+        <br/>
+        <div class="row cust-grid  text-center">
+          @{
+            var a = (List<string>)ViewData["Types"];
+            @for (var i = 0; i < a.Count(); i++)
+            {
+              <div class="col cust-grid-col">
+                <button class="btn btn-round btn-post-type my-auto mx-auto" onclick="location.href='@Url.Action("Feed", "Home", new {type=i})'">
+                  <i class="fa fa-heart"></i>@a[i]
+                </button>
+              </div>
+            }
+          }
+        </div>
+      </div>
       <div class="container" id="posts">
-        <div class="row">
-          @foreach (var item in Model) {
-            <div class="col-md-3 col-sm-6 col-xs-12">
-               @* todo: read how to use alt="AltText" for searching and so on *@
-              <img alt="AltText" src="@Html.DisplayFor(modelItem => item.ImagePath)" class="img-responsive img-kek">
+        <div class="col my-grid">
+@*           @if (!Model.Any()) *@
+@*           { *@
+@*               <h1>There are no posts in this section yet.</h1> *@
+@*           } *@
+          @foreach (var item in Model)
+          {
+            <div class="row my-grid-row">
+              <div class="card my-card" style="width: 550px; height: auto; margin: 3px">
+                <div class="card-body" style="padding: 10px !important;">
+                  <div class="row cust-grid-left">
+                    <div class="col-md-2 cust-grid-left-col">
+                      <img src="@Html.DisplayFor(modelItem => item.UserProfileImage)" alt="" class="img-circle-feed-profile img-no-padding">
+                    </div>
+                    <div class="col-md-4 cust-grid-left-col my-auto" style="vertical-align: center; ">
+                      <p>@item.UserName</p>
+                    </div>
+                  </div>
+                </div>
+                <img class="img-responsive img-feed mx-auto" src="@Html.DisplayFor(modelItem => item.Post.ImagePath)" alt="">
+                <div class="card-body">
+                  <h4 class="card-title">@item.UserName</h4>
+                  <p class="card-text">@item.Post.Description</p>
+                  <p class="card-text"><small class="text-muted">@item.Post.PublicationTime</small></p>
+                </div>
+              </div>
             </div>
           }
         </div>
       </div>
     </div>
   </div>
-    @* </div> *@
-  <footer class="footer    ">
+  <footer class="footer">
     <div class="container">
       <div class="row">
         <nav class="footer-nav">
@@ -107,17 +143,6 @@
   <!-- Control Center for Paper Kit: parallax effects, scripts for the example pages etc -->
   <script src="~/js/paper-kit.js?v=2.2.0" type="text/javascript"></script>
   <script src="~/js/site.js?v=2.2.0" type="text/javascript"></script>
-  <script type="text/javascript" >
-  
-  
-  function PetClicked()
-  {
-    document.getElementById("posts").remove();
-    
-  }
-  
-  
-  </script>
 
 </body>
 

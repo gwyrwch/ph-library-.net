@@ -5,8 +5,8 @@
 		"Description": "Hi, I'm Yury.",
 		"AuthorId": 1,
 		"Type": 6,
-		"PublicationTime": "2019-09-10T22:27:04.248225+03:00",
-		"IncludedPetId": null
+		"PublicationTime": "2019-09-17T22:27:04.248225+03:00",
+		"IncludedPetId": 7
 	},
 	{
 		"Id": 2,
@@ -14,8 +14,8 @@
 		"Description": "Lets cook some delicious food for my lovely cats <3",
 		"AuthorId": 1,
 		"Type": 0,
-		"PublicationTime": "2019-09-11T22:29:21.248225+03:00",
-		"IncludedPetId": 1
+		"PublicationTime": "2019-09-16T22:29:21.248225+03:00",
+		"IncludedPetId": 2
 	},
 	{
 		"Id": 21000543,
@@ -24,7 +24,7 @@
 		"AuthorId": 1,
 		"Type": 3,
 		"PublicationTime": "2019-09-13T14:31:33.248225+03:00",
-		"IncludedPetId": 3
+		"IncludedPetId": 4
 	},
 	{
 		"Id": 3,
@@ -42,7 +42,7 @@
 		"AuthorId": 1,
 		"Type": 0,
 		"PublicationTime": "2019-09-16T16:25:18.626578+03:00",
-		"IncludedPetId": null
+		"IncludedPetId": 1
 	},
 	{
 		"Id": 23456543,
@@ -60,7 +60,7 @@
 		"AuthorId": 1,
 		"Type": 3,
 		"PublicationTime": "2019-09-13T14:31:33.248225+03:00",
-		"IncludedPetId": 3
+		"IncludedPetId": 5
 	},
 	{
 		"Id": 21336543,
@@ -69,7 +69,7 @@
 		"AuthorId": 1,
 		"Type": 3,
 		"PublicationTime": "2019-09-13T14:31:33.248225+03:00",
-		"IncludedPetId": 3
+		"IncludedPetId": 4
 	},
 	{
 		"Id": 432332,

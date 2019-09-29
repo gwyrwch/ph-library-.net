@@ -6,7 +6,7 @@ namespace ph.Models
         Advice,
         News,
         Event,
-        Invitation,
+        Invite,
         Fun,
         Other
     }

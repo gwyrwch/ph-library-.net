@@ -18,22 +18,39 @@ namespace ph.Controllers
         
         public IActionResult Feed(uint? type = null, uint? petId = null)
         {
-            ICollection<Post> posts = TmpRAMDB.Posts();
-            
-            var filteredPosts = posts
-                .Where(post => type == null || (uint)post.Type == type)
-                .Where(post => petId == null || post.IncludedPetId == petId)
-                .OrderBy(post => post.PublicationTime);
-            
-            if (petId != null)
+            var posts = TmpRAMDB.Posts();
+//            var pets = TmpRAMDB.Pets();
+            var users = TmpRAMDB.Users();
+            var postsToFeed = new List<PostToFeed>(TmpRAMDB.Posts().Count);
+
+
+            foreach (var post in posts)
             {
-                 var foundPet = TmpRAMDB.Pets().FirstOrDefault(pet => pet.Id == petId);
-                 if (foundPet != null)
-                     ViewData["PetName"] = foundPet.Name;
+                var usr = users.First(user => user.Id == post.AuthorId);
+                postsToFeed.Add(new PostToFeed
+                {
+                    Post = post, 
+                    UserName = usr.UserName,
+                    UserProfileImage = usr.ProfileImagePath
+                });
             }
+            Console.WriteLine("kek");
+            Console.WriteLine(type);
+            var filteredPosts = postsToFeed
+                .Where(post => type == null || (uint)post.Post.Type == type)
+                .OrderBy(post => post.Post.PublicationTime);
+
+            
+//            if (petId != null)
+//            {
+//                 var foundPet = TmpRAMDB.Pets().FirstOrDefault(pet => pet.Id == petId);
+//                 if (foundPet != null)
+//                     ViewData["PetName"] = foundPet.Name;
+//            }
+            var l = Enum.GetNames(typeof(PostType)).ToList();
+            ViewBag.Types = l;
             return View(filteredPosts);
         }
-
         public async Task<IActionResult> CreatePost()
         {
             // todo create view
@@ -63,33 +80,14 @@ namespace ph.Controllers
 
             return View(post);
         }
-        
-        public async Task<IActionResult> CreateUser()
-        {
-            return View();
-        }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateUser([Bind("UserName, Name, Surname, Birth, Email")]User user)
-        {
-            //todo: add animals when creating
-            user.Id = (uint) (user.UserName.GetHashCode() + user.Birth.GetHashCode() + user.Surname.GetHashCode());
-            
-            if (user.UserName != String.Empty && user.Name != string.Empty && user.Surname != string.Empty)
-            {
-                TmpRAMDB.Users().Add(user);
-                return RedirectToAction(nameof(Index));
-            }
-            
-            
-            
-            return View(user);
-        }
-        
-        public async Task<IActionResult> Profile()
+        public async Task<IActionResult> Profile(uint? petId = null)
         {
             var uid = 1;
-            var posts = TmpRAMDB.Posts().Where(post => post.AuthorId == uid);
+            var posts = TmpRAMDB.Posts()
+                .Where(post => post.AuthorId == uid)
+                .Where(post => petId == null || post.IncludedPetId == petId)
+                .OrderByDescending(post => post.PublicationTime);
             var pets = TmpRAMDB.Pets().Where(pet => pet.OwnerId == uid);
             var currentUser = TmpRAMDB.Users().First(user => user.Id == uid);
             var profile = new ProfileViewModel {Posts = posts, Pets = pets, User = currentUser};

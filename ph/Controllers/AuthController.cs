@@ -53,5 +53,25 @@ namespace ph.Controllers
         {
             return Redirect("/Home/Feed");
         }
+        
+        public async Task<IActionResult> CreateUser()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateUser([Bind("UserName, Name, Surname, Birth, Email")]User user)
+        {
+            //todo: add animals when creating
+            user.Id = (uint) (user.UserName.GetHashCode() + user.Birth.GetHashCode() + user.Surname.GetHashCode());
+            
+            if (user.UserName != String.Empty && user.Name != string.Empty && user.Surname != string.Empty)
+            {
+                TmpRAMDB.Users().Add(user);
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(user);
+        }
     }
 }
