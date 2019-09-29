@@ -28,7 +28,7 @@
   <div class="filter"></div>
   <div class="container">
     <div class="row">
-      <div class="col-lg-4 ml-auto mr-auto">
+      <div class="col-lg-8 ml-auto mr-auto">
         <div class="card card-register">
           <h3 class="title mx-auto">Welcome to ph!</h3>
           <div class="social-line text-center">
@@ -71,17 +71,25 @@
                 <input type="text" class="form-control" id="inputSurname" placeholder="Gagarina">
               </div>
             </div>
-            <div class="form-group">
-              <label for="inputUsername">Username</label>
-              <input type="text" class="form-control" id="inputUsername" placeholder="gwyrwch">
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="inputUsername">Username</label>
+                <input type="text" class="form-control" id="inputUsername" placeholder="gwyrwch">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="inputEmail">Email</label>
+                <input type="email" class="form-control" id="inputEmail" placeholder="gwyrwch@gmail.com">
+              </div>              
             </div>
+            <!-- input with datetimepicker -->
             <div class="form-group">
-              <label for="inputEmail">Email</label>
-              <input type="email" class="form-control" id="inputEmail" placeholder="gwyrwch@gmail.com">
-            </div>
-            <div class="form-group col-md-6">
-              <div class="input-group date" data-provide="datepicker">
-                <input type="text" id="datepicker" name="datepicker">
+              <label for="inputBirth">Birthday</label>
+              <div class='input-group date' id='inputBirth'>
+                <input type='text' class="form-control" placeholder="25/07/1999"/>
+                @* todo: icon doesn't work *@
+                @* <span class="input-group-addon"> *@
+                @*   <span class="glyphicon glyphicon-time"></span> *@
+                @* </span> *@
               </div>
             </div>
             @* <div class="form-row"> *@
@@ -112,7 +120,7 @@
             @*     </label> *@
             @*   </div> *@
             @* </div> *@
-            <button type="submit" class="btn btn-primary">Sign in</button>
+            <button type="submit" class="btn btn-post-type">Sign up</button>
           </form>
           
           @* <form action="/Home/CreateUser" method="post"> *@
@@ -184,9 +192,21 @@
 </body>
 
 <script>
- $(document).ready(function(){
-     $("#datepicker").();
-      });
+</script>
+<script type="text/javascript">
+  $(function () {
+    $('#inputBirth').datetimepicker({
+      format: 'L',
+      // date: "fa fa-calendar",
+      // up: "fa fa-chevron-up",
+      // down: "fa fa-chevron-down",
+      // previous: 'fa fa-chevron-left',
+      // next: 'fa fa-chevron-right',
+      // today: 'fa fa-screenshot',
+      // clear: 'fa fa-trash',
+      // close: 'fa fa-remove'
+    });
+  });
 </script>
 </html>
 
