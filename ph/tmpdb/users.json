@@ -25,14 +25,5 @@
 		"UserName": "keks",
 		"Email": "shlyapik@gmail.com",
 		"ProfileImagePath": null
-	},
-	{
-		"Id": 1841423405,
-		"Name": null,
-		"Surname": null,
-		"Birth": "0001-01-01T00:00:00",
-		"UserName": "qwerty",
-		"Email": "qew@mail.ru",
-		"ProfileImagePath": null
 	}
 ]
