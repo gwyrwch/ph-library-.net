@@ -8208,22 +8208,6 @@ input:-ms-input-placeholder {
   background-image:url(../images/sam/profile-bg.jpg)
 }
 
-/*.page-header .profile-header {*/
-/*  background-color: rgba(177, 196, 70, 0.5);*/
-/*  background-position: center center;*/
-/*  background-size: cover;*/
-/*  min-height: 10vh;*/
-/*  max-height: 9px;*/
-/*  overflow: hidden;*/
-/*  position: relative;*/
-/*  width: 100%;*/
-/*  z-index: 1;*/
-/*  display: flex;*/
-/*  align-items: center;*/
-/*  justify-content: center;*/
-/*  margin-bottom: 30px;*/
-/*}*/
-
 h6,
 .h6-profile {
   font-size: 0.9em;
@@ -8233,61 +8217,11 @@ h6,
   margin-top: -30px;
 }
 
-
-
-/*for the profile cards*/
-/*begin*/
-.img-raised-profile {
-  box-shadow: 0px 10px 25px 0px rgba(0, 0, 0, 0.3);
-}
-
-.profile-page .gallery-profile {
-  margin-top: 45px;
-  padding-bottom: 50px;
-}
-
-.nav-align-center {
-  text-align: center;
-}
-
-.nav-align-center .nav-pills {
-  display: inline-flex;
-}
-
-.profile-page .nav-align-center {
-  margin-top: 30px;
-}
-
-.nav-pills.nav-pills-just-icons .nav-item .nav-link {
-  text-align: center;
-  border-radius: 50%;
-  height: 80px;
-  width: 80px;
-  padding: 0;
-  max-width: 80px;
-  min-width: auto;
-  margin-bottom: 4px;
-}
-
-.nav-pills.nav-pills-just-icons .nav-item .nav-link i {
-  line-height: 80px;
-}
-
-.profile-page .collections img {
-  margin-bottom: 30px;
-}
-/*end*/
-
-
-
 .container .img-kek {
-  /*margin does not work ?*/
-  /*margin-right: 30px;*/
   padding: 10px 15px 0px;
   height: 300px;
   width: 300px;
 }
-
 
 .img-circle-pet {
   background-color: #FFFFFF;
@@ -8297,7 +8231,6 @@ h6,
   max-width: 100%;
   height: 100px;
   width: 100px;
- 
 }
 
 .cust-grid{
@@ -8356,7 +8289,6 @@ h6,
   border-width: 100px;
   border-color: #218838;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  
 }
 
 .post-type-container
