@@ -1,8 +1,5 @@
 @model Post
 
-@{
-}
-
 <form action="/Home/CreatePost" method="post">
     <div class="form-horizontal">
         <h4>New post</h4>
@@ -26,7 +23,6 @@
         <div class="form-group">
             <label class="control-label col-md-2" for="AuthorId">Select user</label>
             <div class="col-md-10">
-                @* <select asp-for="Type" asp-items=@Html.DropDownListFor(post => post.AuthorId, @ViewData["AvailableAuthorIds"]) id="AuthorId"></select> *@
                 <div id="AuthorId">
                     @Html.DropDownListFor(post => post.AuthorId, (IEnumerable<SelectListItem>)ViewData["AvailableAuthorIds"]) 
                 </div>
