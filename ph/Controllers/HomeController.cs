@@ -26,7 +26,7 @@ namespace ph.Controllers
 
             foreach (var post in posts)
             {
-                var usr = users.First(user => user.Id == post.AuthorId);
+                var usr = users.First(user => user.Id == post.AuthorId.ToString());
                 postsToFeed.Add(new PostToFeed
                 {
                     Post = post, 
@@ -34,8 +34,7 @@ namespace ph.Controllers
                     UserProfileImage = usr.ProfileImagePath
                 });
             }
-            Console.WriteLine("kek");
-            Console.WriteLine(type);
+            
             var filteredPosts = postsToFeed
                 .Where(post => type == null || (uint)post.Post.Type == type)
                 .OrderBy(post => post.Post.PublicationTime);
@@ -89,7 +88,7 @@ namespace ph.Controllers
                 .Where(post => petId == null || post.IncludedPetId == petId)
                 .OrderByDescending(post => post.PublicationTime);
             var pets = TmpRAMDB.Pets().Where(pet => pet.OwnerId == uid);
-            var currentUser = TmpRAMDB.Users().First(user => user.Id == uid);
+            var currentUser = TmpRAMDB.Users().First(user => user.Id == uid.ToString());
             var profile = new ProfileViewModel {Posts = posts, Pets = pets, User = currentUser};
             
             return View(profile);

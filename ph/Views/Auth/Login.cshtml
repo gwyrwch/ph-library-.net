@@ -1,4 +1,4 @@
-@model User
+@model LoginViewModel
 
 @{
   ViewBag.Title = "Login";
@@ -33,11 +33,15 @@
             <form action="/Auth/Login" method="post" class="register-form">
               @* fixme: get rid of ids *@
               <label>Username</label>
-              <input type="text" class="form-control" id="input-registration" name="UserName" placeholder="Username">
+              <input type="text" class="form-control" id="UserName" name="UserName" placeholder="Username">
               <span class="text-danger field-validation-valid" data-valmsg-for="UserName" data-valmsg-replace="true"></span>
+
               <label>Password</label>
-              <input type="password" class="form-control" id="input-registration" placeholder="Password">
-              @* <span class="text-danger field-validation-valid" data-valmsg-for="Password" data-valmsg-replace="true"></span> *@
+              <input type="password" class="form-control" id="Password" name="Password" placeholder="Password">
+              <span class="text-danger field-validation-valid" data-valmsg-for="Password" data-valmsg-replace="true"></span>
+              
+              
+              
               <button class="btn btn-danger btn-registration btn-block btn-round" type="submit">Login</button>
             </form>
             <div class="forgot">
