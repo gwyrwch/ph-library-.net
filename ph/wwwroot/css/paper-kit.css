@@ -8332,7 +8332,9 @@ h6,
   background-color: rgba(173, 190, 113, 0.35);
   border-color: rgba(117, 133, 51, 0.45);
   color: rgba(255, 255, 255, 0.89);
-  border-radius: 15px;
+  border-radius: 10px;
+  /*padding: 0; !important;*/
+  margin: 0; !important;
 }
 
 .file-btn:hover {
@@ -8345,4 +8347,29 @@ h6,
 #input-file {
   /*background: linear-gradient(to bottom, transparent 0%, rgba(112, 112, 112, 0) 60%, rgba(186, 186, 186, 0.15) 100%);*/
   display: none;
+}
+
+
+.select {
+  cursor:pointer;
+  display:inline-block;
+  position:relative;
+  font-size: 15px;
+  font-weight: bold;
+  font-family: "Montserrat", "Helvetica", Arial, sans-serif;
+  color: white; !important;
+  border: 2px solid rgba(117, 133, 51, 0.45);
+  background: rgba(173, 190, 113, 0.35);
+}
+
+.select:hover {
+  cursor:pointer;
+  display:inline-block;
+  position:relative;
+  font-size: 15px;
+  font-weight: bold;
+  font-family: "Montserrat", "Helvetica", Arial, sans-serif;
+  color: rgba(117, 133, 51, 0.45); !important;
+  border: 2px solid rgba(117, 133, 51, 0.45);;
+  background: white;
 }

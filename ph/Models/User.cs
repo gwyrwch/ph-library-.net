@@ -8,6 +8,13 @@ namespace ph.Models
 {
     public class User : IdentityUser
     {
+        public User()
+        {
+            Posts = new List<Post>();
+            Pets = new List<Pet>();
+        }
+        
+        
         [RegularExpression(@"^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$", 
             ErrorMessage = "Invalid name.")]
         [Required]
@@ -34,24 +41,21 @@ namespace ph.Models
                 _birth = value;
             }
         }
-//
-//        [RegularExpression(@"^[a-zA-Z0-9_]+$", ErrorMessage = "Invalid characters in username")]
-//        [Required]
-//        public string UserName { get; set; }
-
-//        [EmailAddress] 
-//        [Required]
-//        public string Email { get; set; }     
+   
         [PersonalData]
         public string ProfileImagePath { get; set; }
         
         [PersonalData]
         public int GetUserAge()
         {
-            var years = DateTime.Now.Year - this.Birth.Year;
-            var birthdayThisYearPassed = this.Birth.AddYears(years) <= DateTime.Now;
+            var years = DateTime.Now.Year - Birth.Year;
+            var birthdayThisYearPassed = Birth.AddYears(years) <= DateTime.Now;
 
             return birthdayThisYearPassed ? years : years - 1;
         }
+
+
+        public ICollection<Pet> Pets { get; set; }
+        public ICollection<Post> Posts { get; set; }
     }
 }

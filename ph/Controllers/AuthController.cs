@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using ph.Data;
 using ph.Models;
 
@@ -18,13 +20,19 @@ namespace ph.Controllers
         private ApplicationDbContext db;
         private UserManager<User> _userManager = null;
 //        private SignInManager<User> _signInManager = null;
-//        ApplicationDbContext db;
 
         public AuthController(
             UserManager<User> userManager, 
             SignInManager<User> signInManager)
         {
+            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
+            optionsBuilder
+                .UseSqlite("Data Source=app.db");
+            db = new ApplicationDbContext(optionsBuilder.Options);
+            db.Pets.Load();
+            
             _userManager = userManager;
+            
 //            _signInManager = signInManager;
         }
 
@@ -80,32 +88,25 @@ namespace ph.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateUser(SignUpViewModel newUser)
         {
-
-
             var path = "";
             if (newUser.ProfileImage != null)
             {
-                for (int i = 0; i < 30; i++)
-                {
-                    Console.WriteLine(newUser.ProfileImage.FileName);
-                }
-                
                 var ext = newUser.ProfileImage.FileName.Split('.').Last();
                 path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot") + "/images/users/" + newUser.User.UserName + "." + ext;
                 using (var fs = new FileStream(path, FileMode.Create))
                 {
                     await newUser.ProfileImage.CopyToAsync(fs);
                 }
-                
             }
 
             newUser.User.ProfileImagePath = path;
             var result = await _userManager.CreateAsync(newUser.User, newUser.Password);
-
+         
             if (result.Succeeded)
             {
                 for (int i = 0; i < 10; i++)
                     Console.WriteLine("ok");
+                return RedirectToAction("CreatePet", "Auth", new { usename = newUser.User.UserName.ToLower() });
             }
 
             for (int i = 0; i < 10; i++)
@@ -116,10 +117,51 @@ namespace ph.Controllers
                     Console.WriteLine(error.Description);
                 }
             }
-            
-            
 
             return View(newUser);
+        }
+        
+        public async Task<IActionResult> CreatePet()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreatePet(SignUpPetViewModel newPet, string username="sssssssss")
+        {
+//            var path = "";
+//            if (newPet.ProfileImage != null)
+//            {
+//                for (int i = 0; i < 30; i++)
+//                {
+//                    Console.WriteLine(newPet.ProfileImage.FileName);
+//                }
+//                
+//                var ext = newPet.ProfileImage.FileName.Split('.').Last();
+//                path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot") 
+//                       + "/images/pets/" + "main_" + newPet.Pet.Name + "." + ext;
+//                using (var fs = new FileStream(path, FileMode.Create))
+//                {
+//                    await newPet.ProfileImage.CopyToAsync(fs);
+//                }
+//                
+//            }
+
+            var user = _userManager.Users.First(u => u.UserName == username);
+//            newPet.Pet.ProfileImagePath = path;
+
+            newPet.Pet.User = user;
+//            db.Employees.Get(FocusedShift.AssignedEmployee.Id).Shifts.Add(FocusedShift);
+            db.Pets.Add(newPet.Pet);
+            db.SaveChanges();
+
+            Console.WriteLine("ok");
+//            if (a.State == EntityState.Added)
+//            {
+//                Console.WriteLine("pet added");
+//            }
+
+            return Redirect("Auth/Login");
         }
     }
 }

@@ -26,7 +26,7 @@ namespace ph.Controllers
 
             foreach (var post in posts)
             {
-                var usr = users.First(user => user.Id == post.AuthorId.ToString());
+                var usr = users.First(user => user.Id == post.User.Id);
                 postsToFeed.Add(new PostToFeed
                 {
                     Post = post, 
@@ -67,9 +67,9 @@ namespace ph.Controllers
         {
             post.ImagePath = "/idk.png";
             post.PublicationTime = DateTime.Now;
-            post.IncludedPetId = null;
+            post.PetId = null;
 
-            post.Id = (uint) (post.Description.GetHashCode() + post.AuthorId.GetHashCode() + post.PublicationTime.GetHashCode());
+            post.Id = (post.Description.GetHashCode() + post.User.Id.GetHashCode() + post.PublicationTime.GetHashCode()).ToString();
 
             if (post.Description != String.Empty)
             {
@@ -84,10 +84,10 @@ namespace ph.Controllers
         {
             var uid = 1;
             var posts = TmpRAMDB.Posts()
-                .Where(post => post.AuthorId == uid)
-                .Where(post => petId == null || post.IncludedPetId == petId)
+                .Where(post => post.User.Id == uid.ToString())
+                .Where(post => petId == null || post.PetId == petId.ToString())
                 .OrderByDescending(post => post.PublicationTime);
-            var pets = TmpRAMDB.Pets().Where(pet => pet.OwnerId == uid);
+            var pets = TmpRAMDB.Pets().Where(pet => pet.User.Id == uid.ToString());
             var currentUser = TmpRAMDB.Users().First(user => user.Id == uid.ToString());
             var profile = new ProfileViewModel {Posts = posts, Pets = pets, User = currentUser};
             

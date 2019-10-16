@@ -24,7 +24,7 @@
             <label class="control-label col-md-2" for="AuthorId">Select user</label>
             <div class="col-md-10">
                 <div id="AuthorId">
-                    @Html.DropDownListFor(post => post.AuthorId, (IEnumerable<SelectListItem>)ViewData["AvailableAuthorIds"]) 
+                    @* @Html.DropDownListFor(post => post.UserId, (IEnumerable<SelectListItem>)ViewData["AvailableAuthorIds"])  *@
                 </div>
                 <span class="text-danger field-validation-valid" data-valmsg-for="AuthorId" data-valmsg-replace="true"></span>
             </div>
