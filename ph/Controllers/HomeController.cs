@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -54,30 +55,32 @@ namespace ph.Controllers
         {
             // todo create view
             // придумать айдишник
-            ViewBag.AvailableAuthorIds = new List<SelectListItem>(TmpRAMDB.Users().Select(user => new SelectListItem
-               {Text = user.UserName, Value = user.Id.ToString()}));
-
-            var post = new Post();
+//            ViewBag.AvailableAuthorIds = new List<SelectListItem>(TmpRAMDB.Users().Select(user => new SelectListItem
+//               {Text = user.UserName, Value = user.Id.ToString()}));
+            var l = Enum.GetNames(typeof(PostType)).ToList();
+            ViewBag.Types = l;
+            var post = new CreatePostViewModel();
             
             return View(post);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreatePost([Bind("Description, PostType, AuthorId")]Post post)
+        public async Task<IActionResult> CreatePost(CreatePostViewModel newPost)
         {
-            post.ImagePath = "/idk.png";
-            post.PublicationTime = DateTime.Now;
-            post.PetId = null;
-
-            post.Id = (post.Description.GetHashCode() + post.User.Id.GetHashCode() + post.PublicationTime.GetHashCode()).ToString();
-
-            if (post.Description != String.Empty)
+            var path = "";
+            if (newPost.PostImage != null)
             {
-                TmpRAMDB.Posts().Add(post);
-                return RedirectToAction(nameof(Index));
+                var ext = newPost.PostImage.FileName.Split('.').Last();
+                path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot") + "/images/posts/" + newPost.Post.User.UserName + "." + ext;
+                using (var fs = new FileStream(path, FileMode.Create))
+                {
+                    await newPost.PostImage.CopyToAsync(fs);
+                }
             }
 
-            return View(post);
+            newPost.Post.ImagePath = path;
+
+            return View();
         }
 
         public async Task<IActionResult> Profile(uint? petId = null)

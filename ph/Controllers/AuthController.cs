@@ -21,16 +21,16 @@ namespace ph.Controllers
         private UserManager<User> _userManager = null;
 //        private SignInManager<User> _signInManager = null;
 
-        public AuthController(
+        public AuthController(ApplicationDbContext _context,
             UserManager<User> userManager, 
             SignInManager<User> signInManager)
         {
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
             optionsBuilder
                 .UseSqlite("Data Source=app.db");
-            db = new ApplicationDbContext(optionsBuilder.Options);
+            db = _context;
             db.Pets.Load();
-            
+                
             _userManager = userManager;
             
 //            _signInManager = signInManager;
@@ -121,45 +121,49 @@ namespace ph.Controllers
             return View(newUser);
         }
         
-        public async Task<IActionResult> CreatePet()
+        public async Task<IActionResult> CreatePet(string username)
         {
-            return View();
+            var vm = new SignUpPetViewModel();
+            vm.Username = username;
+            return View(vm);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreatePet(SignUpPetViewModel newPet, string username="sssssssss")
+        public async Task<IActionResult> CreatePet(SignUpPetViewModel newPet)
         {
-//            var path = "";
-//            if (newPet.ProfileImage != null)
-//            {
-//                for (int i = 0; i < 30; i++)
-//                {
-//                    Console.WriteLine(newPet.ProfileImage.FileName);
-//                }
-//                
-//                var ext = newPet.ProfileImage.FileName.Split('.').Last();
-//                path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot") 
-//                       + "/images/pets/" + "main_" + newPet.Pet.Name + "." + ext;
-//                using (var fs = new FileStream(path, FileMode.Create))
-//                {
-//                    await newPet.ProfileImage.CopyToAsync(fs);
-//                }
-//                
-//            }
+            var path = "";
+            if (newPet.ProfileImage != null)
+            {
+                for (int i = 0; i < 30; i++)
+                {
+                    Console.WriteLine(newPet.ProfileImage.FileName);
+                }
+                
+                var ext = newPet.ProfileImage.FileName.Split('.').Last();
+                path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot") 
+                       + "/images/pets/" + "main_" + newPet.Pet.Name + "." + ext;
+                using (var fs = new FileStream(path, FileMode.Create))
+                {
+                    await newPet.ProfileImage.CopyToAsync(fs);
+                }
+                
+            }
 
-            var user = _userManager.Users.First(u => u.UserName == username);
+            var user = _userManager.Users.First(u => u.UserName == newPet.Username);
 //            newPet.Pet.ProfileImagePath = path;
 
             newPet.Pet.User = user;
 //            db.Employees.Get(FocusedShift.AssignedEmployee.Id).Shifts.Add(FocusedShift);
-            db.Pets.Add(newPet.Pet);
-            db.SaveChanges();
+            var a = db.Pets.Add(newPet.Pet);
+            
 
             Console.WriteLine("ok");
-//            if (a.State == EntityState.Added)
-//            {
-//                Console.WriteLine("pet added");
-//            }
+            if (a.State == EntityState.Added)
+            {
+                Console.WriteLine("pet added");
+            }
+            
+            db.SaveChanges();
 
             return Redirect("Auth/Login");
         }
