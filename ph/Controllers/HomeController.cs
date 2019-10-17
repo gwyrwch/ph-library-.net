@@ -1,19 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using ph.Data;
 using ph.Models;
 
 namespace ph.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private ApplicationDbContext db;
+        private UserManager<User> _userManager = null;
+        private User tempUser;
+        public IActionResult Index(ApplicationDbContext _context,
+            UserManager<User> userManager)
         {
+            db = _context;
+            db.Pets.Load();
+                
+            _userManager = userManager;
+            tempUser = _userManager.Users.First(user => user.UserName == "gwyrwch");
+            
             return Redirect("Home/Profile");
         }
         
@@ -51,15 +64,15 @@ namespace ph.Controllers
             ViewBag.Types = l;
             return View(filteredPosts);
         }
-        public async Task<IActionResult> CreatePost()
+        public async Task<IActionResult> CreatePost(string username)
         {
-            // todo create view
-            // придумать айдишник
-//            ViewBag.AvailableAuthorIds = new List<SelectListItem>(TmpRAMDB.Users().Select(user => new SelectListItem
-//               {Text = user.UserName, Value = user.Id.ToString()}));
+            var post = new CreatePostViewModel {Username = username};
+            
             var l = Enum.GetNames(typeof(PostType)).ToList();
             ViewBag.Types = l;
-            var post = new CreatePostViewModel();
+            
+            // todo: hold pets in viewbag??) because it maybe doesn't work (pass null to post request)
+            post.Pets = db.Pets.Where(pet => pet.UserId == tempUser.Id).ToImmutableList();
             
             return View(post);
         }
@@ -79,6 +92,20 @@ namespace ph.Controllers
             }
 
             newPost.Post.ImagePath = path;
+            newPost.Post.User = _userManager.Users.First(user => user.UserName == newPost.Username);
+            
+            for (int i = 0; i < newPost.Pets.Count; i++)
+            {
+                newPost.Post.PetsToPosts.Add(new PetToPost()
+                {
+                    Post = newPost.Post, 
+                    PostId = newPost.Post.Id,
+                    // fixme: maybe bug 
+                    Pet = newPost.Pets.ElementAt(i),
+                    PetId = newPost.Pets.ElementAt(i).Id
+                });
+            }
+            
 
             return View();
         }
