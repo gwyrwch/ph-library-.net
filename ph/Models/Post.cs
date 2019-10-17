@@ -1,13 +1,20 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Antiforgery.Internal;
 
 namespace ph.Models
 {
     public class Post
     {
+        public Post()
+        {
+            PetsToPosts = new List<PetToPost>();
+        }
+
         [Required] 
-        public uint Id { get; set; }
+        public string Id { get; set; }
         
         [Required]
         public string ImagePath { get; set; }
@@ -17,7 +24,11 @@ namespace ph.Models
         public string Description { get; set; }
         
         [Required]
-        public uint AuthorId { get; set; }
+        public string UserId { get; set; }
+        
+        [Required]
+        [ForeignKey("UserId")]
+        public User User { get; set; }
         
         [Required]
         public PostType Type { get; set; }
@@ -25,7 +36,14 @@ namespace ph.Models
         public DateTime PublicationTime { get; set; }
         
         // todo: make class Pet2Post
-        public uint? IncludedPetId { get; set; }
+//        [Required]
+//        public string PetId { get; set; }
+//        
+//        [Required]
+//        [ForeignKey("PetId")]
+//        public User Pet { get; set; }
+
+        public ICollection<PetToPost> PetsToPosts { get; set; }
     }
-    
+        
 }

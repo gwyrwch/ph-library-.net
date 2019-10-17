@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -26,7 +27,7 @@ namespace ph.Controllers
 
             foreach (var post in posts)
             {
-                var usr = users.First(user => user.Id == post.AuthorId);
+                var usr = users.First(user => user.Id == post.User.Id);
                 postsToFeed.Add(new PostToFeed
                 {
                     Post = post, 
@@ -34,8 +35,7 @@ namespace ph.Controllers
                     UserProfileImage = usr.ProfileImagePath
                 });
             }
-            Console.WriteLine("kek");
-            Console.WriteLine(type);
+            
             var filteredPosts = postsToFeed
                 .Where(post => type == null || (uint)post.Post.Type == type)
                 .OrderBy(post => post.Post.PublicationTime);
@@ -55,41 +55,43 @@ namespace ph.Controllers
         {
             // todo create view
             // придумать айдишник
-            ViewBag.AvailableAuthorIds = new List<SelectListItem>(TmpRAMDB.Users().Select(user => new SelectListItem
-               {Text = user.UserName, Value = user.Id.ToString()}));
-
-            var post = new Post();
+//            ViewBag.AvailableAuthorIds = new List<SelectListItem>(TmpRAMDB.Users().Select(user => new SelectListItem
+//               {Text = user.UserName, Value = user.Id.ToString()}));
+            var l = Enum.GetNames(typeof(PostType)).ToList();
+            ViewBag.Types = l;
+            var post = new CreatePostViewModel();
             
             return View(post);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreatePost([Bind("Description, PostType, AuthorId")]Post post)
+        public async Task<IActionResult> CreatePost(CreatePostViewModel newPost)
         {
-            post.ImagePath = "/idk.png";
-            post.PublicationTime = DateTime.Now;
-            post.IncludedPetId = null;
-
-            post.Id = (uint) (post.Description.GetHashCode() + post.AuthorId.GetHashCode() + post.PublicationTime.GetHashCode());
-
-            if (post.Description != String.Empty)
+            var path = "";
+            if (newPost.PostImage != null)
             {
-                TmpRAMDB.Posts().Add(post);
-                return RedirectToAction(nameof(Index));
+                var ext = newPost.PostImage.FileName.Split('.').Last();
+                path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot") + "/images/posts/" + newPost.Post.User.UserName + "." + ext;
+                using (var fs = new FileStream(path, FileMode.Create))
+                {
+                    await newPost.PostImage.CopyToAsync(fs);
+                }
             }
 
-            return View(post);
+            newPost.Post.ImagePath = path;
+
+            return View();
         }
 
         public async Task<IActionResult> Profile(uint? petId = null)
         {
             var uid = 1;
             var posts = TmpRAMDB.Posts()
-                .Where(post => post.AuthorId == uid)
-                .Where(post => petId == null || post.IncludedPetId == petId)
+                .Where(post => post.User.Id == uid.ToString())
+                .Where(post => petId == null || post.PetsToPosts.First(pp => pp.PetId == petId.ToString()).PetId.ToString()== petId.ToString())
                 .OrderByDescending(post => post.PublicationTime);
-            var pets = TmpRAMDB.Pets().Where(pet => pet.OwnerId == uid);
-            var currentUser = TmpRAMDB.Users().First(user => user.Id == uid);
+            var pets = TmpRAMDB.Pets().Where(pet => pet.User.Id == uid.ToString());
+            var currentUser = TmpRAMDB.Users().First(user => user.Id == uid.ToString());
             var profile = new ProfileViewModel {Posts = posts, Pets = pets, User = currentUser};
             
             return View(profile);

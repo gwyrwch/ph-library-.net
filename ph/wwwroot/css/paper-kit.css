@@ -8208,6 +8208,22 @@ input:-ms-input-placeholder {
   background-image:url(../images/sam/profile-bg.jpg)
 }
 
+/*.page-header .profile-header {*/
+/*  background-color: rgba(177, 196, 70, 0.5);*/
+/*  background-position: center center;*/
+/*  background-size: cover;*/
+/*  min-height: 10vh;*/
+/*  max-height: 9px;*/
+/*  overflow: hidden;*/
+/*  position: relative;*/
+/*  width: 100%;*/
+/*  z-index: 1;*/
+/*  display: flex;*/
+/*  align-items: center;*/
+/*  justify-content: center;*/
+/*  margin-bottom: 30px;*/
+/*}*/
+
 h6,
 .h6-profile {
   font-size: 0.9em;
@@ -8231,6 +8247,7 @@ h6,
   max-width: 100%;
   height: 100px;
   width: 100px;
+ 
 }
 
 .cust-grid{
@@ -8289,6 +8306,7 @@ h6,
   border-width: 100px;
   border-color: #218838;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  
 }
 
 .post-type-container
@@ -8307,4 +8325,51 @@ h6,
   background-color: rgba(255, 255, 255, 0.89);
   border-color: rgba(240, 109, 104, 0.45);
   color: rgba(240, 109, 104, 0.45);
+}
+
+
+.file-btn {
+  background-color: rgba(173, 190, 113, 0.35);
+  border-color: rgba(117, 133, 51, 0.45);
+  color: rgba(255, 255, 255, 0.89);
+  border-radius: 10px;
+  /*padding: 0; !important;*/
+  margin: 0; !important;
+}
+
+.file-btn:hover {
+  background-color: rgba(255, 255, 255, 0.89);
+  border-color: rgba(117, 133, 51, 0.45);
+  color: rgba(117, 133, 51, 0.45);
+  border-radius: 15px;
+}
+
+#input-file {
+  /*background: linear-gradient(to bottom, transparent 0%, rgba(112, 112, 112, 0) 60%, rgba(186, 186, 186, 0.15) 100%);*/
+  display: none;
+}
+
+
+.select {
+  cursor:pointer;
+  display:inline-block;
+  position:relative;
+  font-size: 15px;
+  font-weight: bold;
+  font-family: "Montserrat", "Helvetica", Arial, sans-serif;
+  color: white; !important;
+  border: 2px solid rgba(117, 133, 51, 0.45);
+  background: rgba(173, 190, 113, 0.35);
+}
+
+.select:hover {
+  cursor:pointer;
+  display:inline-block;
+  position:relative;
+  font-size: 15px;
+  font-weight: bold;
+  font-family: "Montserrat", "Helvetica", Arial, sans-serif;
+  color: rgba(117, 133, 51, 0.45); !important;
+  border: 2px solid rgba(117, 133, 51, 0.45);;
+  background: white;
 }

@@ -1,4 +1,4 @@
-@model User
+@model SignUpViewModel
 
 @{
   ViewBag.Title = "Registration";
@@ -42,29 +42,29 @@
               <i class="fa fa-twitter"></i>
             </a>
           </div>
-          <form action="/Auth/CreateUser" method="post">
+          <form action="/Auth/CreateUser" method="post" enctype="multipart/form-data">
             <div class="form-row">
               <div class="text-danger"></div>
               <div class="form-group col-md-6">
                 <label for="Name">Name</label>
-                <input class="form-control" type="text" id="Name" name="Name" placeholder="Rita"/>
+                <input class="form-control" type="text" id="Name" name="User.Name" placeholder="Rita"/>
                 <span class="text-danger field-validation-valid" data-valmsg-for="Name" data-valmsg-replace="true"></span>
               </div>
               <div class="form-group col-md-6">
                 <label for="Surname">Surname</label>
-                <input class="form-control" type="text" id="Surname" name="Surname" placeholder="Gagarina"/>
+                <input class="form-control" type="text" id="Surname" name="User.Surname" placeholder="Gagarina"/>
                 <span class="text-danger field-validation-valid" data-valmsg-for="Surname" data-valmsg-replace="true"></span>
               </div>
             </div>
             <div class="form-row">
               <div class="form-group col-md-6">
-                <label for="Username">Username</label>
-                <input type="text" class="form-control" id="Username" name="Username" placeholder="gwyrwch">
-                <span class="text-danger field-validation-valid" data-valmsg-for="Username" data-valmsg-replace="true"></span>
+                <label for="UserName">Username</label>
+                <input type="text" class="form-control" id="UserName" name="User.UserName" placeholder="gwyrwch">
+                <span class="text-danger field-validation-valid" data-valmsg-for="UserName" data-valmsg-replace="true"></span>
               </div>
               <div class="form-group col-md-6">
                 <label for="Email">Email</label>
-                <input class="form-control" type="text" id="Email" name="Email" placeholder="gwyrwch@gmail.com" />
+                <input class="form-control" type="text" id="Email" name="User.Email" placeholder="gwyrwch@gmail.com" />
                 <span class="text-danger field-validation-valid" data-valmsg-for="Email" data-valmsg-replace="true"></span>
               </div>              
             </div>
@@ -81,19 +81,25 @@
             @*   </div> *@
             @* </div> *@
             <div class="form-group">
-              <label asp-for="Birth" class="control-label"></label>
-              <input asp-for="Birth" class="form-control" />
-              <span asp-validation-for="Birth" class="text-danger"></span>
+              <label asp-for="User.Birth" class="control-label"></label>
+              <input asp-for="User.Birth" class="form-control" />
+              <span asp-validation-for="User.Birth" class="text-danger"></span>
             </div>
             <div class="form-row">
               <div class="form-group col-md-6">
-                <label for="inputPassword">Password</label>
-                <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+                <label for="Password">Password</label>
+                <input type="password" class="form-control" id="Password" name="Password" placeholder="Password">
+                <span class="text-danger field-validation-valid" data-valmsg-for="Password" data-valmsg-replace="true"></span>
               </div>
               <div class="form-group col-md-6">
                 <label for="inputPassword2">Password</label>
                 <input type="password" class="form-control" id="inputPassword2" placeholder="Password">
               </div>
+            </div>
+            <div class="form-group">
+              <div class="btn file-btn">Your photo</div><br/>
+              <input type="file" id="input-file" name="ProfileImage"/>
+              <span class="text-danger field-validation-valid" data-valmsg-for="ProfileImage" data-valmsg-replace="true"></span>
             </div>
             <div class="form-check">
               <label class="form-check-label">
@@ -201,20 +207,10 @@
   <script src="~/js/paper-kit.js?v=2.2.0" type="text/javascript"></script>
 </body>
 
-@* <script type="text/javascript"> *@
-@*   $(function () { *@
-@*     $('#Birth').datetimepicker({ *@
-@*       format: 'L' *@
-@*       // date: "fa fa-calendar" *@
-@*       // up: "fa fa-chevron-up", *@
-@*       // down: "fa fa-chevron-down", *@
-@*       // previous: 'fa fa-chevron-left', *@
-@*       // next: 'fa fa-chevron-right', *@
-@*       // today: 'fa fa-screenshot', *@
-@*       // clear: 'fa fa-trash', *@
-@*       // close: 'fa fa-remove' *@
-@*     }); *@
-@*   }); *@
-@* </script> *@
+<script>
+$('.file-btn').bind("click" , function () {
+        $('#input-file').click();
+    });
+</script>
 </html>
 
