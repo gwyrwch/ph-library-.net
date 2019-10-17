@@ -106,7 +106,7 @@ namespace ph.Controllers
             {
                 for (int i = 0; i < 10; i++)
                     Console.WriteLine("ok");
-                return RedirectToAction("CreatePet", "Auth", new { usename = newUser.User.UserName.ToLower() });
+                return RedirectToAction("CreatePet", new { username = newUser.User.UserName });
             }
 
             for (int i = 0; i < 10; i++)
@@ -117,14 +117,13 @@ namespace ph.Controllers
                     Console.WriteLine(error.Description);
                 }
             }
-
+            
             return View(newUser);
         }
         
         public async Task<IActionResult> CreatePet(string username)
         {
-            var vm = new SignUpPetViewModel();
-            vm.Username = username;
+            var vm = new SignUpPetViewModel {Username = username};
             return View(vm);
         }
 
@@ -134,11 +133,6 @@ namespace ph.Controllers
             var path = "";
             if (newPet.ProfileImage != null)
             {
-                for (int i = 0; i < 30; i++)
-                {
-                    Console.WriteLine(newPet.ProfileImage.FileName);
-                }
-                
                 var ext = newPet.ProfileImage.FileName.Split('.').Last();
                 path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot") 
                        + "/images/pets/" + "main_" + newPet.Pet.Name + "." + ext;
@@ -149,11 +143,11 @@ namespace ph.Controllers
                 
             }
 
+            var users = _userManager.Users; 
             var user = _userManager.Users.First(u => u.UserName == newPet.Username);
-//            newPet.Pet.ProfileImagePath = path;
+            newPet.Pet.ProfileImagePath = path;
 
             newPet.Pet.User = user;
-//            db.Employees.Get(FocusedShift.AssignedEmployee.Id).Shifts.Add(FocusedShift);
             var a = db.Pets.Add(newPet.Pet);
             
 
@@ -166,7 +160,7 @@ namespace ph.Controllers
             
             db.SaveChanges();
 
-            return Redirect("Home/Feed");
+            return Redirect("CreateUser");
         }
     }
 }
