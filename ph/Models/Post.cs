@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Antiforgery.Internal;
@@ -7,6 +8,11 @@ namespace ph.Models
 {
     public class Post
     {
+        public Post()
+        {
+            PetsToPosts = new List<PetToPost>();
+        }
+
         [Required] 
         public string Id { get; set; }
         
@@ -21,7 +27,7 @@ namespace ph.Models
         public string UserId { get; set; }
         
         [Required]
-//        [ForeignKey("UserId")]
+        [ForeignKey("UserId")]
         public User User { get; set; }
         
         [Required]
@@ -30,12 +36,14 @@ namespace ph.Models
         public DateTime PublicationTime { get; set; }
         
         // todo: make class Pet2Post
-        [Required]
-        public string PetId { get; set; }
-        
+//        [Required]
+//        public string PetId { get; set; }
+//        
 //        [Required]
 //        [ForeignKey("PetId")]
 //        public User Pet { get; set; }
+
+        public ICollection<PetToPost> PetsToPosts { get; set; }
     }
-    
+        
 }

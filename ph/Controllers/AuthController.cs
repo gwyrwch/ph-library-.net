@@ -162,10 +162,11 @@ namespace ph.Controllers
             {
                 Console.WriteLine("pet added");
             }
+            else Redirect("Login");
             
             db.SaveChanges();
 
-            return Redirect("Auth/Login");
+            return Redirect("Home/Feed");
         }
     }
 }

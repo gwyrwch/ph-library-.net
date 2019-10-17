@@ -154,7 +154,7 @@ namespace ph.Migrations
 
             modelBuilder.Entity("ph.Models.Post", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<uint>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Description")
@@ -164,8 +164,7 @@ namespace ph.Migrations
                     b.Property<string>("ImagePath")
                         .IsRequired();
 
-                    b.Property<string>("PetId")
-                        .IsRequired();
+                    b.Property<uint?>("IncludedPetId");
 
                     b.Property<DateTime>("PublicationTime");
 
@@ -178,7 +177,7 @@ namespace ph.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Post");
+                    b.ToTable("Posts");
                 });
 
             modelBuilder.Entity("ph.Models.User", b =>

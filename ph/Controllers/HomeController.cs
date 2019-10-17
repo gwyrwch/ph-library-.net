@@ -88,7 +88,7 @@ namespace ph.Controllers
             var uid = 1;
             var posts = TmpRAMDB.Posts()
                 .Where(post => post.User.Id == uid.ToString())
-                .Where(post => petId == null || post.PetId == petId.ToString())
+                .Where(post => petId == null || post.PetsToPosts.First(pp => pp.PetId == petId.ToString()).PetId.ToString()== petId.ToString())
                 .OrderByDescending(post => post.PublicationTime);
             var pets = TmpRAMDB.Pets().Where(pet => pet.User.Id == uid.ToString());
             var currentUser = TmpRAMDB.Users().First(user => user.Id == uid.ToString());

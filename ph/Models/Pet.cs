@@ -8,6 +8,11 @@ namespace ph.Models
 {
     public class Pet
     {
+        public Pet()
+        {
+            PetsToPosts = new List<PetToPost>();
+        }
+        
         [Key]
         public string Id { get; set; }
         
@@ -29,6 +34,8 @@ namespace ph.Models
         public string Breed { get; set; }
         
         public string ProfileImagePath { get; set; }
+        
+        public ICollection<PetToPost> PetsToPosts { get; set; }
         
     }
 }
