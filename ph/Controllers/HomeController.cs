@@ -33,8 +33,6 @@ namespace ph.Controllers
                 
             _userManager = userManager;
             tempUser = _userManager.Users.First(user => user.UserName == "gwyrwch");
-
-            
         }
 
         public IActionResult Index()
@@ -138,22 +136,10 @@ namespace ph.Controllers
 
         public async Task<IActionResult> Profile(string petId = null)
         {
-//            var posts = TmpRAMDB.Posts()
-//                .Where(post => post.User.Id == uid.ToString())
-//                .Where(post => petId == null || post.PetsToPosts.First(pp => pp.PetId == petId.ToString()).PetId.ToString()== petId.ToString())
-//                .OrderByDescending(post => post.PublicationTime);
-
-            
             var posts = db.Posts.ToList()
                 .Where(post => post.User.Id == tempUser.Id)
                 .Where(post => petId == null)
                 .OrderByDescending(post => post.PublicationTime);
-            
-//            var posts = TmpRAMDB.Posts()
-//                .Where(post => post.AuthorId == uid)
-//                .Where(post => petId == null || post.IncludedPetId == petId)
-//                .OrderByDescending(post => post.PublicationTime);
-//            
 
             if (petId != null)
             {
@@ -162,11 +148,6 @@ namespace ph.Controllers
                     .Select(pp => pp.Post)
                     .OrderByDescending(post => post.PublicationTime);
             }
-            
-//            foreach (var p in postsWithPetId)
-//            {
-//                Console.WriteLine(p.);
-//            }
 
             var pets = db.Pets.ToList().Where(pet => pet.User.Id == tempUser.Id);
             var currentUser = tempUser;
@@ -192,6 +173,13 @@ namespace ph.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+        
+        public async Task<IActionResult> Settings()
+        {
+            var user = tempUser;
+            
+            return View(user);
         }
     }
 }
