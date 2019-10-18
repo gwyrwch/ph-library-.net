@@ -18,18 +18,28 @@ namespace ph.Controllers
         private ApplicationDbContext db;
         private UserManager<User> _userManager = null;
         private User tempUser;
-        public IActionResult Index(ApplicationDbContext _context,
+        
+        
+        public HomeController(ApplicationDbContext _context,
             UserManager<User> userManager)
         {
+            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
+            optionsBuilder
+                .UseSqlite("Data Source=app.db");
             db = _context;
             db.Pets.Load();
                 
             _userManager = userManager;
             tempUser = _userManager.Users.First(user => user.UserName == "gwyrwch");
+
             
+        }
+
+        public IActionResult Index()
+        {
             return Redirect("Home/Profile");
         }
-        
+
         public IActionResult Feed(uint? type = null, uint? petId = null)
         {
             var posts = TmpRAMDB.Posts();
@@ -64,9 +74,9 @@ namespace ph.Controllers
             ViewBag.Types = l;
             return View(filteredPosts);
         }
-        public async Task<IActionResult> CreatePost(string username)
+        public async Task<IActionResult> CreatePost()
         {
-            var post = new CreatePostViewModel {Username = username};
+            var post = new CreatePostViewModel {Username = tempUser.UserName};
             
             var l = Enum.GetNames(typeof(PostType)).ToList();
             ViewBag.Types = l;

@@ -8373,3 +8373,47 @@ h6,
   border: 2px solid rgba(117, 133, 51, 0.45);;
   background: white;
 }
+
+
+.btn-dropdown {
+  background-color: rgba(240, 109, 104, 0.45);
+  border-color: rgba(240, 109, 104, 0.45);
+  color: #FFFFFF;
+  opacity: 1;
+  filter: alpha(opacity=100);
+}
+
+.btn-dropdown:hover,
+.btn-dropdown:focus,
+.btn-dropdown:active,
+.btn-dropdown.active,
+.btn-dropdown:active:focus,
+.btn-dropdown:active:hover,
+.btn-dropdown.active:focus,
+.btn-dropdown:not(:disabled):not(.disabled):active:focus,
+.btn-dropdown:not(:disabled):not(.disabled):active,
+.btn-dropdown:not(:disabled):not(.disabled).active,
+.btn-dropdown:not(:disabled):not(.disabled).active:focus,
+.show>.btn-dropdown.dropdown-toggle {
+  background-color: rgba(240, 109, 104, 0.45);
+  color: #FFFFFF;
+  border-color: rgba(240, 109, 104, 0.45);
+  box-shadow: none;
+}
+
+.btn-post-type:focus,
+.btn-post-type:active,
+.btn-post-type.active,
+.btn-post-type:active:focus,
+.btn-post-type:active:hover,
+.btn-post-type.active:focus,
+.btn-post-type:not(:disabled):not(.disabled):active:focus,
+.btn-post-type:not(:disabled):not(.disabled):active,
+.btn-post-type:not(:disabled):not(.disabled).active,
+.btn-post-type:not(:disabled):not(.disabled).active:focus,
+.show>.btn-post-type.dropdown-toggle {
+  background-color: #FFFFFF;
+  color: rgba(240, 109, 104, 0.45);
+  border-color: rgba(240, 109, 104, 0.45);
+  box-shadow: none;
+}

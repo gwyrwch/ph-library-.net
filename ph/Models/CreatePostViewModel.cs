@@ -16,6 +16,8 @@ namespace ph.Models
          public string Username { get; set; }
          
          public ICollection<Pet> Pets { get; set; }
+         
+         public string SelectedPets { get; set; }
 
     }
 }
