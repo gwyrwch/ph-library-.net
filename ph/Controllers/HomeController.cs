@@ -43,27 +43,35 @@ namespace ph.Controllers
 
         public IActionResult Feed(uint? type = null, uint? petId = null)
         {
-            var posts = TmpRAMDB.Posts();
-//            var pets = TmpRAMDB.Pets();
-            var users = TmpRAMDB.Users();
-            var postsToFeed = new List<PostToFeed>(TmpRAMDB.Posts().Count);
-
-
+            var posts = db.Posts.ToImmutableList();
+            var users = _userManager.Users.ToList();
+            var postsToFeed = new List<PostToFeed>(posts.Count);
+            
             foreach (var post in posts)
             {
-                var usr = users.First(user => user.Id == post.User.Id);
+                var author = users.First(user => user.Id == post.User.Id);
+                // todo: it is bad I change database record, but without save and this is because it works
+                // todo: why it doesn't work with full path?
+                var newUserImgPath = author.ProfileImagePath.Remove(0, 37);
                 postsToFeed.Add(new PostToFeed
                 {
                     Post = post, 
-                    UserName = usr.UserName,
-                    UserProfileImage = usr.ProfileImagePath
+                    UserName = author.UserName,
+                    UserProfileImage = newUserImgPath
                 });
+                
+            }
+
+            foreach (var post in postsToFeed)
+            {
+                post.Post.ImagePath = post.Post.ImagePath.Remove(0, 37);
             }
             
             var filteredPosts = postsToFeed
                 .Where(post => type == null || (uint)post.Post.Type == type)
                 .OrderBy(post => post.Post.PublicationTime);
-
+            
+            
             
 //            if (petId != null)
 //            {
@@ -71,6 +79,7 @@ namespace ph.Controllers
 //                 if (foundPet != null)
 //                     ViewData["PetName"] = foundPet.Name;
 //            }
+
             var l = Enum.GetNames(typeof(PostType)).ToList();
             ViewBag.Types = l;
             return View(filteredPosts);
@@ -97,7 +106,7 @@ namespace ph.Controllers
             if (newPost.PostImage != null)
             {
                 var ext = newPost.PostImage.FileName.Split('.').Last();
-                path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot") + "/images/posts/" + newPost.Post.User.UserName + "1" + "." + ext;
+                path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot") + "/images/posts/" + newPost.Post.User.UserName + "2" + "." + ext;
                 using (var fs = new FileStream(path, FileMode.Create))
                 {
                     await newPost.PostImage.CopyToAsync(fs);
@@ -107,7 +116,6 @@ namespace ph.Controllers
             newPost.Post.ImagePath = path;
             var petsOnPostIds = newPost.SelectedPets.Split(',');
 
-//            newPost.Pets = db.Pets.Where(pet => petsOnPostIds.Contains(pet.Id)) as ICollection<Pet>;
 
             for (int i = 0; i < petsOnPostIds.Length; i++)
             {
