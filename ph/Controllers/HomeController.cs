@@ -28,6 +28,7 @@ namespace ph.Controllers
                 .UseSqlite("Data Source=app.db");
             db = _context;
             db.Pets.Load();
+            db.Posts.Load();
                 
             _userManager = userManager;
             tempUser = _userManager.Users.First(user => user.UserName == "gwyrwch");
@@ -91,10 +92,12 @@ namespace ph.Controllers
         public async Task<IActionResult> CreatePost(CreatePostViewModel newPost)
         {
             var path = "";
+            newPost.Post.User = _userManager.Users.First(user => user.UserName == newPost.Username);
+            // todo : right image path of the post
             if (newPost.PostImage != null)
             {
                 var ext = newPost.PostImage.FileName.Split('.').Last();
-                path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot") + "/images/posts/" + newPost.Post.User.UserName + "." + ext;
+                path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot") + "/images/posts/" + newPost.Post.User.UserName + "1" + "." + ext;
                 using (var fs = new FileStream(path, FileMode.Create))
                 {
                     await newPost.PostImage.CopyToAsync(fs);
@@ -102,22 +105,28 @@ namespace ph.Controllers
             }
 
             newPost.Post.ImagePath = path;
-            newPost.Post.User = _userManager.Users.First(user => user.UserName == newPost.Username);
-            
-            for (int i = 0; i < newPost.Pets.Count; i++)
+            var petsOnPostIds = newPost.SelectedPets.Split(',');
+
+//            newPost.Pets = db.Pets.Where(pet => petsOnPostIds.Contains(pet.Id)) as ICollection<Pet>;
+
+            for (int i = 0; i < petsOnPostIds.Length; i++)
             {
                 newPost.Post.PetsToPosts.Add(new PetToPost()
                 {
                     Post = newPost.Post, 
                     PostId = newPost.Post.Id,
                     // fixme: maybe bug 
-                    Pet = newPost.Pets.ElementAt(i),
-                    PetId = newPost.Pets.ElementAt(i).Id
+                    Pet = db.Pets.First(pet => pet.Id == petsOnPostIds[i]),
+                    PetId = petsOnPostIds[i]
                 });
             }
+            newPost.Post.PublicationTime  = DateTime.Now;
+            db.Posts.Add(newPost.Post);
+
+            db.SaveChanges();
             
 
-            return View();
+            return Redirect("CreatePost");
         }
 
         public async Task<IActionResult> Profile(uint? petId = null)

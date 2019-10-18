@@ -8,7 +8,7 @@ namespace ph.Data
     {
         public DbSet<Pet> Pets { get; set; }
         public DbSet<Post> Posts { get; set; }
-        public DbSet<PetToPost> PetsPetToPosts { get; set; }
+        public DbSet<PetToPost> PetsToPosts { get; set; }
 
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
