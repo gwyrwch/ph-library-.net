@@ -29,6 +29,7 @@ namespace ph.Controllers
             db = _context;
             db.Pets.Load();
             db.Posts.Load();
+            db.PetsToPosts.Load();
                 
             _userManager = userManager;
             tempUser = _userManager.Users.First(user => user.UserName == "gwyrwch");
@@ -70,8 +71,6 @@ namespace ph.Controllers
             var filteredPosts = postsToFeed
                 .Where(post => type == null || (uint)post.Post.Type == type)
                 .OrderBy(post => post.Post.PublicationTime);
-            
-            
             
 //            if (petId != null)
 //            {
@@ -137,15 +136,52 @@ namespace ph.Controllers
             return Redirect("CreatePost");
         }
 
-        public async Task<IActionResult> Profile(uint? petId = null)
+        public async Task<IActionResult> Profile(string petId = null)
         {
-            var uid = 1;
-            var posts = TmpRAMDB.Posts()
-                .Where(post => post.User.Id == uid.ToString())
-                .Where(post => petId == null || post.PetsToPosts.First(pp => pp.PetId == petId.ToString()).PetId.ToString()== petId.ToString())
+//            var posts = TmpRAMDB.Posts()
+//                .Where(post => post.User.Id == uid.ToString())
+//                .Where(post => petId == null || post.PetsToPosts.First(pp => pp.PetId == petId.ToString()).PetId.ToString()== petId.ToString())
+//                .OrderByDescending(post => post.PublicationTime);
+
+            
+            var posts = db.Posts.ToList()
+                .Where(post => post.User.Id == tempUser.Id)
+                .Where(post => petId == null)
                 .OrderByDescending(post => post.PublicationTime);
-            var pets = TmpRAMDB.Pets().Where(pet => pet.User.Id == uid.ToString());
-            var currentUser = TmpRAMDB.Users().First(user => user.Id == uid.ToString());
+            
+//            var posts = TmpRAMDB.Posts()
+//                .Where(post => post.AuthorId == uid)
+//                .Where(post => petId == null || post.IncludedPetId == petId)
+//                .OrderByDescending(post => post.PublicationTime);
+//            
+
+            if (petId != null)
+            {
+                posts = db.PetsToPosts.ToList()
+                    .Where(pp => pp.PetId == petId)
+                    .Select(pp => pp.Post)
+                    .OrderByDescending(post => post.PublicationTime);
+            }
+            
+//            foreach (var p in postsWithPetId)
+//            {
+//                Console.WriteLine(p.);
+//            }
+
+            var pets = db.Pets.ToList().Where(pet => pet.User.Id == tempUser.Id);
+            var currentUser = tempUser;
+            
+            //todo: again problems with paths
+            currentUser.ProfileImagePath = currentUser.ProfileImagePath.Remove(0, 37);
+            foreach (var post in posts)
+            {
+                post.ImagePath = post.ImagePath.Remove(0, 37);
+            }
+            foreach (var pet in pets)
+            {
+                pet.ProfileImagePath = pet.ProfileImagePath.Remove(0, 37);
+            }
+            
             var profile = new ProfileViewModel {Posts = posts, Pets = pets, User = currentUser};
             
             return View(profile);
