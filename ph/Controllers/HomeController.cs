@@ -103,7 +103,8 @@ namespace ph.Controllers
             if (newPost.PostImage != null)
             {
                 var ext = newPost.PostImage.FileName.Split('.').Last();
-                path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot") + "/images/posts/" + newPost.Post.User.UserName + "2" + "." + ext;
+                //todo: generate path))0)
+                path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot") + "/images/posts/" + newPost.Post.User.UserName + "3" + "." + ext;
                 using (var fs = new FileStream(path, FileMode.Create))
                 {
                     await newPost.PostImage.CopyToAsync(fs);
@@ -136,34 +137,16 @@ namespace ph.Controllers
 
         public async Task<IActionResult> Profile(string petId = null)
         {
-            var posts = db.Posts.ToList()
-                .Where(post => post.User.Id == tempUser.Id)
-                .Where(post => petId == null)
-                .OrderByDescending(post => post.PublicationTime);
-
-            if (petId != null)
-            {
-                posts = db.PetsToPosts.ToList()
-                    .Where(pp => pp.PetId == petId)
-                    .Select(pp => pp.Post)
-                    .OrderByDescending(post => post.PublicationTime);
-            }
-
-            var pets = db.Pets.ToList().Where(pet => pet.User.Id == tempUser.Id);
+            var pets = db.Pets.Where(pet => pet.User.Id == tempUser.Id);
             var currentUser = tempUser;
             
-            //todo: again problems with paths
             currentUser.ProfileImagePath = currentUser.ProfileImagePath.Remove(0, 37);
-            foreach (var post in posts)
-            {
-                post.ImagePath = post.ImagePath.Remove(0, 37);
-            }
             foreach (var pet in pets)
             {
                 pet.ProfileImagePath = pet.ProfileImagePath.Remove(0, 37);
             }
             
-            var profile = new ProfileViewModel {Posts = posts, Pets = pets, User = currentUser};
+            var profile = new ProfileViewModel {Pets = pets, User = currentUser, PetIdToShow = petId};
             
             return View(profile);
         }
