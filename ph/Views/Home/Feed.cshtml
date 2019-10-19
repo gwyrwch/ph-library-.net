@@ -1,5 +1,6 @@
 @using Microsoft.AspNetCore.Rewrite.Internal
-@model IEnumerable<PostToFeed>
+@* @model IEnumerable<PostToFeed> *@
+@model int
 
 @{
     Layout = null;
@@ -36,45 +37,30 @@
       <br/>
       <div class="row cust-grid  text-center">
         @{
-          var a = (List<string>)ViewData["Types"];
-          @for (var i = 0; i < a.Count(); i++)
+          var postTypes = (List<string>)ViewData["Types"];
+          @for (var i = 0; i < postTypes.Count; i++)
           {
             <div class="col cust-grid-col">
               <button class="btn btn-round btn-post-type my-auto mx-auto" onclick="location.href='@Url.Action("Feed", "Home", new {type=i})'">
-                <i class="fa fa-heart"></i>@a[i]
+                <i class="fa fa-heart"></i>@postTypes[i]
               </button>
             </div>
           }
         }
       </div>
     </div>
-    <div class="container" id="posts">
-      <div class="col my-grid">
-        @foreach (var item in Model)
-        {
-          <div class="row my-grid-row">
-            <div class="card my-card" style="width: 550px; height: auto; margin: 3px">
-              <div class="card-body" style="padding: 10px !important;">
-                <div class="row cust-grid-left">
-                  <div class="col-md-2 cust-grid-left-col">
-                    <img src="@Html.DisplayFor(modelItem => item.UserProfileImage)" alt="" class="img-circle-feed-profile img-no-padding">
-                  </div>
-                  <div class="col-md-4 cust-grid-left-col my-auto" style="vertical-align: center; ">
-                    <p>@item.UserName</p>
-                  </div>
-                </div>
-              </div>
-              <img class="img-responsive img-feed mx-auto" src="@Html.DisplayFor(modelItem => item.Post.ImagePath)" alt="">
-              <div class="card-body">
-                <h4 class="card-title">@item.UserName</h4>
-                <p class="card-text">@item.Post.Description</p>
-                <p class="card-text"><small class="text-muted">@item.Post.PublicationTime</small></p>
-              </div>
-            </div>
-          </div>
-        }
-      </div>
-    </div>
+
+    @{
+      if (Model != -1)
+      {
+        @await Component.InvokeAsync("PostsToFeed", new {type = (uint?) Model})
+      }
+      else
+      {
+        @await Component.InvokeAsync("PostsToFeed")
+      }
+    }
+    
   </div>
 </div>
 @Html.Partial("_Footer")

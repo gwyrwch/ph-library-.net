@@ -42,44 +42,15 @@ namespace ph.Controllers
 
         public IActionResult Feed(uint? type = null, uint? petId = null)
         {
-            var posts = db.Posts.ToImmutableList();
-            var users = _userManager.Users.ToList();
-            var postsToFeed = new List<PostToFeed>(posts.Count);
-            
-            foreach (var post in posts)
-            {
-                var author = users.First(user => user.Id == post.User.Id);
-                // todo: it is bad I change database record, but without save and this is because it works
-                // todo: why it doesn't work with full path?
-                var newUserImgPath = author.ProfileImagePath.Remove(0, 37);
-                postsToFeed.Add(new PostToFeed
-                {
-                    Post = post, 
-                    UserName = author.UserName,
-                    UserProfileImage = newUserImgPath
-                });
-                
-            }
-
-            foreach (var post in postsToFeed)
-            {
-                post.Post.ImagePath = post.Post.ImagePath.Remove(0, 37);
-            }
-            
-            var filteredPosts = postsToFeed
-                .Where(post => type == null || (uint)post.Post.Type == type)
-                .OrderBy(post => post.Post.PublicationTime);
-            
-//            if (petId != null)
-//            {
-//                 var foundPet = TmpRAMDB.Pets().FirstOrDefault(pet => pet.Id == petId);
-//                 if (foundPet != null)
-//                     ViewData["PetName"] = foundPet.Name;
-//            }
-
             var l = Enum.GetNames(typeof(PostType)).ToList();
             ViewBag.Types = l;
-            return View(filteredPosts);
+
+            int model;
+            if (type != null)
+                model = (int) type;
+            else model = -1;
+                
+            return View(model);
         }
         public async Task<IActionResult> CreatePost()
         {
@@ -130,7 +101,6 @@ namespace ph.Controllers
             db.Posts.Add(newPost.Post);
 
             db.SaveChanges();
-            
 
             return Redirect("CreatePost");
         }

@@ -42,8 +42,7 @@
             </div>
           </div>
         </div>
-      </div> 
-      
+      </div>
       <div class="section pt-o" id="carousel">
         <div class="container">
           <div class="row">
@@ -102,18 +101,7 @@
         </div>
       </div>
       <div class="container" id="posts">
-@*         <div class="row"> *@
-@*           @foreach (var item in Model.Posts) { *@
-@*             <div class="col-md-3 col-sm-6 col-xs-12"> *@
-@*               $1$ todo: read how to use alt="AltText" for searching and so on #1# *@
-@*               <img alt="AltText" src="@Html.DisplayFor(modelItem => item.ImagePath)" class="img-responsive img-kek"> *@
-@*             </div> *@
-@*           } *@
-@*         </div> *@
-
-@await Component.InvokeAsync("PostsToProfile", new { petId = Model.PetIdToShow, userId = Model.User.Id })
-@* @await Component.InvokeAsync("PostsWithConcretePet", ) *@
-        
+        @await Component.InvokeAsync("PostsToProfile", new { petId = Model.PetIdToShow, userId = Model.User.Id })
       </div>
       @* <div class="nav-tabs-navigation"> *@
       @*   <div class="nav-tabs-wrapper"> *@
