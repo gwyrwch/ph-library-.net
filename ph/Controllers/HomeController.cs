@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
 using System.IO;
@@ -131,7 +130,6 @@ namespace ph.Controllers
         public async Task<IActionResult> Settings()
         {
             var user = tempUser;
-            
             return View(user);
         }
     }
