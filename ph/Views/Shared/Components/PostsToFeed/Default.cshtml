@@ -30,6 +30,7 @@
                   </div>
                   <img class="img-responsive img-feed mx-auto" src="@Html.DisplayFor(modelItem => item.Post.ImagePath)" alt="">
                   <div class="card-body">
+                    <like></like>
                     <h4 class="card-title">@item.UserName</h4>
                     <p class="card-text">@item.Post.Description</p>
                     <p class="card-text"><small class="text-muted">@item.Post.PublicationTime</small></p>

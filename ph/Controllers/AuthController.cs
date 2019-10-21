@@ -14,7 +14,7 @@ namespace ph.Controllers
     {
         private ApplicationDbContext db;
         private UserManager<User> _userManager = null;
-//        private SignInManager<User> _signInManager = null;
+        private SignInManager<User> _signInManager = null;
 
         public AuthController(ApplicationDbContext _context,
             UserManager<User> userManager, 
@@ -28,7 +28,7 @@ namespace ph.Controllers
                 
             _userManager = userManager;
             
-//            _signInManager = signInManager;
+            _signInManager = signInManager;
         }
 
         // GET
@@ -63,17 +63,34 @@ namespace ph.Controllers
             return Redirect("/Home/Feed");
         }
 
-        public async Task<IActionResult> Login()
+        public IActionResult Login(string returnUrl = null)
         {
-            return View();
+            return View(new LoginViewModel { ReturnUrl = returnUrl });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginViewModel user)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = 
+                    await _signInManager.PasswordSignInAsync(user.UserName, user.Password, user.RememberMe, false);
+                if (result.Succeeded)
+                {
+                    // проверяем, принадлежит ли URL приложению
+                    if (!string.IsNullOrEmpty(user.ReturnUrl) && Url.IsLocalUrl(user.ReturnUrl))
+                    {
+                        return Redirect(user.ReturnUrl);
+                    }
+
+                    return RedirectToAction("Index", "Home");
+                }
+                ModelState.AddModelError("", "Invalid username or password");
+            }
+            return View(user);
         }
         
-        [HttpPost]
-        // todo: add checking password
-        public IActionResult Login([Bind("Password, UserName")] LoginViewModel viewModel)
-        {
-            return Redirect("/Home/Feed");
-        }
         
         public async Task<IActionResult> CreateUser()
         {
@@ -117,7 +134,19 @@ namespace ph.Controllers
         }
         
         public async Task<IActionResult> CreatePet(string username)
-        {
+        { 
+                //todo: this is how delete of the user is working now            
+//            var id = "a44c78b4-4477-4a84-badd-43900512487d";
+//
+//            var users = _userManager.Users;
+//            var result = await _userManager.DeleteAsync(users.First(user => user.Id == id));
+//
+//            if (result.Succeeded)
+//            {
+//                for (int i = 0; i < 10; i++)
+//                    Console.WriteLine("ok");
+//                return RedirectToAction("CreatePet", new { username = "gwyrwch" });
+//            }
             var vm = new SignUpPetViewModel {Username = username};
             return View(vm);
         }
@@ -137,8 +166,7 @@ namespace ph.Controllers
                 }
                 
             }
-
-            var users = _userManager.Users; 
+            
             var user = _userManager.Users.First(u => u.UserName == newPet.Username);
             newPet.Pet.ProfileImagePath = path;
 

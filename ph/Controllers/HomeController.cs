@@ -16,9 +16,7 @@ namespace ph.Controllers
     {
         private ApplicationDbContext db;
         private UserManager<User> _userManager = null;
-        private User tempUser;
-        
-        
+
         public HomeController(ApplicationDbContext _context,
             UserManager<User> userManager)
         {
@@ -31,7 +29,6 @@ namespace ph.Controllers
             db.PetsToPosts.Load();
                 
             _userManager = userManager;
-            tempUser = _userManager.Users.First(user => user.UserName == "gwyrwch");
         }
 
         public IActionResult Index()
@@ -39,9 +36,10 @@ namespace ph.Controllers
             return Redirect("Home/Profile");
         }
 
-        public IActionResult Feed(uint? type = null, uint? petId = null)
+        public async Task<IActionResult> Feed(uint? type = null, uint? petId = null)
         {
             var l = Enum.GetNames(typeof(PostType)).ToList();
+            
             ViewBag.Types = l;
 
             int model;
@@ -53,13 +51,14 @@ namespace ph.Controllers
         }
         public async Task<IActionResult> CreatePost()
         {
-            var post = new CreatePostViewModel {Username = tempUser.UserName};
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+            var post = new CreatePostViewModel {Username = currentUser.UserName};
             
             var l = Enum.GetNames(typeof(PostType)).ToList();
             ViewBag.Types = l;
             
             // todo: hold pets in viewbag??) because it maybe doesn't work (pass null to post request)
-            post.Pets = db.Pets.Where(pet => pet.UserId == tempUser.Id).ToImmutableList();
+            post.Pets = db.Pets.Where(pet => pet.UserId == currentUser.Id).ToImmutableList();
             
             return View(post);
         }
@@ -106,13 +105,14 @@ namespace ph.Controllers
 
         public async Task<IActionResult> Profile(string petId = null)
         {
-            var pets = db.Pets.Where(pet => pet.User.Id == tempUser.Id);
-            var currentUser = tempUser;
-            
-            currentUser.ProfileImagePath = currentUser.ProfileImagePath.Remove(0, 37);
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+            var pets = db.Pets.Where(pet => pet.User.Id == currentUser.Id);
+            if (currentUser.ProfileImagePath != "")
+                currentUser.ProfileImagePath = currentUser.ProfileImagePath.Remove(0, 37);
             foreach (var pet in pets)
             {
-                pet.ProfileImagePath = pet.ProfileImagePath.Remove(0, 37);
+                if (pet.ProfileImagePath != "")
+                    pet.ProfileImagePath = pet.ProfileImagePath.Remove(0, 37);
             }
             
             var profile = new ProfileViewModel {Pets = pets, User = currentUser, PetIdToShow = petId};
@@ -129,8 +129,8 @@ namespace ph.Controllers
         
         public async Task<IActionResult> Settings()
         {
-            var user = tempUser;
-            return View(user);
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+            return View(currentUser);
         }
     }
 }
