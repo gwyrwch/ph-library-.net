@@ -21,8 +21,19 @@ namespace ph.Controllers
         
         public IActionResult Index()
         {
-            Console.WriteLine(_roleManager.Roles.ToList()[0]);
-            return View();
+            var users = _userManager.Users.Where(user => user.Id != "df205732-21c6-490c-89e4-ecf2a309fb1a");
+            return View(users);
+        }
+
+
+        public IActionResult DeleteUser(string userId)
+        {
+            var userToDelete = _userManager.Users.First(user => user.Id == userId);
+            var result = _userManager.DeleteAsync(userToDelete);
+            
+            // todo redirect to this method with parametr from index view;
+            
+            return Redirect("Index");
         }
     }
 }

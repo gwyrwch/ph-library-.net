@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -37,7 +38,9 @@ namespace ph.Components
             {
                 var author = users.First(user => user.Id == post.User.Id);
                 //todo: again problems with paths
-                var newUserImgPath = author.ProfileImagePath.Remove(0, 37);
+                var newUserImgPath = "";
+                if (!String.IsNullOrEmpty(author.ProfileImagePath))
+                    newUserImgPath = author.ProfileImagePath.Remove(0, 37);
                 postsToFeed.Add(new PostToFeed
                 {
                     Post = post, 
@@ -48,7 +51,8 @@ namespace ph.Components
 
             foreach (var post in postsToFeed)
             {
-                post.Post.ImagePath = post.Post.ImagePath.Remove(0, 37);
+                if (!String.IsNullOrEmpty(post.Post.ImagePath))
+                    post.Post.ImagePath = post.Post.ImagePath.Remove(0, 37);
             }
 
             var filteredPosts = postsToFeed
