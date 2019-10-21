@@ -40,16 +40,21 @@ namespace ph
                 options.UseSqlite(
                     Configuration.GetConnectionString("DefaultConnection")));
             
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 6;
+                options.Password.RequiredUniqueChars = 1;
+            });
             
-            services.AddDefaultIdentity<User>(options =>
-                {
-                    // Password settings.
-                    options.Password.RequireDigit = true;
-                    options.Password.RequiredLength = 6;
-                    options.Password.RequiredUniqueChars = 1;
-                })
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+//            services.AddDefaultIdentity<User>()
+//                .AddRoles<IdentityRole>()
+//                .AddEntityFrameworkStores<ApplicationDbContext>()
+//                .AddDefaultTokenProviders();
+            services.AddIdentity<User, IdentityRole>()
+                .AddDefaultUI()
+                .AddDefaultTokenProviders()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
             
             services.Configure<IdentityOptions>(options =>
             {
@@ -64,10 +69,12 @@ namespace ph
             
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            
+            services.AddScoped<IDatabaseInitializer, DatabaseInitializer>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IDatabaseInitializer dbInitializer)
         {
             if (env.IsDevelopment())
             {
@@ -84,7 +91,9 @@ namespace ph
             app.UseCookiePolicy();
             
             app.UseAuthentication();
-
+            
+            
+            dbInitializer.Initialize();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

@@ -17,13 +17,11 @@ namespace ph.Models
         
         [RegularExpression(@"^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$", 
             ErrorMessage = "Invalid name.")]
-        [Required]
         [PersonalData]
         public string Name { get; set; }
 
         [RegularExpression(@"^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$", 
             ErrorMessage = "Invalid name.")]
-        [Required]
         [PersonalData]
         public string Surname { get; set; }
 

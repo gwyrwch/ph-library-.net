@@ -109,11 +109,11 @@ namespace ph.Controllers
         {
             var currentUser = await _userManager.GetUserAsync(HttpContext.User);
             var pets = db.Pets.Where(pet => pet.User.Id == currentUser.Id);
-            if (currentUser.ProfileImagePath != "")
+            if (!string.IsNullOrEmpty(currentUser.ProfileImagePath))
                 currentUser.ProfileImagePath = currentUser.ProfileImagePath.Remove(0, 37);
             foreach (var pet in pets)
             {
-                if (pet.ProfileImagePath != "")
+                if (!string.IsNullOrEmpty(pet.ProfileImagePath))
                     pet.ProfileImagePath = pet.ProfileImagePath.Remove(0, 37);
             }
             

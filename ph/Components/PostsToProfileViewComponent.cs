@@ -23,7 +23,7 @@ namespace ph.Components
             var items = await GetItemsAsync(petId, userId);
             
             //todo: again problems with paths
-            foreach (var post in items)
+            foreach (var post in items.Where(post => !string.IsNullOrEmpty(post.ImagePath)))
             {
                 post.ImagePath = post.ImagePath.Remove(0, 37);
             }
