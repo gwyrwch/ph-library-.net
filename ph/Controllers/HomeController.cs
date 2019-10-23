@@ -69,13 +69,18 @@ namespace ph.Controllers
         public async Task<IActionResult> CreatePost(CreatePostViewModel newPost)
         {
             var path = "";
-            newPost.Post.User = _userManager.Users.First(user => user.UserName == newPost.Username);
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+            newPost.Post.User = currentUser;
             // todo : right image path of the post
+            
+            var postsAmount = db.Posts.Count(post => post.UserId == currentUser.Id);
             if (newPost.PostImage != null)
             {
                 var ext = newPost.PostImage.FileName.Split('.').Last();
                 //todo: generate path))0)
-                path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot") + "/images/posts/" + newPost.Post.User.UserName + "3" + "." + ext;
+                path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot") + 
+                       "/images/posts/" + newPost.Username + postsAmount + "." + ext;
+                
                 using (var fs = new FileStream(path, FileMode.Create))
                 {
                     await newPost.PostImage.CopyToAsync(fs);
@@ -84,8 +89,6 @@ namespace ph.Controllers
 
             newPost.Post.ImagePath = path;
             var petsOnPostIds = newPost.SelectedPets.Split(',');
-
-
             for (int i = 0; i < petsOnPostIds.Length; i++)
             {
                 newPost.Post.PetsToPosts.Add(new PetToPost()
@@ -98,8 +101,8 @@ namespace ph.Controllers
                 });
             }
             newPost.Post.PublicationTime  = DateTime.Now;
-            db.Posts.Add(newPost.Post);
 
+            db.Posts.Add(newPost.Post);
             db.SaveChanges();
 
             return Redirect("CreatePost");

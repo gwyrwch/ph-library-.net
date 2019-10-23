@@ -59,7 +59,7 @@ namespace ph.Components
 
             var filteredPosts = postsToFeed
                 .Where(post => type == null || (uint) post.Post.Type == type)
-                .OrderBy(post => post.Post.PublicationTime);
+                .OrderByDescending(post => post.Post.PublicationTime);
 
             return filteredPosts.ToList();
         }
