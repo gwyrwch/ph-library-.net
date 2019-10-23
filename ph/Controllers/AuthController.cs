@@ -179,11 +179,11 @@ namespace ph.Controllers
             {
                 Console.WriteLine("pet added");
             }
-            else Redirect("Login");
+            else Redirect("CreatePet");
             
             db.SaveChanges();
 
-            return Redirect("CreateUser");
+            return Redirect("Login");
         }
     }
 }

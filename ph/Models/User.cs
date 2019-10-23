@@ -55,5 +55,6 @@ namespace ph.Models
 
         public ICollection<Pet> Pets { get; set; }
         public ICollection<Post> Posts { get; set; }
+        public ICollection<Like> Likes { get; set; }
     }
 }

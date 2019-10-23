@@ -1,3 +1,4 @@
+using System.Reflection.Metadata;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using ph.Models;
@@ -9,6 +10,8 @@ namespace ph.Data
         public DbSet<Pet> Pets { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<PetToPost> PetsToPosts { get; set; }
+        
+        public DbSet<Like> Likes { get; set; }
 
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
@@ -43,9 +46,18 @@ namespace ph.Data
                 .HasOne<Post>(sc => sc.Post)
                 .WithMany(s => s.PetsToPosts)
                 .HasForeignKey(sc => sc.PostId);
+            
+            modelBuilder.Entity<Like>().HasKey(pp => new {pp.UserId, pp.PostId});
 
+            modelBuilder.Entity<Like>()
+                .HasOne<User>(sc => sc.User)
+                .WithMany(s => s.Likes)
+                .HasForeignKey(sc => sc.UserId);
+            
+            modelBuilder.Entity<Like>()
+                .HasOne<Post>(sc => sc.Post)
+                .WithMany(s => s.Likes)
+                .HasForeignKey(sc => sc.PostId);
         }
-
-       
     }
 }

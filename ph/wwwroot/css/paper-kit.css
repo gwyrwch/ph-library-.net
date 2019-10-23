@@ -8417,3 +8417,9 @@ h6,
   border-color: rgba(240, 109, 104, 0.45);
   box-shadow: none;
 }
+
+
+.nav-btn {
+  background: transparent; !important;
+  border-color: transparent; !important;
+}

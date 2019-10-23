@@ -44,6 +44,7 @@ namespace ph.Models
 //        public User Pet { get; set; }
 
         public ICollection<PetToPost> PetsToPosts { get; set; }
+        public ICollection<Like> Likes { get; set; }
     }
         
 }

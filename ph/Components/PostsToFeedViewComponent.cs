@@ -21,18 +21,19 @@ namespace ph.Components
             _userManager = userManager;
         }
         
-        public IViewComponentResult Invoke(
+        public async Task<IViewComponentResult> InvokeAsync(
             uint? type = null)
         {
-            var items = GetItemsAsync(type);
+            var items = await GetItemsAsync(type);
 
             return View(items);
         }
-        private List<PostToFeed> GetItemsAsync(uint? type)
+        private async Task<List<PostToFeed>> GetItemsAsync(uint? type)
         {
             var posts = db.Posts.ToImmutableList();
             var postsToFeed = new List<PostToFeed>(posts.Count);
             var users = _userManager.Users.ToList();
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
             
             foreach (var post in posts)
             {
@@ -45,7 +46,8 @@ namespace ph.Components
                 {
                     Post = post, 
                     UserName = author.UserName,
-                    UserProfileImage = newUserImgPath
+                    UserProfileImage = newUserImgPath,
+                    Liked = db.Likes.Count(like => like.UserId == currentUser.Id && like.PostId == post.Id) > 0
                 });
             }
 

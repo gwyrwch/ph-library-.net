@@ -13,7 +13,10 @@
          foreach (var user in Model)
          {
              <h4>@user.Name @user.Surname @user.UserName</h4>
-             <li><a asp-area="" asp-controller="Admin" asp-action="DeleteUser" >delete user</a></li>
+             <button class="btn btn-round my-auto mx-auto" 
+                     onclick="location.href='@Url.Action("DeleteUser", "Admin", new {userId=user.Id})'">
+                             <i class="fa fa-heart"></i>delete user
+                           </button>
          }
      }
 </head>

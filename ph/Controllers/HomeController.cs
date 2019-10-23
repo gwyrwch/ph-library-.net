@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using ph.Data;
 using ph.Models;
 
@@ -18,9 +19,11 @@ namespace ph.Controllers
     {
         private ApplicationDbContext db;
         private UserManager<User> _userManager = null;
+        private SignInManager<User> _signInManager = null;
 
         public HomeController(ApplicationDbContext _context,
-            UserManager<User> userManager)
+            UserManager<User> userManager, 
+            SignInManager<User> signInManager)
         {
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
             optionsBuilder
@@ -29,8 +32,10 @@ namespace ph.Controllers
             db.Pets.Load();
             db.Posts.Load();
             db.PetsToPosts.Load();
+            db.Likes.Load();
                 
             _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         public IActionResult Index()
@@ -44,11 +49,7 @@ namespace ph.Controllers
             
             ViewBag.Types = l;
 
-            int model;
-            if (type != null)
-                model = (int) type;
-            else model = -1;
-                
+            int model = type != null ? (int)type : -1; 
             return View(model);
         }
         public async Task<IActionResult> CreatePost()
@@ -59,7 +60,6 @@ namespace ph.Controllers
             var l = Enum.GetNames(typeof(PostType)).ToList();
             ViewBag.Types = l;
             
-            // todo: hold pets in viewbag??) because it maybe doesn't work (pass null to post request)
             post.Pets = db.Pets.Where(pet => pet.UserId == currentUser.Id).ToImmutableList();
             
             return View(post);
@@ -128,11 +128,48 @@ namespace ph.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-        
+
         public async Task<IActionResult> Settings()
         {
             var currentUser = await _userManager.GetUserAsync(HttpContext.User);
             return View(currentUser);
         }
+
+        public async Task<IActionResult> LikeEvent(string postId)
+        {
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+
+
+            var oldLike = db.Likes.FirstOr(l => l.PostId == postId && l.UserId == currentUser.Id, null);
+            if (oldLike != null)
+            {
+                db.Likes.Remove(oldLike);
+            }
+            else
+            {
+                var like = new Like
+                {
+                    Post = db.Posts.First(post => post.Id == postId),
+                    PostId = postId,
+                    User = currentUser,
+                    UserId = currentUser.Id
+                };               
+                db.Likes.Add(like);    
+            }
+            
+            db.SaveChanges();
+            return Json(new{});
+        }
+        
+  
+        
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Login", "Auth");
+        }
+        
+        
     }
 }

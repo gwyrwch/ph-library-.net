@@ -123,6 +123,19 @@ namespace ph.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("ph.Models.Like", b =>
+                {
+                    b.Property<string>("UserId");
+
+                    b.Property<string>("PostId");
+
+                    b.HasKey("UserId", "PostId");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("Likes");
+                });
+
             modelBuilder.Entity("ph.Models.Pet", b =>
                 {
                     b.Property<string>("Id")
@@ -286,6 +299,19 @@ namespace ph.Migrations
                 {
                     b.HasOne("ph.Models.User")
                         .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ph.Models.Like", b =>
+                {
+                    b.HasOne("ph.Models.Post", "Post")
+                        .WithMany("Likes")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("ph.Models.User", "User")
+                        .WithMany("Likes")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
