@@ -18,8 +18,8 @@ namespace ph.Controllers
     public class HomeController : Controller
     {
         private ApplicationDbContext db;
-        private UserManager<User> _userManager = null;
-        private SignInManager<User> _signInManager = null;
+        private UserManager<User> _userManager;
+        private SignInManager<User> _signInManager;
 
         public HomeController(ApplicationDbContext _context,
             UserManager<User> userManager, 
@@ -162,13 +162,12 @@ namespace ph.Controllers
                 if (!(_userManager.Users.Count(u => u.UserName == userEdit.User.UserName) > 0))
                     currentUser.UserName = userEdit.User.UserName;
             }
-            
-            var path = "";
+
             if (userEdit.ProfileImage != null)
             {
                 var ext = userEdit.ProfileImage.FileName.Split('.').Last();
                 // bug: delete old images (because can be different extensions) and there will be images like gwyrwch.jpg gwyrwch.png and so on
-                path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot") + "/images/users/" + currentUser.UserName + "." + ext;
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot") + "/images/users/" + currentUser.UserName + "." + ext;
                 using (var fs = new FileStream(path, FileMode.Create))
                 {
                     await userEdit.ProfileImage.CopyToAsync(fs);
@@ -187,8 +186,7 @@ namespace ph.Controllers
         public async Task<IActionResult> LikeEvent(string postId)
         {
             var currentUser = await _userManager.GetUserAsync(HttpContext.User);
-
-
+            
             var oldLike = db.Likes.FirstOr(l => l.PostId == postId && l.UserId == currentUser.Id, null);
             if (oldLike != null)
             {
@@ -209,16 +207,12 @@ namespace ph.Controllers
             db.SaveChanges();
             return Json(new{});
         }
-        
-  
-        
+
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Login", "Auth");
         }
-        
-        
     }
 }

@@ -2480,7 +2480,7 @@ textarea.form-control {
   cursor: pointer;
   border-radius: 6px;
   top: 0;
-  background-color: #AAA7A4;
+  background-color: #b1c446;
   -webkit-transition: opacity 0.3s linear;
   -moz-transition: opacity 0.3s linear;
   -o-transition: opacity 0.3s linear;
@@ -6538,7 +6538,7 @@ License - nucleoapp.com/license/
 }
 
 .card-register .btn {
-  margin-top: 30px;
+  margin-top: 10px;
 }
 
 .card-register .forgot {
@@ -8423,3 +8423,11 @@ h6,
   background: transparent; !important;
   border-color: transparent; !important;
 }
+
+
+@media (min-width: 768px) {
+  .col-md-10 {
+    -ms-flex: 0 0 83.333333%;
+    flex: 0 0 83.333333%;
+    max-width: 100% !important;
+  }}

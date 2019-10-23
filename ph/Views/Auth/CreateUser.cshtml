@@ -104,7 +104,7 @@
             <div class="form-check">
               <label class="form-check-label">
                 <input class="form-check-input" type="checkbox" 
-                  onchange="document.getElementById('signUpBtn').disabled = !this.checked;"
+                       onchange="document.getElementById('signUpBtn').disabled = !this.checked;"
                 >
                 I have at least one pet
                 <span class="form-check-sign">
@@ -114,58 +114,12 @@
             </div>
             <div class="form-group text-center">
               <div class="col-md-offset-2 col-md-10">
-                <input type="submit" disabled value="Save" id="signUpBtn" class="btn btn-post-type"
-                />
+                <input type="submit" disabled value="Save" id="signUpBtn" class="btn btn-post-type"/>
               </div>
             </div>
             @* <button type="submit" class="btn btn-post-type">Sign up</button> *@
           </form>
-          
-          @* <form action="/Home/CreateUser" method="post"> *@
-          @*     <div class="form-horizontal"> *@
-          @*         <h4>New user</h4> *@
-          @*         <hr /> *@
-          @*         <div class="text-danger"></div> *@
-          @*         <div class="form-group"> *@
-          @*             <label class="control-label col-md-2" for="Username">Username: </label> *@
-          @*             <div class="col-md-10"> *@
-          @*                 <input class="form-control" type="text" id="Username" name="Username" value="keks" /> *@
-          @*                 <span class="text-danger field-validation-valid" data-valmsg-for="Username" data-valmsg-replace="true"></span> *@
-          @*             </div> *@
-          @*         </div> *@
-          @*         <div class="form-group"> *@
-          @*             <label class="control-label col-md-2" for="Name">Name: </label> *@
-          @*             <div class="col-md-10"> *@
-          @*                 <input class="form-control" type="text" id="Name" name="Name" value="Sasha" /> *@
-          @*                 <span class="text-danger field-validation-valid" data-valmsg-for="Name" data-valmsg-replace="true"></span> *@
-          @*             </div> *@
-          @*         </div> *@
-          @*         <div class="form-group"> *@
-          @*             <label class="control-label col-md-2" for="Surname">Surname: </label> *@
-          @*             <div class="col-md-10"> *@
-          @*                 <input class="form-control" type="text" id="Surname" name="Surname" value="Shlyapik" /> *@
-          @*                 <span class="text-danger field-validation-valid" data-valmsg-for="Surname" data-valmsg-replace="true"></span> *@
-          @*             </div> *@
-          @*         </div> *@
-          @*         <div class="form-group"> *@
-          @*             <label class="control-label col-md-2" for="Email">Email: </label> *@
-          @*             <div class="col-md-10"> *@
-          @*                 <input class="form-control" type="text" id="Email" name="Email" value="shlyapik@gmail.com" /> *@
-          @*                 <span class="text-danger field-validation-valid" data-valmsg-for="Email" data-valmsg-replace="true"></span> *@
-          @*             </div> *@
-          @*         </div> *@
-          @*         <div class="form-group"> *@
-          @*             <label asp-for="Birth" class="control-label"></label> *@
-          @*             <input asp-for="Birth" class="form-control" /> *@
-          @*             <span asp-validation-for="Birth" class="text-danger"></span> *@
-          @*         </div> *@
-          @*         <div class="form-group"> *@
-          @*             <div class="col-md-offset-2 col-md-10"> *@
-          @*                 <input type="submit" value="Save" class="btn btn-default" /> *@
-          @*             </div> *@
-          @*         </div> *@
-          @*     </div> *@
-          @* </form> *@
+          <a href="@Url.Action("Login", "Auth")" class="btn btn-link btn-danger btn-registration">Already have an account?</a>
         </div>
       </div>
     </div>

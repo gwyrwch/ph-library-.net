@@ -35,6 +35,12 @@ namespace ph.Components
             var users = _userManager.Users.ToList();
             var currentUser = await _userManager.GetUserAsync(HttpContext.User);
             
+            //todo: show amount of likes
+            //todo: opportunity to switch between login and registration
+            // todo: refactor remember me button 
+            //todo: add onclick to post in profile (show card of the post)
+            // todo: save images somewhere else not local
+
             foreach (var post in posts)
             {
                 var author = users.First(user => user.Id == post.User.Id);

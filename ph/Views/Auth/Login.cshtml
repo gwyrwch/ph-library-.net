@@ -39,14 +39,27 @@
               <label asp-for="UserName">Password</label>
               <input asp-for="Password" type="password" class="form-control" id="Password" name="Password" placeholder="Password">
               <span class="text-danger field-validation-valid" data-valmsg-for="Password" data-valmsg-replace="true"></span>
-              
-              <label asp-for="RememberMe"></label><br />
-              <input asp-for="RememberMe" />
-              
+              <div class="row justify-content-start align-content-start">
+                <div class="col-lg-6">
+                  <label asp-for="RememberMe" >Remember me</label>
+                </div>
+                <div class="col-lg-2">
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input asp-for="RememberMe" class="form-check-input" checked type="checkbox"/>
+                    <span class="form-check-sign"></span>
+                  </label>
+                </div>
+                </div>
+              </div>
               <button class="btn btn-danger btn-registration btn-block btn-round" type="submit">Login</button>
             </form>
             <div class="forgot">
-              <a href="#" class="btn btn-link btn-danger btn-registration">Forgot password?</a>
+              @* todo: change password though email*@
+              @* <a href="#" class="btn btn-link btn-danger btn-registration">Forgot password?</a> *@
+              <a href="@Url.Action("CreateUser", "Auth")" class="btn btn-link btn-danger btn-registration">
+                Don't have an acount?
+              </a>
             </div>
           </div>
         </div>
