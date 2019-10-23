@@ -18,4 +18,10 @@
     <Folder Include="wwwroot\images\users" />
   </ItemGroup>
 
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="tmpdb\pets.json" />
+    <_ContentIncludedByDefault Remove="tmpdb\posts.json" />
+    <_ContentIncludedByDefault Remove="tmpdb\users.json" />
+  </ItemGroup>
+
 </Project>
