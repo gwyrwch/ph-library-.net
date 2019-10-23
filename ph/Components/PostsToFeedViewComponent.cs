@@ -13,7 +13,7 @@ namespace ph.Components
     public class PostsToFeedViewComponent : ViewComponent
     {
         private readonly ApplicationDbContext db;
-        private UserManager<User> _userManager = null;
+        private UserManager<User> _userManager;
 
         public PostsToFeedViewComponent(ApplicationDbContext context, UserManager<User> userManager)
         {

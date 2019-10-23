@@ -135,7 +135,53 @@ namespace ph.Controllers
         public async Task<IActionResult> Settings()
         {
             var currentUser = await _userManager.GetUserAsync(HttpContext.User);
-            return View(currentUser);
+            return View(new SignUpViewModel() {User = currentUser});
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> Settings(SignUpViewModel userEdit)
+        {
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+            
+            
+            if (!string.IsNullOrEmpty(userEdit.User.Name))
+            {
+                currentUser.Name = userEdit.User.Name;
+            }
+            if (!string.IsNullOrEmpty(userEdit.User.Surname))
+            {
+                currentUser.Surname = userEdit.User.Surname;
+            }
+            if (!string.IsNullOrEmpty(userEdit.User.Email))
+            {
+                currentUser.Email = userEdit.User.Email;
+            }
+            if (!string.IsNullOrEmpty(userEdit.User.UserName))
+            {
+                // todo: when change username you need to rename all post image paths 
+                if (!(_userManager.Users.Count(u => u.UserName == userEdit.User.UserName) > 0))
+                    currentUser.UserName = userEdit.User.UserName;
+            }
+            
+            var path = "";
+            if (userEdit.ProfileImage != null)
+            {
+                var ext = userEdit.ProfileImage.FileName.Split('.').Last();
+                // bug: delete old images (because can be different extensions) and there will be images like gwyrwch.jpg gwyrwch.png and so on
+                path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot") + "/images/users/" + currentUser.UserName + "." + ext;
+                using (var fs = new FileStream(path, FileMode.Create))
+                {
+                    await userEdit.ProfileImage.CopyToAsync(fs);
+                }
+                currentUser.ProfileImagePath = path;
+            }
+
+            var result = await _userManager.UpdateAsync(currentUser);
+
+            if (result.Succeeded)
+                return Redirect("Profile");
+
+            return View(userEdit);
         }
 
         public async Task<IActionResult> LikeEvent(string postId)

@@ -37,32 +37,6 @@ namespace ph.Controllers
             return Redirect("Auth/Login");
         }
 
-        public async Task<IActionResult> Registration()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        // todo: add checking password
-        public async Task<IActionResult> Registration([Bind("UserName, Email")]User user)
-        {
-            var alreadyExists = TmpRAMDB.Users().Count(u => u.Email == user.Email || u.UserName == user.UserName);
-            if (alreadyExists != 0)
-            {
-                return Redirect("/Home/Feed");
-            }
-            
-
-            if (user.Email != string.Empty && user.UserName != String.Empty)
-            {
-//                user.Id = (user.UserName + user.Email).GetHashCode().ToString();
-                TmpRAMDB.Users().Add(user);
-                return Redirect("/Home/Feed");
-            }
-
-            return Redirect("/Home/Feed");
-        }
-
         public IActionResult Login(string returnUrl = null)
         {
             return View(new LoginViewModel { ReturnUrl = returnUrl });
@@ -78,7 +52,6 @@ namespace ph.Controllers
                     await _signInManager.PasswordSignInAsync(user.UserName, user.Password, user.RememberMe, false);
                 if (result.Succeeded)
                 {
-                    // проверяем, принадлежит ли URL приложению
                     if (!string.IsNullOrEmpty(user.ReturnUrl) && Url.IsLocalUrl(user.ReturnUrl))
                     {
                         return Redirect(user.ReturnUrl);
@@ -90,7 +63,6 @@ namespace ph.Controllers
             }
             return View(user);
         }
-        
         
         public async Task<IActionResult> CreateUser()
         {
@@ -116,8 +88,6 @@ namespace ph.Controllers
          
             if (result.Succeeded)
             {
-                for (int i = 0; i < 10; i++)
-                    Console.WriteLine("ok");
                 return RedirectToAction("CreatePet", new { username = newUser.User.UserName });
             }
 

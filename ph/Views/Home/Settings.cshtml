@@ -1,5 +1,5 @@
 @using Microsoft.AspNetCore.Rewrite.Internal
-@model User
+@model SignUpViewModel
 
 @{
     Layout = null;
@@ -15,8 +15,7 @@
   @* <link rel="icon" type="image/png" href="../assets/img//favicon.png"> *@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
-      Settings 
-      @* todo: add username *@
+      Settings - @Model.User.UserName
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
@@ -32,37 +31,37 @@
   @Html.Partial("_Navbar")
 <div class="section profile-content">
   <div class="container">
-    <form action="/Auth/CreateUser" method="post" enctype="multipart/form-data">
+    <form action="/Home/Settings" method="post" enctype="multipart/form-data">
       <div class="form-row">
         <div class="text-danger"></div>
         <div class="form-group col-md-6">
           <label for="Name">Name</label>
-          <input class="form-control" type="text" id="Name" name="Name" placeholder="Rita"/>
+          <input class="form-control" type="text" id="Name" name="User.Name" placeholder="@Model.User.Name"/>
           <span class="text-danger field-validation-valid" data-valmsg-for="Name" data-valmsg-replace="true"></span>
         </div>
         <div class="form-group col-md-6">
           <label for="Surname">Surname</label>
-          <input class="form-control" type="text" id="Surname" name="Surname" placeholder="Gagarina"/>
+          <input class="form-control" type="text" id="Surname" name="User.Surname" placeholder="@Model.User.Surname"/>
           <span class="text-danger field-validation-valid" data-valmsg-for="Surname" data-valmsg-replace="true"></span>
         </div>
       </div>
       <div class="form-row">
         <div class="form-group col-md-6">
           <label for="UserName">Username</label>
-          <input type="text" class="form-control" id="UserName" name="UserName" placeholder="gwyrwch">
+          <input type="text" class="form-control" id="UserName" name="User.UserName" placeholder="@Model.User.UserName">
           <span class="text-danger field-validation-valid" data-valmsg-for="UserName" data-valmsg-replace="true"></span>
         </div>
         <div class="form-group col-md-6">
           <label for="Email">Email</label>
-          <input class="form-control" type="text" id="Email" name="Email" placeholder="gwyrwch@gmail.com" />
+          <input class="form-control" type="text" id="Email" name="User.Email" placeholder="@Model.User.Email" />
           <span class="text-danger field-validation-valid" data-valmsg-for="Email" data-valmsg-replace="true"></span>
         </div>              
       </div>
-      <div class="form-group">
-        <label asp-for="Birth" class="control-label"></label>
-        <input asp-for="Birth" class="form-control" />
-        <span asp-validation-for="Birth" class="text-danger"></span>
-      </div>
+      @* <div class="form-group"> *@
+      @*   <label asp-for="User.Birth" class="control-label"></label> *@
+      @*   <input asp-for="User.Birth" class="form-control" /> *@
+      @*   <span asp-validation-for="User.Birth" class="text-danger"></span> *@
+      @* </div> *@
       <div class="form-group">
         <div class="btn file-btn">Your photo</div><br/>
         <input type="file" id="input-file" name="ProfileImage"/>
@@ -70,7 +69,7 @@
       </div>
       <div class="form-group">
         <input type="button" value="Add new pet" class="btn btn-post-type" 
-          onclick="location.href='@Url.Action("CreatePet", "Auth", new {username=Model.UserName})'"
+          onclick="location.href='@Url.Action("CreatePet", "Auth", new {username=Model.User.UserName})'"
         />
       </div>
       <div class="form-group text-center">
