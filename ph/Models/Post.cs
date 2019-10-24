@@ -34,14 +34,6 @@ namespace ph.Models
         public PostType Type { get; set; }
         
         public DateTime PublicationTime { get; set; }
-        
-        // todo: make class Pet2Post
-//        [Required]
-//        public string PetId { get; set; }
-//        
-//        [Required]
-//        [ForeignKey("PetId")]
-//        public User Pet { get; set; }
 
         public ICollection<PetToPost> PetsToPosts { get; set; }
         public ICollection<Like> Likes { get; set; }

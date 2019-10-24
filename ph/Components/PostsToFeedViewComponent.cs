@@ -36,8 +36,6 @@ namespace ph.Components
             var currentUser = await _userManager.GetUserAsync(HttpContext.User);
             
             //todo: show amount of likes
-            //todo: opportunity to switch between login and registration
-            // todo: refactor remember me button 
             //todo: add onclick to post in profile (show card of the post)
             // todo: save images somewhere else not local
 

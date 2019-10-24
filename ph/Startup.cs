@@ -65,6 +65,7 @@ namespace ph
 //                options.User.RequireUniqueEmail = false;
             });
             
+            
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             

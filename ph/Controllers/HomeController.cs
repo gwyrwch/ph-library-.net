@@ -71,13 +71,11 @@ namespace ph.Controllers
             var path = "";
             var currentUser = await _userManager.GetUserAsync(HttpContext.User);
             newPost.Post.User = currentUser;
-            // todo : right image path of the post
             
             var postsAmount = db.Posts.Count(post => post.UserId == currentUser.Id);
             if (newPost.PostImage != null)
             {
                 var ext = newPost.PostImage.FileName.Split('.').Last();
-                //todo: generate path))0)
                 path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot") + 
                        "/images/posts/" + newPost.Username + postsAmount + "." + ext;
                 
