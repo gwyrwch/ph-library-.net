@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.Routing.Constraints;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ph.Data;
 using ph.Models;
+using ph.RouteConstraints;
 
 namespace ph
 {
@@ -50,7 +50,6 @@ namespace ph
             });
             
             services.AddIdentity<User, IdentityRole>()
-                .AddDefaultUI()
                 .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             
@@ -64,8 +63,15 @@ namespace ph
                 // User settings.
 //                options.User.RequireUniqueEmail = false;
             });
-            
-            
+            services.ConfigureApplicationCookie(options =>
+            {
+                // Cookie settings
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+
+                options.LoginPath = "/Auth/Login";
+                options.SlidingExpiration = true;
+            });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             
@@ -93,11 +99,72 @@ namespace ph
             
             
             dbInitializer.Initialize();
+            
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Auth}/{action=Index}/{id?}");
+                    "createPet",
+                    "Auth/CreatePet",
+                    new {controller = "Auth", action = "CreatePet"}
+                );
+
+                routes.MapRoute(
+                    "createUser",
+                    "Auth/CreateUser",
+                    new {controller = "Auth", action = "CreateUser"}
+                );
+                
+                routes.MapRoute(
+                    "feed",
+                    "Home/Feed/{type:int}",
+                    new {controller = "Home", action = "Feed", type = -1},
+                     new
+                    {
+                        type = new CompositeRouteConstraint(new IRouteConstraint[] {
+                                new RangeRouteConstraint(-1, 6),
+                                new IntRouteConstraint()
+                        })
+                    });
+                
+                routes.MapRoute(
+                    "likeEvent",
+                    "Home/LikeEvent/{postId}",
+                    new {controller = "Home", action = "LikeEvent"}
+                );
+
+                routes.MapRoute(
+                    "home",
+                    "Home/{action}",
+                    new {controller = "Home"},
+                    new
+                    {
+                        action = new ActionConstraint
+                        {
+                            ActionsPossible = new List<string> {"profile", "settings", "createpost", "index", "logout"}
+                        }
+                    }
+                );
+
+                routes.MapRoute(
+                    "default",
+                    "{controller}/{action}",
+                    new{controller="Auth", action="Login"},
+                    new{controller="Auth", action="Login"}
+                );
+                
+                
+//                routes.MapRoute(
+//                    "registration",
+//                    "{controller=Auth}/{action=CreateUser}");
+////                
+                
+//                
+//                routes.MapRoute(
+//                    "Profile",
+//                    "{controller=Home}/{action=Profile}/{id?}");
+//                //todo: add constrains with pet id
+//
+                //todo: add constrains to param id == posttype
             });
         }
     }

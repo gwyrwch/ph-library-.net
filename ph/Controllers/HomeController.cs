@@ -40,17 +40,16 @@ namespace ph.Controllers
 
         public IActionResult Index()
         {
-            return Redirect("Home/Profile");
+            return Redirect("Profile");
         }
 
-        public async Task<IActionResult> Feed(uint? type = null, uint? petId = null)
+        public  IActionResult Feed(int type)
         {
             var l = Enum.GetNames(typeof(PostType)).ToList();
             
             ViewBag.Types = l;
-
-            int model = type != null ? (int)type : -1; 
-            return View(model);
+            
+            return View(type);
         }
         public async Task<IActionResult> CreatePost()
         {
@@ -121,13 +120,6 @@ namespace ph.Controllers
             var profile = new ProfileViewModel {Pets = pets, User = currentUser, PetIdToShow = petId};
             
             return View(profile);
-        }
-        
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
         public async Task<IActionResult> Settings()

@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -17,7 +18,7 @@ namespace ph.Controllers
         private SignInManager<User> _signInManager = null;
 
         public AuthController(ApplicationDbContext _context,
-            UserManager<User> userManager, 
+            UserManager<User> userManager,
             SignInManager<User> signInManager)
         {
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
@@ -25,21 +26,15 @@ namespace ph.Controllers
                 .UseSqlite("Data Source=app.db");
             db = _context;
             db.Pets.Load();
-                
+
             _userManager = userManager;
-            
+
             _signInManager = signInManager;
         }
 
-        // GET
-        public IActionResult Index()
+        public IActionResult Login()
         {
-            return Redirect("Auth/Login");
-        }
-
-        public IActionResult Login(string returnUrl = null)
-        {
-            return View(new LoginViewModel { ReturnUrl = returnUrl });
+            return View(new LoginViewModel { ReturnUrl = null });
         }
 
         [HttpPost]
@@ -57,14 +52,14 @@ namespace ph.Controllers
                         return Redirect(user.ReturnUrl);
                     }
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Feed", "Home", new {type=-1});
                 }
                 ModelState.AddModelError("", "Invalid username or password");
             }
             return View(user);
         }
         
-        public async Task<IActionResult> CreateUser()
+        public  IActionResult CreateUser()
         {
             return View();
         }
@@ -88,7 +83,8 @@ namespace ph.Controllers
          
             if (result.Succeeded)
             {
-                return RedirectToAction("CreatePet", new { username = newUser.User.UserName });
+                await _signInManager.PasswordSignInAsync(newUser.User.UserName, newUser.Password, false, false);
+                return RedirectToAction("CreatePet");
             }
 
             for (int i = 0; i < 10; i++)
@@ -103,21 +99,10 @@ namespace ph.Controllers
             return View(newUser);
         }
         
-        public async Task<IActionResult> CreatePet(string username)
-        { 
-                //todo: this is how delete of the user is working now            
-//            var id = "a44c78b4-4477-4a84-badd-43900512487d";
-//
-//            var users = _userManager.Users;
-//            var result = await _userManager.DeleteAsync(users.First(user => user.Id == id));
-//
-//            if (result.Succeeded)
-//            {
-//                for (int i = 0; i < 10; i++)
-//                    Console.WriteLine("ok");
-//                return RedirectToAction("CreatePet", new { username = "gwyrwch" });
-//            }
-            var vm = new SignUpPetViewModel {Username = username};
+        [Authorize]
+        public IActionResult CreatePet()
+        {
+            var vm = new SignUpPetViewModel {Username = _userManager.GetUserAsync(HttpContext.User).Result.UserName};
             return View(vm);
         }
 

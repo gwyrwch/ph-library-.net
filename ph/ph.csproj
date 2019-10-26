@@ -9,6 +9,9 @@
       <Version>2.2.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Routing">
+      <Version>2.2.2</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.2.2" />
   </ItemGroup>
 

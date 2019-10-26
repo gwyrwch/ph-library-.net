@@ -29,7 +29,8 @@
 </head>
 
 <body class="profile-page sidebar-collapse">
-@Html.Partial("_Navbar")
+@* @Html.Partial("_Navbar") *@
+<partial name="_Navbar"/>
 <div class="section profile-content">
   <div class="container">
     <div class="container-fluid post-type-container">
@@ -101,8 +102,9 @@
     </div>
   </div>
 </div>
-@Html.Partial("_Footer")
-  
+@* @Html.Partial("_Footer") *@
+<partial name="_Footer"/>
+
 <!--   Core JS Files   -->
 <script src="~/js/core/jquery.min.js" type="text/javascript"></script>
 <script src="~/js/core/popper.min.js" type="text/javascript"></script>
