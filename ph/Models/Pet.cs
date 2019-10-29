@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Newtonsoft.Json;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace ph.Models
@@ -35,6 +36,7 @@ namespace ph.Models
         
         public string ProfileImagePath { get; set; }
         
+        [JsonIgnore]
         public ICollection<PetToPost> PetsToPosts { get; set; }
         
     }

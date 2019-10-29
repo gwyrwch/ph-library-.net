@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Identity;
+using Newtonsoft.Json;
 
 namespace ph.Models
 {
@@ -12,6 +13,7 @@ namespace ph.Models
         {
             Posts = new List<Post>();
             Pets = new List<Pet>();
+            Likes = new List<Like>();
         }
         
         
@@ -53,8 +55,11 @@ namespace ph.Models
         }
 
 
+        [JsonIgnore]
         public ICollection<Pet> Pets { get; set; }
+        [JsonIgnore]
         public ICollection<Post> Posts { get; set; }
+        [JsonIgnore]
         public ICollection<Like> Likes { get; set; }
     }
 }

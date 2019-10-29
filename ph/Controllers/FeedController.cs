@@ -3,40 +3,51 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ph.Data;
 using ph.Models;
 
-namespace ph.Components
+namespace ph.Controllers
 {
-    public class PostsToFeedViewComponent : ViewComponent
+    [ApiController]
+    [Authorize]
+    [Route("api/[controller]")]
+    public class FeedController : ControllerBase
     {
-        private readonly ApplicationDbContext db;
+        private ApplicationDbContext db;
         private UserManager<User> _userManager;
-
-        public PostsToFeedViewComponent(ApplicationDbContext context, UserManager<User> userManager)
-        {
-            db = context;
-            _userManager = userManager;
-        }
+        private SignInManager<User> _signInManager;
         
-        public async Task<IViewComponentResult> InvokeAsync(
-            uint? type = null)
+        public FeedController(ApplicationDbContext _context,
+            UserManager<User> userManager, 
+            SignInManager<User> signInManager)
         {
-            var items = await GetItemsAsync(type);
-
-            return View(items);
+            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
+            optionsBuilder
+                .UseSqlite("Data Source=app.db");
+            db = _context;
+            db.Pets.Load();
+            db.Posts.Load();
+            db.PetsToPosts.Load();
+            db.Likes.Load();
+            
+                
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
-        private async Task<List<PostToFeed>> GetItemsAsync(uint? type)
+
+        public async Task<IActionResult> Feed(int type)
         {
             var posts = db.Posts.ToImmutableList();
             var postsToFeed = new List<PostToFeed>(posts.Count);
             var users = _userManager.Users.ToList();
             var currentUser = await _userManager.GetUserAsync(HttpContext.User);
             
-            //todo: show amount of likes
-            //todo: add onclick to post in profile (show card of the post)
+            // todo: show amount of likes
+            // todo: add onclick to post in profile (show card of the post)
             // todo: save images somewhere else not local
 
             foreach (var post in posts)
@@ -62,10 +73,11 @@ namespace ph.Components
             }
 
             var filteredPosts = postsToFeed
-                .Where(post => type == null || (uint) post.Post.Type == type)
+                .Where(post => type == -1 || (uint) post.Post.Type == type)
                 .OrderByDescending(post => post.Post.PublicationTime);
 
-            return filteredPosts.ToList();
+            return Ok(filteredPosts.ToList());
         }
+        
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Antiforgery.Internal;
+using Newtonsoft.Json;
 
 namespace ph.Models
 {
@@ -35,7 +36,9 @@ namespace ph.Models
         
         public DateTime PublicationTime { get; set; }
 
+        [JsonIgnore]
         public ICollection<PetToPost> PetsToPosts { get; set; }
+        [JsonIgnore]
         public ICollection<Like> Likes { get; set; }
     }
         

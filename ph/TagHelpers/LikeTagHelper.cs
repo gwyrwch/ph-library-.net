@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace ph.TagHelpers
 {
+    // DEPRECATED, use createLike() from js
     public class LikeTagHelper : TagHelper
     {
         public bool Liked { get; set; }

@@ -42,7 +42,7 @@
           @for (var i = 0; i < postTypes.Count; i++)
           {
             <div class="col cust-grid-col">
-              <button class="btn btn-round btn-post-type my-auto mx-auto" onclick="location.href='@Url.Action("Feed", "Home", new {type=i})'">
+              <button class="btn btn-round btn-post-type my-auto mx-auto" id="@i">
                 <i class="fa fa-heart"></i>@postTypes[i]
               </button>
             </div>
@@ -50,17 +50,9 @@
         }
       </div>
     </div>
+    <div id="feedParent">
 
-    @{
-      if (Model != -1)
-      {
-        @await Component.InvokeAsync("PostsToFeed", new {type = (uint?) Model})
-      }
-      else
-      {
-        @await Component.InvokeAsync("PostsToFeed")
-      }
-    }
+    </div>
     
   </div>
 </div>
