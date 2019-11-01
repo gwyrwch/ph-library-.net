@@ -144,6 +144,16 @@ namespace ph
                         }
                     }
                 );
+                routes.MapRoute(
+                    "admin",
+                    "Admin/Index",
+                    new {controller = "Admin", action = "Index"}
+                );
+                routes.MapRoute(
+                    "admin",
+                    "Admin/DeleteUser",
+                    new {controller = "Admin", action = "DeleteUser"}
+                );
 
                 routes.MapRoute(
                     "default",
@@ -152,19 +162,6 @@ namespace ph
                     new{controller="Auth", action="Login"}
                 );
                 
-                
-//                routes.MapRoute(
-//                    "registration",
-//                    "{controller=Auth}/{action=CreateUser}");
-////                
-                
-//                
-//                routes.MapRoute(
-//                    "Profile",
-//                    "{controller=Home}/{action=Profile}/{id?}");
-//                //todo: add constrains with pet id
-//
-                //todo: add constrains to param id == posttype
             });
         }
     }

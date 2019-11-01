@@ -23,7 +23,7 @@ namespace ph.Models
         public string Name { get; set; }
 
         [RegularExpression(@"^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$", 
-            ErrorMessage = "Invalid name.")]
+            ErrorMessage = "Invalid surname.")]
         [PersonalData]
         public string Surname { get; set; }
 

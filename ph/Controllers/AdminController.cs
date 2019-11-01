@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -31,14 +30,15 @@ namespace ph.Controllers
         public async Task<IActionResult> DeleteUser(string userId)
         {
             var userToDelete = _userManager.Users.First(user => user.Id == userId);
+            
             var result = await _userManager.DeleteAsync(userToDelete);
+            Console.WriteLine("I AM ON ADMIN PAGE");
 
             if (!result.Succeeded)
             {
                 return Redirect("Index");
             }
 
-//            Console.WriteLine(System.IO.File.Exists(userToDelete.ProfileImagePath) ? "file exists" : "no such file");
             if (System.IO.File.Exists(userToDelete.ProfileImagePath))
             {
                 System.IO.File.Delete(userToDelete.ProfileImagePath);

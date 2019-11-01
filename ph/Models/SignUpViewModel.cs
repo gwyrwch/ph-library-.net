@@ -9,4 +9,8 @@ namespace ph.Models
         
         public IFormFile ProfileImage { get; set; }
     }
+
+    internal class ErrorMessage
+    {
+    }
 }

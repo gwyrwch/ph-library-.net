@@ -67,6 +67,9 @@ namespace ph.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateUser(SignUpViewModel newUser)
         {
+            if(!ModelState.IsValid)
+                return View(newUser);
+            
             var path = "";
             if (newUser.ProfileImage != null)
             {
@@ -79,6 +82,7 @@ namespace ph.Controllers
             }
 
             newUser.User.ProfileImagePath = path;
+
             var result = await _userManager.CreateAsync(newUser.User, newUser.Password);
          
             if (result.Succeeded)

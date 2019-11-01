@@ -43,43 +43,32 @@
             </a>
           </div>
           <form action="/Auth/CreateUser" method="post" enctype="multipart/form-data">
+          <div class="validation" asp-validation-summary="ModelOnly"></div>
             <div class="form-row">
               <div class="text-danger"></div>
               <div class="form-group col-md-6">
                 <label for="Name">Name</label>
                 <input class="form-control" type="text" id="Name" name="User.Name" placeholder="Rita"/>
-                <span class="text-danger field-validation-valid" data-valmsg-for="Name" data-valmsg-replace="true"></span>
+                <span asp-validation-for="User.Name" class="text-danger"></span>              
               </div>
               <div class="form-group col-md-6">
                 <label for="Surname">Surname</label>
                 <input class="form-control" type="text" id="Surname" name="User.Surname" placeholder="Gagarina"/>
-                <span class="text-danger field-validation-valid" data-valmsg-for="Surname" data-valmsg-replace="true"></span>
+                <span asp-validation-for="User.Surname" class="text-danger"></span>
               </div>
             </div>
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label for="UserName">Username</label>
                 <input type="text" class="form-control" id="UserName" name="User.UserName" placeholder="gwyrwch">
-                <span class="text-danger field-validation-valid" data-valmsg-for="UserName" data-valmsg-replace="true"></span>
+                <span asp-validation-for="User.UserName" class="text-danger"></span>
               </div>
               <div class="form-group col-md-6">
                 <label for="Email">Email</label>
                 <input class="form-control" type="text" id="Email" name="User.Email" placeholder="gwyrwch@gmail.com" />
-                <span class="text-danger field-validation-valid" data-valmsg-for="Email" data-valmsg-replace="true"></span>
+                <span asp-validation-for="User.Email" class="text-danger field-validation-valid" data-valmsg-for="Email" data-valmsg-replace="true"></span>
               </div>              
             </div>
-            <!-- input with datetimepicker -->
-            @* todo: this datetimepicker doesn't work :( *@
-            @* <div class="form-group"> *@
-            @*   <label for="Birth">Birthday</label> *@
-            @*   <div class="input-group date" id="Birth" name="Birth"> *@
-            @*     <input type="text" class="form-control" placeholder="25/07/1999"/> *@
-            @*     $1$ todo: icon doesn't work #1# *@
-            @*     $1$ <span class="input-group-addon"> #1# *@
-            @*     $1$   <span class="glyphicon glyphicon-time"></span> #1# *@
-            @*     $1$ </span> #1# *@
-            @*   </div> *@
-            @* </div> *@
             <div class="form-group">
               <label asp-for="User.Birth" class="control-label"></label>
               <input asp-for="User.Birth" class="form-control" />
