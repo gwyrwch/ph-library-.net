@@ -1,9 +1,12 @@
+@using Microsoft.AspNetCore.Mvc.Localization
 @model SignUpPetViewModel
 
 @{
   ViewBag.Title = "Registration";
   Layout = null;
 }
+
+@inject IViewLocalizer Localizer
 
 <!DOCTYPE html>
 
@@ -30,18 +33,18 @@
     <div class="row">
       <div class="col-lg-8 ml-auto mr-auto">
         <div class="card card-register">
-          <h3 class="title mx-auto">Now you need to register your pet</h3>
+          <h3 class="title mx-auto">@Localizer["Now you need to register your pet"]</h3>
           <form action="/Auth/CreatePet" method="post" enctype="multipart/form-data">
             <input type="hidden" asp-for="Username"/>
             <div class="form-row">
               <div class="text-danger"></div>
               <div class="form-group col-md-6">
-                <label for="Name">Name</label>
+                <label for="Name">@Localizer["Name"]</label>
                 <input class="form-control" type="text" id="Name" name="Pet.Name" placeholder="Sam"/>
                 <span class="text-danger field-validation-valid" data-valmsg-for="Name" data-valmsg-replace="true"></span>
               </div>
               <div class="form-group col-md-6">
-                <label for="Breed">Breed</label>
+                <label for="Breed">@Localizer["Breed"]</label>
                 <input class="form-control" type="text" id="Breed" name="Pet.Breed" placeholder="Spaniel"/>
                 <span class="text-danger field-validation-valid" data-valmsg-for="Breed" data-valmsg-replace="true"></span>
               </div>
@@ -51,7 +54,7 @@
               <span class="text-danger field-validation-valid" data-valmsg-for="Type" data-valmsg-replace="true"></span>
             </div>
             <div class="form-group col-md-6">
-              <div class="btn file-btn" id="choose-btn">Photo of your pet</div>
+              <div class="btn file-btn" id="choose-btn">@Localizer["Photo of your pet"]</div>
               <input type="file" id="input-file" name="ProfileImage"/>
               <span class="text-danger field-validation-valid" data-valmsg-for="ProfileImage" data-valmsg-replace="true"></span>
             </div>
@@ -59,7 +62,7 @@
             </div>
             <div class="form-group text-center">
               <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" id="signUpBtn" class="btn btn-post-type"/>
+                <input type="submit" value="@Localizer["Save"]" id="signUpBtn" class="btn btn-post-type"/>
               </div>
             </div>
           </form>

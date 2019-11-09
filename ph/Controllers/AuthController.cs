@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using ph.Data;
 using ph.Models;
 
@@ -16,10 +17,12 @@ namespace ph.Controllers
         private ApplicationDbContext db;
         private UserManager<User> _userManager = null;
         private SignInManager<User> _signInManager = null;
+        private readonly IStringLocalizer<AuthController> _localizer;
 
         public AuthController(ApplicationDbContext _context,
             UserManager<User> userManager,
-            SignInManager<User> signInManager)
+            SignInManager<User> signInManager,
+            IStringLocalizer<AuthController> localizer)
         {
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
             optionsBuilder
@@ -30,6 +33,7 @@ namespace ph.Controllers
             _userManager = userManager;
 
             _signInManager = signInManager;
+            _localizer = localizer;
         }
 
         public IActionResult Login()
