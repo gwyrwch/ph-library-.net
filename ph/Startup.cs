@@ -90,7 +90,10 @@ namespace ph
                 options.SupportedUICultures = supportedCultures;
             });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2).AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix);
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+                .AddDataAnnotationsLocalization();;
             
             services.AddScoped<IDatabaseInitializer, DatabaseInitializer>();
         }

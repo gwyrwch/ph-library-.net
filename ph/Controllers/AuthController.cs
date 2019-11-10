@@ -117,6 +117,9 @@ namespace ph.Controllers
         [HttpPost]
         public async Task<IActionResult> CreatePet(SignUpPetViewModel newPet)
         {
+            if(!ModelState.IsValid)
+                return View(newPet);
+            
             var path = "";
             if (newPet.ProfileImage != null)
             {

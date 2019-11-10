@@ -58,4 +58,8 @@
         <value>Уже есть аккаунт?</value>
         <comment>Already have an account?</comment>
     </data>
+    <data name="Birth" xml:space="preserve">
+        <value>День рождения</value>
+        <comment>Birth</comment>
+    </data>
 </root>
