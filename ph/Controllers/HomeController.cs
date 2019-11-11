@@ -5,10 +5,13 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.Extensions.Localization;
 using ph.Data;
 using ph.Models;
 
@@ -20,10 +23,15 @@ namespace ph.Controllers
         private ApplicationDbContext db;
         private UserManager<User> _userManager;
         private SignInManager<User> _signInManager;
+        private readonly IStringLocalizer<AuthController> _localizer;
+        private readonly IStringLocalizer<SharedResource> _sharedLocalizer;
+
 
         public HomeController(ApplicationDbContext _context,
             UserManager<User> userManager, 
-            SignInManager<User> signInManager)
+            SignInManager<User> signInManager,
+            IStringLocalizer<AuthController> localizer,
+            IStringLocalizer<SharedResource> sharedLocalizer)
         {
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
             optionsBuilder
@@ -36,6 +44,9 @@ namespace ph.Controllers
                 
             _userManager = userManager;
             _signInManager = signInManager;
+            
+            _localizer = localizer;
+            _sharedLocalizer = sharedLocalizer;
         }
 
         public IActionResult Index()
@@ -45,9 +56,14 @@ namespace ph.Controllers
 
         public  IActionResult Feed(int type)
         {
-            var l = Enum.GetNames(typeof(PostType)).ToList();
-            
-            ViewBag.Types = l;
+            var types = Enum.GetNames(typeof(PostType)).ToList();
+
+            for (var i = 0; i < types.Count; i++)
+            {
+                types[i] = _localizer[types[i]];
+            }
+
+            ViewBag.Types = types;
             
             return View(type);
         }
@@ -56,8 +72,14 @@ namespace ph.Controllers
             var currentUser = await _userManager.GetUserAsync(HttpContext.User);
             var post = new CreatePostViewModel {Username = currentUser.UserName};
             
-            var l = Enum.GetNames(typeof(PostType)).ToList();
-            ViewBag.Types = l;
+            var types = Enum.GetNames(typeof(PostType)).ToList();
+
+            for (var i = 0; i < types.Count; i++)
+            {
+                types[i] = _localizer[types[i]];
+            }
+
+            ViewBag.Types = types;
             
             post.Pets = db.Pets.Where(pet => pet.UserId == currentUser.Id).ToImmutableList();
             
@@ -131,44 +153,43 @@ namespace ph.Controllers
         [HttpPost]
         public async Task<IActionResult> Settings(SignUpViewModel userEdit)
         {
-            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
-            
-            
-            if (!string.IsNullOrEmpty(userEdit.User.Name))
-            {
-                currentUser.Name = userEdit.User.Name;
-            }
-            if (!string.IsNullOrEmpty(userEdit.User.Surname))
-            {
-                currentUser.Surname = userEdit.User.Surname;
-            }
-            if (!string.IsNullOrEmpty(userEdit.User.Email))
-            {
-                currentUser.Email = userEdit.User.Email;
-            }
-            if (!string.IsNullOrEmpty(userEdit.User.UserName))
-            {
-                // todo: when change username you need to rename all post image paths 
-                if (!(_userManager.Users.Count(u => u.UserName == userEdit.User.UserName) > 0))
-                    currentUser.UserName = userEdit.User.UserName;
-            }
+//            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+//            
+//            if (!string.IsNullOrEmpty(userEdit.User.Name))
+//            {
+//                currentUser.Name = userEdit.User.Name;
+//            }
+//            if (!string.IsNullOrEmpty(userEdit.User.Surname))
+//            {
+//                currentUser.Surname = userEdit.User.Surname;
+//            }
+//            if (!string.IsNullOrEmpty(userEdit.User.Email))
+//            {
+//                currentUser.Email = userEdit.User.Email;
+//            }
+//            if (!string.IsNullOrEmpty(userEdit.User.UserName))
+//            {
+//                // todo: when change username you need to rename all post image paths 
+//                if (!(_userManager.Users.Count(u => u.UserName == userEdit.User.UserName) > 0))
+//                    currentUser.UserName = userEdit.User.UserName;
+//            }
+//
+//            if (userEdit.ProfileImage != null)
+//            {
+//                var ext = userEdit.ProfileImage.FileName.Split('.').Last();
+//                // bug: delete old images (because can be different extensions) and there will be images like gwyrwch.jpg gwyrwch.png and so on
+//                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot") + "/images/users/" + currentUser.UserName + "." + ext;
+//                using (var fs = new FileStream(path, FileMode.Create))
+//                {
+//                    await userEdit.ProfileImage.CopyToAsync(fs);
+//                }
+//                currentUser.ProfileImagePath = path;
+//            }
 
-            if (userEdit.ProfileImage != null)
-            {
-                var ext = userEdit.ProfileImage.FileName.Split('.').Last();
-                // bug: delete old images (because can be different extensions) and there will be images like gwyrwch.jpg gwyrwch.png and so on
-                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot") + "/images/users/" + currentUser.UserName + "." + ext;
-                using (var fs = new FileStream(path, FileMode.Create))
-                {
-                    await userEdit.ProfileImage.CopyToAsync(fs);
-                }
-                currentUser.ProfileImagePath = path;
-            }
+//            var result = await _userManager.UpdateAsync(currentUser);
 
-            var result = await _userManager.UpdateAsync(currentUser);
-
-            if (result.Succeeded)
-                return Redirect("Profile");
+//            if (result.Succeeded)
+//                return Redirect("Profile");
 
             return View(userEdit);
         }
@@ -196,6 +217,22 @@ namespace ph.Controllers
             
             db.SaveChanges();
             return Json(new{});
+        }
+        
+
+        [HttpPost]
+        [Route("Home/SetLanguage")]
+
+        public IActionResult SetLanguage(string culture)
+        {
+            Console.WriteLine(culture);
+            Response.Cookies.Append(
+                CookieRequestCultureProvider.DefaultCookieName,
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+            );
+
+            return RedirectToAction("Profile", "Home");
         }
 
         [HttpPost]

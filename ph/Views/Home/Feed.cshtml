@@ -1,3 +1,4 @@
+@using Microsoft.AspNetCore.Mvc.Localization
 @using Microsoft.AspNetCore.Rewrite.Internal
 @* @model IEnumerable<PostToFeed> *@
 @model int
@@ -5,6 +6,8 @@
 @{
     Layout = null;
 }
+@inject IViewLocalizer Localizer
+@inject IHtmlLocalizer<SharedResource> SharedLocalizer
 
 <!DOCTYPE html>
 
@@ -16,7 +19,7 @@
   @* <link rel="icon" type="image/png" href="../assets/img//favicon.png"> *@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
-      Feed 
+      @Localizer["Feed"] 
       @* todo: add username *@
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
@@ -42,8 +45,8 @@
           @for (var i = 0; i < postTypes.Count; i++)
           {
             <div class="col cust-grid-col">
-              <button class="btn btn-round btn-post-type my-auto mx-auto" id="@i">
-                <i class="fa fa-heart"></i>@postTypes[i]
+              <button class="btn btn-round btn-post-type my-0 mx-auto" id="@i">
+                <i class="fa fa-heart"></i>@SharedLocalizer[postTypes[i]]
               </button>
             </div>
           }
@@ -51,7 +54,6 @@
       </div>
     </div>
     <div id="feedParent">
-
     </div>
     
   </div>

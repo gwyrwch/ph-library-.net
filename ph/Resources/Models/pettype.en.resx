@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+
+    <data name="Dog" xml:space="preserve">
+        <value>Dog</value>
+        <comment>Dog</comment>
+    </data>
+    <data name="Cat" xml:space="preserve">
+        <value>Cat</value>
+        <comment>Cat</comment>
+    </data>
+    <data name="Rabbit" xml:space="preserve">
+        <value>Rabbit</value>
+        <comment>Rabbit</comment>
+    </data>
+    <data name="Rodent" xml:space="preserve">
+        <value>Rodent</value>
+        <comment>Rodent</comment>
+    </data>
+    <data name="Reptile" xml:space="preserve">
+        <value>Reptile</value>
+        <comment>Reptile</comment>
+    </data>
+    <data name="Bird" xml:space="preserve">
+        <value>Bird</value>
+        <comment>Bird</comment>
+    </data>
+    <data name="WildAnimal" xml:space="preserve">
+        <value>WildAnimal</value>
+        <comment>WildAnimal</comment>
+    </data>
+    
+</root>

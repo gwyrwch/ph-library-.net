@@ -1,9 +1,12 @@
+@using Microsoft.AspNetCore.Mvc.Localization
 @model SignUpViewModel
 
 @{
   ViewBag.Title = "Registration";
   Layout = null;
 }
+@inject IViewLocalizer Localizer
+@inject IHtmlLocalizer<SharedResource> SharedLocalizer
 
 <!DOCTYPE html>
 
@@ -24,13 +27,13 @@
 </head>
 
 <body class="register-page sidebar-collapse">
-<div class="page-header" id="background-registration-image">
+<div class="page-header" id=@SharedLocalizer["bg-image"]>
   <div class="filter"></div>
   <div class="container">
     <div class="row">
       <div class="col-lg-8 ml-auto mr-auto">
         <div class="card card-register">
-          <h3 class="title mx-auto">Welcome to ph!</h3>
+          <h3 class="title mx-auto">@Localizer["Welcome to ph!"]</h3>
           <div class="social-line text-center">
             <a href="#pablo" class="btn btn-neutral btn-facebook btn-just-icon">
               <i class="fa fa-facebook-square"></i>
@@ -42,52 +45,52 @@
               <i class="fa fa-twitter"></i>
             </a>
           </div>
-          <form action="/Auth/CreateUser" method="post" enctype="multipart/form-data">
+          <form sp-antiforgery="true" asp-action="CreateUser" asp-controller="Auth" method="post" enctype="multipart/form-data">
           <div class="validation" asp-validation-summary="ModelOnly"></div>
             <div class="form-row">
               <div class="text-danger"></div>
               <div class="form-group col-md-6">
-                <label for="Name">Name</label>
-                <input class="form-control" type="text" id="Name" name="User.Name" placeholder="Rita"/>
+                <label for="Name">@Localizer["Name"]</label>
+                <input class="form-control" type="text" id="Name" asp-for="User.Name" placeholder="Rita"/>
                 <span asp-validation-for="User.Name" class="text-danger"></span>              
               </div>
               <div class="form-group col-md-6">
-                <label for="Surname">Surname</label>
-                <input class="form-control" type="text" id="Surname" name="User.Surname" placeholder="Gagarina"/>
+                <label for="Surname">@Localizer["Surname"]</label>
+                <input class="form-control" type="text" id="Surname" asp-for="User.Surname" placeholder="Gagarina"/>
                 <span asp-validation-for="User.Surname" class="text-danger"></span>
               </div>
             </div>
             <div class="form-row">
               <div class="form-group col-md-6">
-                <label for="UserName">Username</label>
-                <input type="text" class="form-control" id="UserName" name="User.UserName" placeholder="gwyrwch">
+                <label for="UserName">@Localizer["Username"]</label>
+                <input type="text" class="form-control" id="UserName" asp-for="User.UserName" placeholder="gwyrwch">
                 <span asp-validation-for="User.UserName" class="text-danger"></span>
               </div>
               <div class="form-group col-md-6">
-                <label for="Email">Email</label>
-                <input class="form-control" type="text" id="Email" name="User.Email" placeholder="gwyrwch@gmail.com" />
+                <label for="Email">@Localizer["Email"]</label>
+                <input class="form-control" type="text" id="Email" asp-for="User.Email" placeholder="gwyrwch@gmail.com" />
                 <span asp-validation-for="User.Email" class="text-danger field-validation-valid" data-valmsg-for="Email" data-valmsg-replace="true"></span>
               </div>              
             </div>
             <div class="form-group">
-              <label asp-for="User.Birth" class="control-label"></label>
+              <label asp-for="User.Birth" class="control-label">@Localizer["Birth"]</label>
               <input asp-for="User.Birth" class="form-control" />
               <span asp-validation-for="User.Birth" class="text-danger"></span>
             </div>
             <div class="form-row">
               <div class="form-group col-md-6">
-                <label for="Password">Password</label>
-                <input type="password" class="form-control" id="Password" name="Password" placeholder="Password">
-                <span class="text-danger field-validation-valid" data-valmsg-for="Password" data-valmsg-replace="true"></span>
+                <label for="Password">@Localizer["Password"]</label>
+                <input type="password" class="form-control" id="Password" asp-for="Password" placeholder="Password">
+                <span asp-validation-for="Password" class="text-danger field-validation-valid" data-valmsg-for="Password" data-valmsg-replace="true"></span>
               </div>
               <div class="form-group col-md-6">
-                <label for="inputPassword2">Password</label>
+                <label for="inputPassword2">@Localizer["Password"]</label>
                 <input type="password" class="form-control" id="inputPassword2" placeholder="Password">
               </div>
             </div>
             <div class="form-group">
-              <div class="btn file-btn">Your photo</div><br/>
-              <input type="file" id="input-file" name="ProfileImage"/>
+              <div class="btn file-btn">@Localizer["Your photo"]</div><br/>
+              <input type="file" id="input-file" asp-for="ProfileImage"/>
               <span class="text-danger field-validation-valid" data-valmsg-for="ProfileImage" data-valmsg-replace="true"></span>
             </div>
             <div class="form-check">
@@ -95,7 +98,7 @@
                 <input class="form-check-input" type="checkbox" 
                        onchange="document.getElementById('signUpBtn').disabled = !this.checked;"
                 >
-                I have at least one pet
+                @Localizer["I have at least one pet"]
                 <span class="form-check-sign">
                   <span class="check"></span>
                 </span>
@@ -103,18 +106,18 @@
             </div>
             <div class="form-group text-center">
               <div class="col-md-offset-2 col-md-10">
-                <input type="submit" disabled value="Save" id="signUpBtn" class="btn btn-post-type"/>
+                <input type="submit" disabled value="@Localizer["Save"]" id="signUpBtn" class="btn btn-post-type"/>
               </div>
             </div>
             @* <button type="submit" class="btn btn-post-type">Sign up</button> *@
           </form>
-          <a href="@Url.Action("Login", "Auth")" class="btn btn-link btn-danger btn-registration">Already have an account?</a>
+          <a href="@Url.Action("Login", "Auth")" class="btn btn-link btn-danger btn-registration">@Localizer["Already have an account?"]</a>
         </div>
       </div>
     </div>
   </div>
 </div>
-<footer class="footer    ">
+<footer class="footer">
     <div class="container">
       <div class="row">
         <nav class="footer-nav">

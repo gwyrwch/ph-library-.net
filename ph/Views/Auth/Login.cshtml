@@ -1,9 +1,13 @@
+@using Microsoft.AspNetCore.Mvc.Localization
 @model LoginViewModel
 
 @{
   ViewBag.Title = "Login";
   Layout = null;
 }
+
+@inject IViewLocalizer Localizer
+@inject IHtmlLocalizer<SharedResource> SharedLocalizer
 
 <!DOCTYPE html>
 
@@ -24,7 +28,7 @@
 </head>
 
 <body class="register-page sidebar-collapse">
-<div class="page-header" id="background-registration-image">
+<div class="page-header" id=@SharedLocalizer["bg-image"]>
     <div class="filter"></div>
     <div class="container">
       <div class="row">
@@ -32,16 +36,16 @@
           <div class="card card-register">
             <form asp-controller="Auth" asp-action="Login" method="post" class="register-form">
               @* fixme: get rid of ids *@
-              <label asp-for="UserName">Username</label>
+              <label asp-for="UserName">@Localizer["Username"]</label>
               <input asp-for="UserName" type="text" class="form-control" id="UserName" name="UserName" placeholder="Username">
               <span class="text-danger field-validation-valid" data-valmsg-for="UserName" data-valmsg-replace="true"></span>
 
-              <label asp-for="UserName">Password</label>
+              <label asp-for="Password">@Localizer["Password"]</label>
               <input asp-for="Password" type="password" class="form-control" id="Password" name="Password" placeholder="Password">
               <span class="text-danger field-validation-valid" data-valmsg-for="Password" data-valmsg-replace="true"></span>
               <div class="row justify-content-start align-content-start">
                 <div class="col-lg-6">
-                  <label asp-for="RememberMe" >Remember me</label>
+                  <label asp-for="RememberMe" >@Localizer["Remember me"]</label>
                 </div>
                 <div class="col-lg-2">
                 <div class="form-check">
@@ -52,13 +56,13 @@
                 </div>
                 </div>
               </div>
-              <button class="btn btn-danger btn-registration btn-block btn-round" type="submit">Login</button>
+              <button class="btn btn-danger btn-registration btn-block btn-round" type="submit">@Localizer["Login"]</button>
             </form>
             <div class="forgot">
               @* todo: change password though email*@
               @* <a href="#" class="btn btn-link btn-danger btn-registration">Forgot password?</a> *@
               <a href="@Url.Action("CreateUser", "Auth")" class="btn btn-link btn-danger btn-registration">
-                Don't have an acount?
+                @Localizer["Don't have an account?"]
               </a>
             </div>
           </div>

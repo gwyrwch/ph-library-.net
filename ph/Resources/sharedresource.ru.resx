@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+
+    <data name="Cooking" xml:space="preserve">
+        <value>Рецепты</value>
+        <comment>Cooking</comment>
+    </data>
+    <data name="Advice" xml:space="preserve">
+        <value>Советы</value>
+        <comment>Advice</comment>
+    </data>
+    <data name="News" xml:space="preserve">
+        <value>Новости</value>
+        <comment>News</comment>
+    </data>
+    <data name="Event" xml:space="preserve">
+        <value>События</value>
+        <comment>Event</comment>
+    </data>
+    <data name="Invite" xml:space="preserve">
+        <value>Приглашения</value>
+        <comment>Invite</comment>
+    </data>
+    <data name="Fun" xml:space="preserve">
+        <value>Развлечения</value>
+        <comment>Fun</comment>
+    </data>
+    <data name="Other" xml:space="preserve">
+        <value>Другое</value>
+        <comment>Other</comment>
+    </data>
+    <data name="bg-image" xml:space="preserve">
+        <value>background-registration-imag-ru</value>
+        <comment>background-registration-imag-ru</comment>
+    </data>
+</root>

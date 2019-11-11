@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using ph.Data;
 using ph.Models;
 
@@ -16,10 +17,15 @@ namespace ph.Controllers
         private ApplicationDbContext db;
         private UserManager<User> _userManager = null;
         private SignInManager<User> _signInManager = null;
+        private readonly IStringLocalizer<AuthController> _localizer;
+        private readonly IStringLocalizer<SharedResource> _sharedLocalizer;
+
 
         public AuthController(ApplicationDbContext _context,
             UserManager<User> userManager,
-            SignInManager<User> signInManager)
+            SignInManager<User> signInManager,
+            IStringLocalizer<AuthController> localizer,
+            IStringLocalizer<SharedResource> sharedLocalizer)
         {
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
             optionsBuilder
@@ -30,6 +36,8 @@ namespace ph.Controllers
             _userManager = userManager;
 
             _signInManager = signInManager;
+            _localizer = localizer;
+            _sharedLocalizer = sharedLocalizer;
         }
 
         public IActionResult Login()
@@ -113,6 +121,9 @@ namespace ph.Controllers
         [HttpPost]
         public async Task<IActionResult> CreatePet(SignUpPetViewModel newPet)
         {
+            if(!ModelState.IsValid)
+                return View(newPet);
+            
             var path = "";
             if (newPet.ProfileImage != null)
             {

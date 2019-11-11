@@ -8171,8 +8171,12 @@ License - nucleoapp.com/license/
 
 /*ph styles begin*/
 
-#background-registration-image {
-  background-image:url(../images/sam/login-image-1.jpg)
+#background-registration-imag-en {
+   background-image:url(../images/sam/login-image-1.jpg)
+}
+
+#background-registration-imag-ru {
+  background-image:url(../images/sam/profile-bg.jpg)
 }
 
 #input-registration {
