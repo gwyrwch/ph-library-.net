@@ -74,9 +74,8 @@ namespace ph
 
                 options.LoginPath = "/Auth/Login";
                 options.SlidingExpiration = true;
-            });
-            
-            
+            }); 
+
             services.AddLocalization(options => options.ResourcesPath = "Resources");
             
             services.Configure<RequestLocalizationOptions>(options =>
@@ -84,8 +83,9 @@ namespace ph
                 var supportedCultures = new[]
                 {
                     new CultureInfo("en-US"),
-                    new CultureInfo("ru-RU")
+                    new CultureInfo("ru-RU"),
                 };
+                options.DefaultRequestCulture = new RequestCulture("ru-RU");
                 options.SupportedCultures = supportedCultures;
                 options.SupportedUICultures = supportedCultures;
             });
@@ -113,7 +113,7 @@ namespace ph
                 SupportedCultures = supportedCultures,
                 SupportedUICultures = supportedCultures
             });
-            
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -163,6 +163,12 @@ namespace ph
                     "Home/LikeEvent/{postId}",
                     new {controller = "Home", action = "LikeEvent"}
                 );
+                
+                routes.MapRoute(
+                    "changelanguage",
+                    "Home/SetLanguage/{culture}",
+                    new {controller = "Home", action = "SetLanguage"}
+                );
 
                 routes.MapRoute(
                     "home",
@@ -176,6 +182,7 @@ namespace ph
                         }
                     }
                 );
+
                 routes.MapRoute(
                     "admin",
                     "Admin/Index",

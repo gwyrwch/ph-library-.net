@@ -26,11 +26,14 @@
           <li class="nav-item">
             <a asp-action="CreatePost" class="nav-link"><i class="fa fa-plus-square-o"></i>@Localizer["New post"]</a>
           </li>
-          <li class="nav-item justify-content-end">
+          <li class="nav-item">
             @* todo: refactor this with styles *@
             <form method="post" asp-controller="Home" asp-action="Logout">
               <input type="submit" class="nav-btn nav-link border-0" value="@Localizer["Logout"]">
             </form>
+          </li>
+          <li class="nav-item justify-content-end">
+            @await Html.PartialAsync("_SetLanguagePartial")
           </li>
         </ul>
       </div>

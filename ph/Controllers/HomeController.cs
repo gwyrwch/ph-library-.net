@@ -5,8 +5,10 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Localization;
@@ -136,44 +138,43 @@ namespace ph.Controllers
         [HttpPost]
         public async Task<IActionResult> Settings(SignUpViewModel userEdit)
         {
-            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
-            
-            
-            if (!string.IsNullOrEmpty(userEdit.User.Name))
-            {
-                currentUser.Name = userEdit.User.Name;
-            }
-            if (!string.IsNullOrEmpty(userEdit.User.Surname))
-            {
-                currentUser.Surname = userEdit.User.Surname;
-            }
-            if (!string.IsNullOrEmpty(userEdit.User.Email))
-            {
-                currentUser.Email = userEdit.User.Email;
-            }
-            if (!string.IsNullOrEmpty(userEdit.User.UserName))
-            {
-                // todo: when change username you need to rename all post image paths 
-                if (!(_userManager.Users.Count(u => u.UserName == userEdit.User.UserName) > 0))
-                    currentUser.UserName = userEdit.User.UserName;
-            }
+//            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+//            
+//            if (!string.IsNullOrEmpty(userEdit.User.Name))
+//            {
+//                currentUser.Name = userEdit.User.Name;
+//            }
+//            if (!string.IsNullOrEmpty(userEdit.User.Surname))
+//            {
+//                currentUser.Surname = userEdit.User.Surname;
+//            }
+//            if (!string.IsNullOrEmpty(userEdit.User.Email))
+//            {
+//                currentUser.Email = userEdit.User.Email;
+//            }
+//            if (!string.IsNullOrEmpty(userEdit.User.UserName))
+//            {
+//                // todo: when change username you need to rename all post image paths 
+//                if (!(_userManager.Users.Count(u => u.UserName == userEdit.User.UserName) > 0))
+//                    currentUser.UserName = userEdit.User.UserName;
+//            }
+//
+//            if (userEdit.ProfileImage != null)
+//            {
+//                var ext = userEdit.ProfileImage.FileName.Split('.').Last();
+//                // bug: delete old images (because can be different extensions) and there will be images like gwyrwch.jpg gwyrwch.png and so on
+//                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot") + "/images/users/" + currentUser.UserName + "." + ext;
+//                using (var fs = new FileStream(path, FileMode.Create))
+//                {
+//                    await userEdit.ProfileImage.CopyToAsync(fs);
+//                }
+//                currentUser.ProfileImagePath = path;
+//            }
 
-            if (userEdit.ProfileImage != null)
-            {
-                var ext = userEdit.ProfileImage.FileName.Split('.').Last();
-                // bug: delete old images (because can be different extensions) and there will be images like gwyrwch.jpg gwyrwch.png and so on
-                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot") + "/images/users/" + currentUser.UserName + "." + ext;
-                using (var fs = new FileStream(path, FileMode.Create))
-                {
-                    await userEdit.ProfileImage.CopyToAsync(fs);
-                }
-                currentUser.ProfileImagePath = path;
-            }
+//            var result = await _userManager.UpdateAsync(currentUser);
 
-            var result = await _userManager.UpdateAsync(currentUser);
-
-            if (result.Succeeded)
-                return Redirect("Profile");
+//            if (result.Succeeded)
+//                return Redirect("Profile");
 
             return View(userEdit);
         }
@@ -201,6 +202,22 @@ namespace ph.Controllers
             
             db.SaveChanges();
             return Json(new{});
+        }
+        
+
+        [HttpPost]
+        [Route("Home/SetLanguage")]
+
+        public IActionResult SetLanguage(string culture)
+        {
+            Console.WriteLine(culture);
+            Response.Cookies.Append(
+                CookieRequestCultureProvider.DefaultCookieName,
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+            );
+
+            return RedirectToAction("Profile", "Home");
         }
 
         [HttpPost]
