@@ -18,4 +18,33 @@
     <resheader name="writer">
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
+
+    <data name="Dog" xml:space="preserve">
+        <value>Пёся</value>
+        <comment>Dog</comment>
+    </data>
+    <data name="Cat" xml:space="preserve">
+        <value>Кот</value>
+        <comment>Cat</comment>
+    </data>
+    <data name="Rabbit" xml:space="preserve">
+        <value>Кролик</value>
+        <comment>Rabbit</comment>
+    </data>
+    <data name="Rodent" xml:space="preserve">
+        <value>Грызун</value>
+        <comment>Rodent</comment>
+    </data>
+    <data name="Reptile" xml:space="preserve">
+        <value>Ящерица</value>
+        <comment>Reptile</comment>
+    </data>
+    <data name="Bird" xml:space="preserve">
+        <value>Птица</value>
+        <comment>Bird</comment>
+    </data>
+    <data name="WildAnimal" xml:space="preserve">
+        <value>Дикое животное</value>
+        <comment>WildAnimal</comment>
+    </data>
 </root>

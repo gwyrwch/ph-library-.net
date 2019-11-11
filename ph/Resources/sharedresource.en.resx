@@ -47,4 +47,8 @@
         <value>Other</value>
         <comment>Other</comment>
     </data>
+    <data name="bg-image" xml:space="preserve">
+        <value>background-registration-imag-en</value>
+        <comment>background-registration-imag-en</comment>
+    </data>
 </root>

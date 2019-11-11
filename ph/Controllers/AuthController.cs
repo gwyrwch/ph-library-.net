@@ -18,11 +18,14 @@ namespace ph.Controllers
         private UserManager<User> _userManager = null;
         private SignInManager<User> _signInManager = null;
         private readonly IStringLocalizer<AuthController> _localizer;
+        private readonly IStringLocalizer<SharedResource> _sharedLocalizer;
+
 
         public AuthController(ApplicationDbContext _context,
             UserManager<User> userManager,
             SignInManager<User> signInManager,
-            IStringLocalizer<AuthController> localizer)
+            IStringLocalizer<AuthController> localizer,
+            IStringLocalizer<SharedResource> sharedLocalizer)
         {
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
             optionsBuilder
@@ -34,6 +37,7 @@ namespace ph.Controllers
 
             _signInManager = signInManager;
             _localizer = localizer;
+            _sharedLocalizer = sharedLocalizer;
         }
 
         public IActionResult Login()

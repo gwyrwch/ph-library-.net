@@ -6,6 +6,7 @@
   Layout = null;
 }
 @inject IViewLocalizer Localizer
+@inject IHtmlLocalizer<SharedResource> SharedLocalizer
 
 <!DOCTYPE html>
 
@@ -26,7 +27,7 @@
 </head>
 
 <body class="register-page sidebar-collapse">
-<div class="page-header" id="background-registration-image">
+<div class="page-header" id=@SharedLocalizer["bg-image"]>
   <div class="filter"></div>
   <div class="container">
     <div class="row">

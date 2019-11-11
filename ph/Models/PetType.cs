@@ -4,19 +4,19 @@ namespace ph.Models
 {
     public enum PetType
     {
-        [Display(Name = "Пёся")]
+        [Display(Name = "Dog")]
         Dog,
-        [Display(Name = "Кот")]
+        [Display(Name = "Cat")]
         Cat,
-        [Display(Name = "Кролик")]
+        [Display(Name = "Rabbit")]
         Rabbit,
-        [Display(Name = "Грызун")]
+        [Display(Name = "Rodent")]
         Rodent,
-        [Display(Name = "Ящерица")]
+        [Display(Name = "Reptile")]
         Reptile,
-        [Display(Name = "Птица")]
+        [Display(Name = "Bird")]
         Bird,
-        [Display(Name = "Дикое животное")]
+        [Display(Name = "WildAnimal")]
         WildAnimal
     }
 }
