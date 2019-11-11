@@ -24,11 +24,14 @@ namespace ph.Controllers
         private UserManager<User> _userManager;
         private SignInManager<User> _signInManager;
         private readonly IStringLocalizer<AuthController> _localizer;
+        private readonly IStringLocalizer<SharedResource> _sharedLocalizer;
+
 
         public HomeController(ApplicationDbContext _context,
             UserManager<User> userManager, 
             SignInManager<User> signInManager,
-            IStringLocalizer<AuthController> localizer)
+            IStringLocalizer<AuthController> localizer,
+            IStringLocalizer<SharedResource> sharedLocalizer)
         {
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
             optionsBuilder
@@ -43,6 +46,7 @@ namespace ph.Controllers
             _signInManager = signInManager;
             
             _localizer = localizer;
+            _sharedLocalizer = sharedLocalizer;
         }
 
         public IActionResult Index()
@@ -52,9 +56,14 @@ namespace ph.Controllers
 
         public  IActionResult Feed(int type)
         {
-            var l = Enum.GetNames(typeof(PostType)).ToList();
-            
-            ViewBag.Types = l;
+            var types = Enum.GetNames(typeof(PostType)).ToList();
+
+            for (var i = 0; i < types.Count; i++)
+            {
+                types[i] = _localizer[types[i]];
+            }
+
+            ViewBag.Types = types;
             
             return View(type);
         }
@@ -63,8 +72,14 @@ namespace ph.Controllers
             var currentUser = await _userManager.GetUserAsync(HttpContext.User);
             var post = new CreatePostViewModel {Username = currentUser.UserName};
             
-            var l = Enum.GetNames(typeof(PostType)).ToList();
-            ViewBag.Types = l;
+            var types = Enum.GetNames(typeof(PostType)).ToList();
+
+            for (var i = 0; i < types.Count; i++)
+            {
+                types[i] = _localizer[types[i]];
+            }
+
+            ViewBag.Types = types;
             
             post.Pets = db.Pets.Where(pet => pet.UserId == currentUser.Id).ToImmutableList();
             

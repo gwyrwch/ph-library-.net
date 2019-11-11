@@ -7,6 +7,7 @@
 }
 
 @inject IViewLocalizer Localizer
+@inject IHtmlLocalizer<SharedResource> SharedLocalizer
 
 <!DOCTYPE html>
 
@@ -45,7 +46,7 @@
           {
             <div class="col cust-grid-col">
               <button class="btn btn-round btn-post-type my-auto mx-auto" id=@("PostType" + i.ToString())>
-                <i class="fa fa-heart"></i>@a[i]
+                <i class="fa fa-heart"></i>@SharedLocalizer[a[i]]
               </button>
             </div>
           }

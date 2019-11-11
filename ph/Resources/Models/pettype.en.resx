@@ -18,24 +18,34 @@
     <resheader name="writer">
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
-    <data name="Photo of your pet" xml:space="preserve">
-        <value>Photo of your pet</value>
-        <comment>Photo of your pet</comment>
+
+    <data name="Dog" xml:space="preserve">
+        <value>Dog</value>
+        <comment>Dog</comment>
     </data>
-    <data name="Post description:" xml:space="preserve">
-        <value>Post description:</value>
-        <comment>Post description:</comment>
+    <data name="Cat" xml:space="preserve">
+        <value>Cat</value>
+        <comment>Cat</comment>
     </data>
-    <data name="Select the pets" xml:space="preserve">
-        <value>Select the pets</value>
-        <comment>Select the pets</comment>
+    <data name="Rabbit" xml:space="preserve">
+        <value>Rabbit</value>
+        <comment>Rabbit</comment>
     </data>
-    <data name="Save" xml:space="preserve">
-        <value>Save</value>
-        <comment>Save</comment>
+    <data name="Rodent" xml:space="preserve">
+        <value>Rodent</value>
+        <comment>Rodent</comment>
     </data>
-    <data name="New post" xml:space="preserve">
-        <value>New post</value>
-        <comment>New post</comment>
+    <data name="Reptile" xml:space="preserve">
+        <value>Reptile</value>
+        <comment>Reptile</comment>
     </data>
+    <data name="Bird" xml:space="preserve">
+        <value>Bird</value>
+        <comment>Bird</comment>
+    </data>
+    <data name="WildAnimal" xml:space="preserve">
+        <value>WildAnimal</value>
+        <comment>WildAnimal</comment>
+    </data>
+    
 </root>

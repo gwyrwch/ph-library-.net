@@ -34,4 +34,8 @@
         <value>Опубликовать</value>
         <comment>Save</comment>
     </data>
+    <data name="New post" xml:space="preserve">
+        <value>Новый пост</value>
+        <comment>New post</comment>
+    </data>
 </root>
