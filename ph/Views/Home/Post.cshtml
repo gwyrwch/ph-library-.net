@@ -1,0 +1,36 @@
+@model PostToFeed
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>title</title>
+</head>
+<body>
+<div class="text-center">
+  <div class="card my-card" style="width: 550px; height: auto; margin: 3px">
+    <div class="card-body" style="padding: 10px !important;">
+      <div class="row cust-grid-left">
+        <div class="col-md-2 cust-grid-left-col">
+          <img src="@Html.DisplayFor(modelItem => Model.UserProfileImage)" alt="" class="img-circle-feed-profile img-no-padding">
+        </div>
+        <div class="col-md-4 cust-grid-left-col my-auto" style="vertical-align: center; ">
+          <p>@Model.UserName</p>
+        </div>
+      </div>
+    </div>
+    <img class="img-responsive img-feed mx-auto" src="@Html.DisplayFor(modelItem => Model.Post.ImagePath)" alt="">
+    <div class="card-body">
+      <h4 class="card-title">@Model.UserName</h4>
+      <p class="card-text">@Model.Post.Description</p>
+      <p class="card-text"><small class="text-muted">@Model.Post.PublicationTime</small></p>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

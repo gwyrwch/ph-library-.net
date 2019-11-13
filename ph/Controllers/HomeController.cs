@@ -241,5 +241,21 @@ namespace ph.Controllers
             await _signInManager.SignOutAsync();
             return RedirectToAction("Login", "Auth");
         }
+
+
+        public async Task<IActionResult> Post()
+        {
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+            var post = db.Posts.First(p => p.UserId == currentUser.Id);
+            
+            var postToDisplay = new PostToFeed()
+            {
+                Post = post, 
+                UserName = currentUser.UserName,
+                UserProfileImage = currentUser.ProfileImagePath.Remove(0, 37)
+            };
+            
+            return View(postToDisplay);
+        }
     }
 }

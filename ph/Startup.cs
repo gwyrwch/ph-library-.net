@@ -178,7 +178,7 @@ namespace ph
                     {
                         action = new ActionConstraint
                         {
-                            ActionsPossible = new List<string> {"profile", "settings", "createpost", "index", "logout"}
+                            ActionsPossible = new List<string> {"profile", "settings", "createpost", "index", "logout", "post"}
                         }
                     }
                 );

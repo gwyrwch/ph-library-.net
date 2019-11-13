@@ -16,7 +16,9 @@
     {
         <div class="col-md-3 col-sm-6 col-xs-12">
             @* todo: read how to use alt="AltText" for searching and so on *@
-            <img alt="AltText" src="@Html.DisplayFor(modelItem => item.ImagePath)" class="img-responsive img-kek">
+            <img alt="AltText" src="@Html.DisplayFor(modelItem => item.ImagePath)" 
+                 class="img-responsive img-kek"
+                 onclick="location.href='@Url.Action("Post", "Home")'">
         </div>
     }
     </div>
