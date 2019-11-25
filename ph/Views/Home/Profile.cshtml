@@ -75,8 +75,9 @@
                                 <div class="avatar">
                                   <img src="@Model.Pets.ToList()[i].ProfileImagePath" 
                                        alt="Circle Image" 
-                                       class="img-circle-pet img-no-padding" 
-                                       onclick="location.href='@Url.Action("Profile", "Home", new {petId=Model.Pets.ToList()[i].Id})'"
+                                       class="img-circle-pet img-no-padding"
+                                       id="@Model.Pets.ToList()[i].Id" 
+                                       @* onclick="location.href='@Url.Action("Profile", "Home", new {petId=Model.Pets.ToList()[i].Id})'" *@
                                   >
                                 </div>
                                 <div class="name">
@@ -103,8 +104,10 @@
           </div>
         </div>
       </div>
-      <div class="container" id="posts">
-        @await Component.InvokeAsync("PostsToProfile", new { petId = Model.PetIdToShow, userId = Model.User.Id })
+      @* <div class="container" id="posts"> *@
+      @*   @await Component.InvokeAsync("PostsToProfile", new { petId = Model.PetIdToShow, userId = Model.User.Id }) *@
+      @* </div> *@
+      <div id="postsParent">
       </div>
     </div>
   </div>
@@ -125,7 +128,8 @@
   <!-- Control Center for Paper Kit: parallax effects, scripts for the example pages etc -->
   <script src="~/js/paper-kit.js?v=2.2.0" type="text/javascript"></script>
   <script src="~/js/site.js?v=2.2.0" type="text/javascript"></script>
-  <script type="text/javascript" ></script>
+  @* <script type="text/javascript" ></script> *@
+  <script src="~/js/profile.js" type="text/javascript"></script>
 
 </body>
 

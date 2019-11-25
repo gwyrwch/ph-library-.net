@@ -7,7 +7,5 @@ namespace ph.Models
 //        public IEnumerable<Post> Posts { get; set; }
         public IEnumerable<Pet> Pets { get; set; }
         public User User { get; set; }
-        
-        public string PetIdToShow { get; set; }
     }
 }

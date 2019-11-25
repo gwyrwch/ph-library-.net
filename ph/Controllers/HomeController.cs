@@ -127,7 +127,7 @@ namespace ph.Controllers
             return Redirect("CreatePost");
         }
 
-        public async Task<IActionResult> Profile(string petId = null)
+        public async Task<IActionResult> Profile()
         {
             var currentUser = await _userManager.GetUserAsync(HttpContext.User);
             var pets = db.Pets.Where(pet => pet.User.Id == currentUser.Id);
@@ -139,7 +139,7 @@ namespace ph.Controllers
                     pet.ProfileImagePath = pet.ProfileImagePath.Remove(0, 37);
             }
             
-            var profile = new ProfileViewModel {Pets = pets, User = currentUser, PetIdToShow = petId};
+            var profile = new ProfileViewModel {Pets = pets, User = currentUser};
             
             return View(profile);
         }

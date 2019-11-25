@@ -19,7 +19,6 @@ namespace ph.Controllers
     {
         private ApplicationDbContext db;
         private UserManager<User> _userManager;
-        private SignInManager<User> _signInManager;
         
         public FeedController(ApplicationDbContext _context,
             UserManager<User> userManager, 
@@ -36,7 +35,6 @@ namespace ph.Controllers
             
                 
             _userManager = userManager;
-            _signInManager = signInManager;
         }
 
         public async Task<IActionResult> Feed(int type)

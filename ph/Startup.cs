@@ -150,15 +150,21 @@ namespace ph
                     "feed",
                     "Home/Feed/{type:int}",
                     new {controller = "Home", action = "Feed", type = -1},
-                     new
+                    new
                     {
                         type = new CompositeRouteConstraint(new IRouteConstraint[] {
                                 new RangeRouteConstraint(-1, 6),
                                 new IntRouteConstraint()
                         })
                     });
-                
-                routes.MapRoute(
+
+//                routes.MapRoute(
+//                    "profile",
+//                    "Home/Profile/{petId}",
+//                    new {controller = "Home", action = "Profile", petId = "null"}
+//                );
+
+                    routes.MapRoute(
                     "likeEvent",
                     "Home/LikeEvent/{postId}",
                     new {controller = "Home", action = "LikeEvent"}
@@ -178,7 +184,7 @@ namespace ph
                     {
                         action = new ActionConstraint
                         {
-                            ActionsPossible = new List<string> {"profile", "settings", "createpost", "index", "logout", "post"}
+                            ActionsPossible = new List<string> {"settings", "createpost", "index", "logout", "post", "profile"}
                         }
                     }
                 );
