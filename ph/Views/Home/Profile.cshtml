@@ -31,6 +31,7 @@
 @* @Html.Partial("_Navbar") *@
 <partial name="_Navbar"/>
 
+  <div id="modalParent"></div>
   <div class="section profile-content">
     <div class="container">
       <div class="row">
@@ -76,7 +77,7 @@
                                   <img src="@Model.Pets.ToList()[i].ProfileImagePath" 
                                        alt="Circle Image" 
                                        class="img-circle-pet img-no-padding"
-                                       id="@Model.Pets.ToList()[i].Id" 
+                                       id="@Model.Pets.ToList()[i].Id"
                                        @* onclick="location.href='@Url.Action("Profile", "Home", new {petId=Model.Pets.ToList()[i].Id})'" *@
                                   >
                                 </div>

@@ -64,8 +64,8 @@ namespace ph.Controllers
                 }
             }
 
-            Console.WriteLine("kek  " + posts.Count);
             
+            Console.WriteLine("kek  " + posts.Count);
             return Ok(posts.ToList());
         }
         
