@@ -26,6 +26,7 @@
     <_ContentIncludedByDefault Remove="tmpdb\posts.json" />
     <_ContentIncludedByDefault Remove="tmpdb\users.json" />
     <_ContentIncludedByDefault Remove="Views\Shared\Components\PostsToFeed\Default.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Shared\Components\PostsToProfile\Default.cshtml" />
   </ItemGroup>
 
 </Project>

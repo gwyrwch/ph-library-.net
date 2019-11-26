@@ -46,15 +46,10 @@ for (var i = 0; i < petButtons.length; i++) {
 
 
 function makeModal(smth) {
-    console.log("this: " + smth);
     var id = smth.toString();
     id = id.substring(id.indexOf('posts/') + 6, id.indexOf('.'));
-    // id = '/images/posts/' + id; 
-    console.log('id: ' + id);
-    console.log('clicked');
+
     id = '#' + id;
-    var mdl = document.getElementById('gwyrwch4');
-    console.log(mdl);
     $(id).modal('show');
 }
 
@@ -88,8 +83,8 @@ function setHtmlToModal(posts) {
                                 src="${item.imagePath}" alt="">
                             <div class="card-body">
                               <h4 class="card-title">${item.user.userName}</h4>
-                              <p class="card-text">"hi my name is Rita"</p>
-                              <p class="card-text"><small class="text-muted">22/01/2019</small></p>
+                              <p class="card-text">${item.description}</p>
+                              <p class="card-text"><small class="text-muted">${item.publicationTime}</small></p>
                             </div>
                           </div>
                         </div>
