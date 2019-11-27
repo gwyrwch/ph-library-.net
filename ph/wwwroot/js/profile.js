@@ -1,7 +1,7 @@
-function fetchAndDisplayPosts(petId) {
+function fetchAndDisplayPosts(petId, username) {
     return function () {
-        console.log("petId: " + petId);
-        fetch("/api/profile?petId=" + petId)
+        console.log("petId: " + petId, "username: " + username);
+        fetch("/api/profile?petId=" + petId  + "&" + "username=" + username)
             .then(function (response) {
                 if (response.status === 200) {
                     console.log("status 200");
@@ -98,5 +98,6 @@ function setHtmlToModal(posts) {
 }
 
 
-
-fetchAndDisplayPosts("null")();
+var username = document.getElementById('pUsername').innerText;
+console.log(username);
+fetchAndDisplayPosts("null", username)();

@@ -11,7 +11,7 @@ function createLike(postId, liked) {
     }
     return `<i class="${cl}" id="${postId}"></i>`;
 }
-
+var feed_ = null;
 function fetchAndDisplayFeed(typeId) {
     return function () {
         fetch("/api/feed?type=" + typeId)
@@ -26,7 +26,7 @@ function fetchAndDisplayFeed(typeId) {
                 if (feed == null) {
                     return;
                 }
-
+                feed_ = feed;
                 var newFeedHtml = "<div class=\"container\" id=\"posts\">\n" +
                     "<div class=\"col my-grid\" id=\"posts-feed\">";
                 for (var i = 0; i < feed.length; i++) {
@@ -38,7 +38,9 @@ function fetchAndDisplayFeed(typeId) {
                               <div class="row cust-grid-left">
                                
                                 <div class="col-md-2 cust-grid-left-col">
-                                  <img src="${item.userProfileImage}" alt="" class="img-circle-feed-profile img-no-padding">
+                                  <img src="${item.userProfileImage}" alt="" 
+                                    class="img-circle-feed-profile img-no-padding load-profile" id="${item.userName}"
+                                  >
                                 </div>
                                 <div class="col-md-4 cust-grid-left-col my-auto" style="vertical-align: center; ">
                                   <p>${item.userName}</p>
@@ -75,6 +77,9 @@ function fetchAndDisplayFeed(typeId) {
                         $.get("/api/likes?PostId=" + this.id);
                     };
                 }
+            }
+            ).then(function () {
+                setOnClicks();
             });
     }
 }
@@ -84,4 +89,24 @@ for (var i = 0; i < filterButtons.length; i++) {
     filterButtons[i].onclick = fetchAndDisplayFeed(filterButtons[i].id);
 }
 
+
+function fetchAndDisplayProfile(petId, username) {
+    console.log("profile button clicked");
+    return function () {
+        console.log("petId: " + petId, "username: " + username);
+        location.assign("/home/profile/" + username);
+    }
+}
+
 fetchAndDisplayFeed(-1)();
+
+function setOnClicks() {
+    var profileButtons = document.getElementsByClassName("img-circle-feed-profile");
+    console.log(profileButtons.length);
+    for (var i = 0; i < profileButtons.length; i++) {
+        profileButtons[i].onclick = fetchAndDisplayProfile(null, profileButtons[i].id);
+    }
+}
+
+
+

@@ -177,6 +177,12 @@ namespace ph
                 );
 
                 routes.MapRoute(
+                    "profile",
+                    "Home/Profile/{username}",
+                    new {controller = "Home", action = "Profile", username = (string)null}
+                );
+
+                routes.MapRoute(
                     "home",
                     "Home/{action}",
                     new {controller = "Home"},
@@ -184,7 +190,7 @@ namespace ph
                     {
                         action = new ActionConstraint
                         {
-                            ActionsPossible = new List<string> {"settings", "createpost", "index", "logout", "post", "profile"}
+                            ActionsPossible = new List<string> {"settings", "createpost", "index", "logout", "post"}
                         }
                     }
                 );

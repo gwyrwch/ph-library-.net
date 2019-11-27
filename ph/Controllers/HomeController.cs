@@ -17,7 +17,6 @@ using ph.Models;
 
 namespace ph.Controllers
 {
-    [Authorize]
     public class HomeController : Controller
     {
         private ApplicationDbContext db;
@@ -127,19 +126,25 @@ namespace ph.Controllers
             return Redirect("CreatePost");
         }
 
-        public async Task<IActionResult> Profile()
+        public async Task<IActionResult> Profile(string username = null)
         {
-            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
-            var pets = db.Pets.Where(pet => pet.User.Id == currentUser.Id);
-            if (!string.IsNullOrEmpty(currentUser.ProfileImagePath))
-                currentUser.ProfileImagePath = currentUser.ProfileImagePath.Remove(0, 37);
+            User user;
+            if (username == null) 
+                user = await _userManager.GetUserAsync(HttpContext.User);
+            else
+            {
+                user =  _userManager.Users.First(user1 => user1.UserName == username);
+            }
+            var pets = db.Pets.Where(pet => pet.User.Id == user.Id);
+            if (!string.IsNullOrEmpty(user.ProfileImagePath))
+                user.ProfileImagePath = user.ProfileImagePath.Remove(0, 37);
             foreach (var pet in pets)
             {
                 if (!string.IsNullOrEmpty(pet.ProfileImagePath))
                     pet.ProfileImagePath = pet.ProfileImagePath.Remove(0, 37);
             }
             
-            var profile = new ProfileViewModel {Pets = pets, User = currentUser};
+            var profile = new ProfileViewModel {Pets = pets, User = user};
             
             return View(profile);
         }

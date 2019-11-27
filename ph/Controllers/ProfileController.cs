@@ -37,15 +37,21 @@ namespace ph.Controllers
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> Profile(string petId)
+        public async Task<IActionResult> Profile(string petId, string username)
         {
-            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+            User user;
+            if (username == "null") //todo: refactor params to be to not strings
+                user = await _userManager.GetUserAsync(HttpContext.User);
+            else
+            {
+                user =  _userManager.Users.First(user1 => user1.UserName == username);
+            }
             List<Post> posts;
             
             if (petId == "null")
             {
                 posts = new List<Post>(db.Posts
-                    .Where(post => post.UserId == currentUser.Id)
+                    .Where(post => post.UserId == user.Id)
                     .OrderByDescending(post => post.PublicationTime));
             }
             else
