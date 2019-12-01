@@ -91,7 +91,6 @@ for (var i = 0; i < filterButtons.length; i++) {
 
 
 function fetchAndDisplayProfile(petId, username) {
-    console.log("profile button clicked");
     return function () {
         console.log("petId: " + petId, "username: " + username);
         location.assign("/home/profile/" + username);
@@ -102,7 +101,6 @@ fetchAndDisplayFeed(-1)();
 
 function setOnClicks() {
     var profileButtons = document.getElementsByClassName("img-circle-feed-profile");
-    console.log(profileButtons.length);
     for (var i = 0; i < profileButtons.length; i++) {
         profileButtons[i].onclick = fetchAndDisplayProfile(null, profileButtons[i].id);
     }

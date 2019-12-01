@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ph.Data;
+using ph.Hubs;
 using ph.Models;
 using ph.RouteConstraints;
 
@@ -31,6 +32,8 @@ namespace ph
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSignalR();
+            
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -131,6 +134,11 @@ namespace ph
             app.UseAuthentication();
 
             dbInitializer.Initialize();
+            
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<LikeHub>("/likeHub");
+            });
 
             app.UseMvc(routes =>
             {
@@ -145,7 +153,7 @@ namespace ph
                     "Auth/CreateUser",
                     new {controller = "Auth", action = "CreateUser"}
                 );
-                
+
                 routes.MapRoute(
                     "feed",
                     "Home/Feed/{type:int}",
@@ -158,13 +166,7 @@ namespace ph
                         })
                     });
 
-//                routes.MapRoute(
-//                    "profile",
-//                    "Home/Profile/{petId}",
-//                    new {controller = "Home", action = "Profile", petId = "null"}
-//                );
-
-                    routes.MapRoute(
+                routes.MapRoute(
                     "likeEvent",
                     "Home/LikeEvent/{postId}",
                     new {controller = "Home", action = "LikeEvent"}
@@ -214,6 +216,8 @@ namespace ph
                 );
                 
             });
+            
+
         }
     }
 }

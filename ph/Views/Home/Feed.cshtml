@@ -31,7 +31,8 @@
 </head>
 
 <body class="profile-page sidebar-collapse">
-@* @Html.Partial("_Navbar") *@
+
+
 <partial name="_Navbar"/>
 <div class="section profile-content">
   <div class="container">
@@ -44,7 +45,7 @@
           {
             <div class="col cust-grid-col">
               <button class="btn btn-round btn-post-type my-0 mx-auto" id="@i">
-                <i class="fa fa-heart"></i>@SharedLocalizer[postTypes[i]]
+                <i class="fa fa-heart" ></i>@SharedLocalizer[postTypes[i]] 
               </button>
             </div>
           }
@@ -75,6 +76,10 @@
   <script src="~/js/paper-kit.js?v=2.2.0" type="text/javascript"></script>
   <script src="~/js/site.js?v=2.2.0" type="text/javascript"></script>
   <script src="~/js/feed.js"></script>
+
+  <script src="~/lib/signalr/dist/browser/signalr.js"></script>
+  <script src="~/js/like.js"></script>
+
 </body>
 
 </html>

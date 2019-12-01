@@ -5,12 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNet.Identity.Core">
-      <Version>2.2.2</Version>
+    <PackageReference Include="Microsoft.AspNet.Identity.Core" Version="2.2.2">
     </PackageReference>
     <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.AspNetCore.Routing">
-      <Version>2.2.2</Version>
+    <PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.2.2">
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.2.2" />
   </ItemGroup>
@@ -29,4 +27,7 @@
     <_ContentIncludedByDefault Remove="Views\Shared\Components\PostsToProfile\Default.cshtml" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Remove="package.json" />
+  </ItemGroup>
 </Project>
