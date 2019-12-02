@@ -3,9 +3,6 @@
 var connection = new signalR.HubConnectionBuilder().withUrl("/likeHub").build();
 
 
-//Disable send button until connection is established
-// document.getElementById("sendButton").disabled = true;
-
 connection.on("PostLiked", function (username, message) {
     console.log("username: " + username + " message: " + message);
     $.notify("Hello World");
@@ -40,7 +37,7 @@ window.addEventListener("load", function(event) {
             
             var message = this.id;
             connection.invoke("LikePost", liked, message).catch(function (err) {
-                return console.error(err.toString());
+                return console.error(":(  " + err.toString());
             });
             event.preventDefault();
         });
