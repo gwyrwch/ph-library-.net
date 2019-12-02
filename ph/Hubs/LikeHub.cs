@@ -29,21 +29,17 @@ namespace ph.Hubs
             return Context.User?.Identity.Name;
         }
         
-        private string GetPostUserName(string id)
+        private string GetPostUserId(string id)
         {
-            Console.WriteLine("Description: " + db.Posts.First(post => post.Id == id).UserId);
-            var username = userManager.Users.First(user => user.Id == db.Posts.First(post => post.Id == id).UserId).UserName;
-            Console.WriteLine("Username: " + username);
             return db.Posts.First(post => post.Id == id).UserId;
         }
 
         public async Task LikePost(string liked, string message)
         {
             var userName = GetUserName();
-            var kek = GetPostUserName(message);
-//            Console.WriteLine("user of the post: " + dbContext.Posts.First(post => post.Id == message).User.UserName);
-            message += " " + liked;
-            await Clients.User(kek).SendAsync("PostLiked", userName, message);
+            var id = GetPostUserId(message);
+            message = liked;
+            await Clients.User(id).SendAsync("PostLiked", userName, message);
         }
         
     }

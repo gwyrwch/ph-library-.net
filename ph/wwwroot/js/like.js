@@ -5,15 +5,12 @@ var connection = new signalR.HubConnectionBuilder().withUrl("/likeHub").build();
 
 connection.on("PostLiked", function (username, message) {
     console.log("username: " + username + " message: " + message);
-    $.notify("Hello World");
-    // alert("username: " + username + " message: " + message);
-    // $.notify({
-    //     // options
-    //     message: username + " liked post: " + message
-    // },{
-    //     // settings
-    //     type: 'danger'
-    // });
+    if (message === "like") {
+        notifyMe(username + " " + message + "d your post", "like!");
+    } else if (message === "dislike") {
+        notifyMe(username + " " + message + "d your post  :(", "dislike :c");
+    }
+    
 });
 
 connection.start().then(function(){
@@ -21,6 +18,34 @@ connection.start().then(function(){
 }).catch(function (err) {
     return console.error(err.toString());
 });
+
+function notifyMe(message, like) {
+    if (!window.Notification) {
+        console.log('Browser does not support notifications.');
+    } else {
+        // check if permission is already granted
+        if (Notification.permission === 'granted') {
+            // show notification here
+            var notify = new Notification('New ' + like, {
+                body: message,
+            });
+        } else {
+            // request permission from user
+            Notification.requestPermission().then(function (p) {
+                if (p === 'granted') {
+                    // show notification here
+                    var notify = new Notification('New ' + like, {
+                        body: message,
+                    });
+                } else {
+                    console.log('User blocked notifications.');
+                }
+            }).catch(function (err) {
+                console.error(err);
+            });
+        }
+    }
+}
 
 
 
