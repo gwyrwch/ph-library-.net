@@ -6,12 +6,12 @@ var connection = new signalR.HubConnectionBuilder().withUrl("/likeHub").build();
 connection.on("PostLiked", function (username, message) {
     console.log("username: " + username + " message: " + message);
     if (message === "like") {
-        notifyMe(username + " " + message + "d your post", "like!");
+        notifyMe(username + " " + message + "d your post", "like!", "https://i.pinimg.com/originals/8b/f0/16/8bf016529a4391d0d3875ab61cfb30ac.png");
     } else if (message === "dislike") {
-        notifyMe(username + " " + message + "d your post  :(", "dislike :c");
+        notifyMe(username + " " + message + "d your post  :(", "dislike :c", "https://i.pinimg.com/originals/98/1d/79/981d796d1b4c3729cfd6b468a6fecb24.png");
     }
-    
 });
+
 
 connection.start().then(function(){
     console.log("connection started");
@@ -19,7 +19,8 @@ connection.start().then(function(){
     return console.error(err.toString());
 });
 
-function notifyMe(message, like) {
+
+function notifyMe(message, like,  icon_url) {
     if (!window.Notification) {
         console.log('Browser does not support notifications.');
     } else {
@@ -28,6 +29,7 @@ function notifyMe(message, like) {
             // show notification here
             var notify = new Notification('New ' + like, {
                 body: message,
+                icon: icon_url
             });
         } else {
             // request permission from user
@@ -36,6 +38,7 @@ function notifyMe(message, like) {
                     // show notification here
                     var notify = new Notification('New ' + like, {
                         body: message,
+                        icon: icon_url
                     });
                 } else {
                     console.log('User blocked notifications.');
@@ -46,8 +49,6 @@ function notifyMe(message, like) {
         }
     }
 }
-
-
 
 
 window.addEventListener("load", function(event) {

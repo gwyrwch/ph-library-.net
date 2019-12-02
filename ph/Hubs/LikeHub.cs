@@ -39,6 +39,8 @@ namespace ph.Hubs
             var userName = GetUserName();
             var id = GetPostUserId(message);
             message = liked;
+            if (userManager.Users.First(user => user.Id == id).UserName == userName)
+                userName = "you";
             await Clients.User(id).SendAsync("PostLiked", userName, message);
         }
         
