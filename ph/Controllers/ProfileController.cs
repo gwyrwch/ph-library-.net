@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -70,8 +69,6 @@ namespace ph.Controllers
                 }
             }
 
-            
-            Console.WriteLine("kek  " + posts.Count);
             return Ok(posts.ToList());
         }
         

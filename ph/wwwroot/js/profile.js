@@ -57,6 +57,7 @@ function setHtmlToModal(posts) {
     var modalHtml='';
     for (var i = 0; i < posts.length; i++) {
         var item = posts[i];
+        console.log(item.imagePath.substring(37));
         console.log('img: ' + item.imagePath.substring(item.imagePath.indexOf('posts/') + 6, item.imagePath.indexOf('.')));
         modalHtml += `
                   <div class="modal fade" id="${item.imagePath.substring(item.imagePath.indexOf('posts/') + 6, item.imagePath.indexOf('.'))}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -66,7 +67,7 @@ function setHtmlToModal(posts) {
                           <div class="row cust-grid-left">
     
                             <div class="col-md-2 cust-grid-left-col">
-                              <img src="${item.user.profileImagePath}" alt="" class="img-circle-feed-profile img-no-padding">
+                              <img src="${item.user.profileImagePath.substring(37)}" alt="" class="img-circle-feed-profile img-no-padding">
                             </div>
                             <div class="col-md-4 cust-grid-left-col my-auto" style="vertical-align: center; ">
                               <p>${item.user.userName}</p>

@@ -1,5 +1,3 @@
-// "use strict";
-
 var connection = new signalR.HubConnectionBuilder().withUrl("/likeHub").build();
 
 
@@ -15,6 +13,9 @@ connection.on("PostLiked", function (username, message) {
 
 connection.start().then(function(){
     console.log("connection started");
+    console.log("lel");
+    addLikeEvent();
+    console.log("lol");
 }).catch(function (err) {
     return console.error(err.toString());
 });
@@ -24,18 +25,14 @@ function notifyMe(message, like,  icon_url) {
     if (!window.Notification) {
         console.log('Browser does not support notifications.');
     } else {
-        // check if permission is already granted
         if (Notification.permission === 'granted') {
-            // show notification here
             var notify = new Notification('New ' + like, {
                 body: message,
                 icon: icon_url
             });
         } else {
-            // request permission from user
             Notification.requestPermission().then(function (p) {
                 if (p === 'granted') {
-                    // show notification here
                     var notify = new Notification('New ' + like, {
                         body: message,
                         icon: icon_url
@@ -50,8 +47,7 @@ function notifyMe(message, like,  icon_url) {
     }
 }
 
-
-window.addEventListener("load", function(event) {
+function addLikeEvent() {
     var liketags_ = document.getElementsByClassName("liketag");
     console.log(Object(liketags_).length + " ((((");
     for (var i = 0; i < liketags_.length; i++) {
@@ -59,8 +55,9 @@ window.addEventListener("load", function(event) {
             var liked = "like";
             if (this.classList.contains("fa-heart-o")) {
                 liked = "dislike";
-            };
-            
+            }
+            ;
+
             var message = this.id;
             connection.invoke("LikePost", liked, message).catch(function (err) {
                 return console.error(":(  " + err.toString());
@@ -68,4 +65,4 @@ window.addEventListener("load", function(event) {
             event.preventDefault();
         });
     }
-});
+}
